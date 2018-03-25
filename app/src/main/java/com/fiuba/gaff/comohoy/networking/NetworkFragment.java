@@ -8,6 +8,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import java.io.DataOutputStream;
@@ -26,11 +27,11 @@ import javax.net.ssl.HttpsURLConnection;
  * https://developer.android.com/training/basics/network-ops/connecting.html#HeadlessFragment
  */
 public class NetworkFragment extends Fragment {
-    public static final int READ_TIMEOUT_MS = 3000;
-    public static final int CONNECT_TIMEOUT_MS = 3000;
-    public static final int STREAM_MAX_SIZE = 4096;
+    private static final int READ_TIMEOUT_MS = 3000;
+    private static final int CONNECT_TIMEOUT_MS = 3000;
+    private static final int STREAM_MAX_SIZE = 4096;
 
-    public static final String TAG = "NetworkFragment";
+    private static final String TAG = "NetworkFragment";
 
     private static final String DATA_OBJECT = "DataObject";
 
@@ -75,6 +76,7 @@ public class NetworkFragment extends Fragment {
         setRetainInstance(true);
     }
 
+    @SuppressWarnings("EmptyMethod")
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -99,7 +101,8 @@ public class NetworkFragment extends Fragment {
     /**
      * Start non-blocking execution of DownloadTask.
      */
-    public void startDownload(DownloadCallback callback) {
+    @SuppressWarnings("unchecked")
+    public void startDownload(@NonNull DownloadCallback callback) {
         mCallback = callback;
         cancelDownload();
         mDownloadTask = new DownloadTask(mCallback);
@@ -275,12 +278,12 @@ public class NetworkFragment extends Fragment {
          * Converts the contents of an InputStream to a String.
          */
         private String readStream(InputStream stream, int maxReadSize)
-                throws IOException, UnsupportedEncodingException {
-            Reader reader = null;
+                throws IOException {
+            Reader reader;
             reader = new InputStreamReader(stream, "UTF-8");
             char[] rawBuffer = new char[maxReadSize];
             int readSize;
-            StringBuffer buffer = new StringBuffer();
+            StringBuilder buffer = new StringBuilder();
             while (((readSize = reader.read(rawBuffer)) != -1) && maxReadSize > 0) {
                 if (readSize > maxReadSize) {
                     readSize = maxReadSize;

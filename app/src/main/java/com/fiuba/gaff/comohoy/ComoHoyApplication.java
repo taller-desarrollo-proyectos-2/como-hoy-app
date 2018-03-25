@@ -8,11 +8,6 @@ import com.fiuba.gaff.comohoy.services.facebook.BaseFacebookService;
 import com.fiuba.gaff.comohoy.services.facebook.FacebookService;
 
 public class ComoHoyApplication extends Application {
-    public ComoHoyApplication() {
-        // this method fires only once per application start.
-        // getApplicationContext returns null here
-        super();
-    }
 
     @Override
     public void onCreate() {

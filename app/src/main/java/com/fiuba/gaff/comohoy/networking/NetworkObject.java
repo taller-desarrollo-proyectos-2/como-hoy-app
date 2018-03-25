@@ -19,7 +19,7 @@ public class NetworkObject implements Parcelable {
         }
     };
 
-    private String mUrl;
+    private final String mUrl;
     private HttpMethodType mHttpMethod;
     private Map<String, String> mRequestProperties;
     private String mPostData;
