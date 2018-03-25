@@ -3,6 +3,7 @@ package com.fiuba.gaff.comohoy;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -19,6 +20,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,10 +31,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
+import com.fiuba.gaff.comohoy.services.ServiceLocator;
+import com.fiuba.gaff.comohoy.services.facebook.FacebookService;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import static android.Manifest.permission.READ_CONTACTS;
+import static com.fiuba.gaff.comohoy.services.ServiceLocator.get;
 
 /**
  * A login screen that offers login via email/password.
@@ -92,7 +102,43 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
+        //TODO iniciar sesion si se encuentra un access token en cache
+        initializeLoginButton();
     }
+
+    private void initializeLoginButton() {
+        FacebookService facebookService = getFacebookService();
+        facebookService.initializeLoginButton(this, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                //login result tiene access token y otros valores relevantes a la sesion
+                Log.i("LoginActivity", "Login");
+            }
+
+            @Override
+            public void onCancel() {
+                Log.i("LoginActivity", "Cancel");
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+                Log.i("LoginActivity", "error");
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        FacebookService facebookService = getFacebookService();
+        facebookService.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private FacebookService getFacebookService() {
+        return ServiceLocator.get(FacebookService.class);
+    }
+
 
     private void populateAutoComplete() {
         if (!mayRequestContacts()) {
