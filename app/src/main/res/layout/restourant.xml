@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left">
+        <ImageView
+            android:id="@+id/imagenRestaurant"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_launcher" />
+    </LinearLayout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_weight="8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right">
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/nombreRestaurant"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_gravity="left"
+                android:text="mi Restaurant" />
+            <TextView
+                android:id="@+id/puntajeRestaurant"
+                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                android:gravity="right"
+                android:text="3.3" />
+        </LinearLayout>
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/descripcionRestaurant"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_gravity="left"
+                android:text="Pollo,hamburguesas" />
+            <TextView
+                android:id="@+id/cantPedidosRestaurant"
+                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                android:gravity="right"
+                android:text="(2015)" />
+        </LinearLayout>
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+            
+
+
+        </LinearLayout>
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <!--View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#000000" /-->
+            <!--View
+                android:layout_width="match_parent"
+                android:layout_height="2dip"
+                android:background="#FF00FF00" /-->
+            <ImageView
+                android:layout_gravity="center_horizontal"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:src="@android:drawable/divider_horizontal_bright" />
+
+            <TextView
+                android:id="@+id/tiempoEnvioRestaurant"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_gravity="left"
+                android:text="60 - 90 min" />
+            <TextView
+                android:id="@+id/PuntoRestaurant"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_gravity="left"
+                android:text=" - " />
+            <TextView
+                android:id="@+id/costoEnvioRestaurant"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_gravity="left"
+                android:text="50$" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
