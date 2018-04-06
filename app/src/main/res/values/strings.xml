@@ -7,7 +7,7 @@
     <!-- Strings related to login -->
     <string name="prompt_email">Usuario</string>
     <string name="prompt_password">Contraseña</string>
-    <string name="action_sign_in">Ingres o registrese</string>
+    <string name="action_sign_in">Ingrese o registrese</string>
     <string name="action_sign_in_short">Ingresar</string>
     <string name="error_invalid_email">Usuario invalido</string>
     <string name="error_invalid_password">La constraseña es muy corta</string>
@@ -16,4 +16,8 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 </resources>
