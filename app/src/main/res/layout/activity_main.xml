@@ -7,11 +7,27 @@
     android:layout_height="match_parent"
     tools:context="com.fiuba.gaff.comohoy.MainActivity">
 
-    <include layout="@layout/restourant"
+    <LinearLayout
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/id_restaurant_prueba"/>
+        android:orientation="vertical">
 
+        <include layout="@layout/restourant"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/id_restaurant_prueba"/>
+
+        <include layout="@layout/restourant"
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/id_restaurant_prueba"/>
+    </LinearLayout>
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"

@@ -3,10 +3,19 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/card_view"
     android:orientation="horizontal"
+    android:layout_marginTop="5dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginBottom="5dp"
+    android:layout_marginLeft="5dp"
+    android:background="@color/cardview_light_background"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     card_view:cardCornerRadius="5dp">
     <LinearLayout
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
@@ -18,6 +27,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="16dp"
                 android:text="Pizza de muzzarella"/>
             <TextView
                 android:layout_width="wrap_content"
