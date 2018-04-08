@@ -156,8 +156,11 @@
         </LinearLayout>
 
     </LinearLayout>
-    <ImageView
+    <include
+        android:id="@+id/map_restaurant"
+        layout="@layout/activity_maps_restaurant"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/map"/>
+        android:layout_marginTop="10dp" />
+
 </LinearLayout>
