@@ -3,4 +3,13 @@
     <color name="colorPrimary">#E52D38</color>
     <color name="colorPrimaryDark">#bf2932</color>
     <color name="colorAccent">#36454f</color>
+
+    <color name="purpura">#800080</color>
+    <color name="rojo">#ff4400</color>
+    <color name="amarillo">#ffe600</color>
+    <color name="azul">#0138ff</color>
+    <color name="verde">#52ff01</color>
+    <color name="celeste">#02ddf5</color>
+    <color name="verde_py">#fd00ffbb</color>
+
 </resources>
