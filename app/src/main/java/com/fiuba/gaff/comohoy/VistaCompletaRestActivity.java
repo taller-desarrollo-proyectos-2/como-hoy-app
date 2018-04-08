@@ -18,7 +18,7 @@ public class VistaCompletaRestActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View arg0) {
-                Intent RestIntent = new Intent(VistaCompletaRestActivity.this, VistaInformationRestActivity.class);
+                Intent RestIntent = new Intent(VistaCompletaRestActivity.this, MapsRestaurantActivity.class);
                 startActivity(RestIntent);
             }
         });
