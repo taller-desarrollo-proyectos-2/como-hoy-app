@@ -18,8 +18,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left">
+
             <ImageView
-                android:id="@+id/imagenRestaurant"
+                android:id="@+id/imagenComercio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/ic_launcher" />
@@ -36,18 +37,20 @@
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content">
+
                 <TextView
-                    android:id="@+id/nombreRestaurant"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/nombreComercio"
                     android:layout_width="wrap_content"
-                    android:textStyle="bold"
-                    android:textSize="20sp"
-                    android:layout_gravity="left"
-                    android:text="mi Restaurant" />
-                <TextView
-                    android:id="@+id/puntajeRestaurant"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:text="mi Restaurant"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/puntajeComercio"
                     android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
                     android:gravity="right"
                     android:text="3.3" />
             </LinearLayout>
@@ -55,16 +58,18 @@
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content">
+
                 <TextView
-                    android:id="@+id/descripcionRestaurant"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/descripcionComercio"
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:text="Pollo,hamburguesas" />
+
                 <TextView
-                    android:id="@+id/cantPedidosRestaurant"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/cantPedidosComercio"
                     android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
                     android:gravity="right"
                     android:text="(2015)" />
             </LinearLayout>
@@ -88,22 +93,36 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content">
 
+<<<<<<< HEAD:app/src/main/res/layout/restourant.xml
+=======
+                <!--View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:background="#000000" /-->
+                <!--View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dip"
+                    android:background="#FF00FF00" /-->
+
+>>>>>>> e6d87fec7f7124ebf7d88386a7a35597f7c50ea2:app/src/main/res/layout/comercio_item_list.xml
                 <TextView
-                    android:id="@+id/tiempoEnvioRestaurant"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/tiempoEnvioComercio"
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:text="60 - 90 min" />
+
                 <TextView
-                    android:id="@+id/PuntoRestaurant"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/puntoSeparadorComercio"
                     android:layout_width="wrap_content"
-                    android:layout_gravity="left"
-                    android:text=" - " />
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|center"
+                    android:text=" . " />
+
                 <TextView
-                    android:id="@+id/costoEnvioRestaurant"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/costoEnvioComercio"
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:text="50$" />
             </LinearLayout>
