@@ -92,19 +92,7 @@
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content">
-
-<<<<<<< HEAD:app/src/main/res/layout/restourant.xml
-=======
-                <!--View
-                    android:layout_width="fill_parent"
-                    android:layout_height="1dp"
-                    android:background="#000000" /-->
-                <!--View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dip"
-                    android:background="#FF00FF00" /-->
-
->>>>>>> e6d87fec7f7124ebf7d88386a7a35597f7c50ea2:app/src/main/res/layout/comercio_item_list.xml
+                
                 <TextView
                     android:id="@+id/tiempoEnvioComercio"
                     android:layout_width="wrap_content"
