@@ -1,24 +1,21 @@
 package com.fiuba.gaff.comohoy;
 
-import android.app.Activity;
 import android.app.Dialog;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapsRestaurantActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsRestaurantActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 10;
 
