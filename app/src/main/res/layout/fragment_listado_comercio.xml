@@ -12,7 +12,14 @@
 
     <include
         android:id="@+id/id_restaurant_prueba"
-        layout="@layout/fragment_listado_comercio"
+        layout="@layout/restourant"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp" />
+
+    <include
+        android:id="@+id/id_restaurant_prueba"
+        layout="@layout/restourant"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp" />
