@@ -1,6 +1,5 @@
 package com.fiuba.gaff.comohoy.adapters;
 
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,7 +55,7 @@ public class CommerceListAdapter extends RecyclerView.Adapter<CommerceListAdapte
 
     @Override
     public CommerceViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_comercio_list_item, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_comercio1, parent, false);
         CommerceViewHolder commerceViewHolder = new CommerceViewHolder(v);
         return commerceViewHolder;
     }

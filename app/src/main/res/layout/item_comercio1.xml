@@ -86,13 +86,14 @@ card_view:cardCornerRadius="5dp">
                     android:gravity="right"
                     android:text="(2015)" />
             </LinearLayout>
+
             <TextView
-                android:id="@+id/descuento"
-                android:visibility="visible"
+                android:id="@+id/descuento_comercio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="50% de descuento hoy"
                 android:textColor="@color/verde_py"
-                android:text="50% de descuento hoy"/>
+                android:visibility="visible" />
 
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:orientation="horizontal"
