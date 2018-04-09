@@ -24,12 +24,11 @@ card_view:cardCornerRadius="5dp">
             app:layout_constraintGuide_percent="0.25"/>
 
         <LinearLayout
-            android:layout_width="92dp"
-            android:layout_height="0dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="left"
-            android:orientation="horizontal"
-            app:layout_constraintRight_toRightOf="@+id/guideline">
-
+            app:layout_constraintRight_toRightOf="@+id/guideline"
+            android:orientation="horizontal">
             <ImageView
                 android:id="@+id/imagenComercio"
                 android:layout_width="wrap_content"
