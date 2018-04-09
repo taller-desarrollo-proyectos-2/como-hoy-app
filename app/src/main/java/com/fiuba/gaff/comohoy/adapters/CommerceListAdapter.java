@@ -25,20 +25,20 @@ public class CommerceListAdapter extends RecyclerView.Adapter<CommerceListAdapte
     }
 
     public static class CommerceViewHolder extends RecyclerView.ViewHolder {
-        private CardView mCardView;
-        private ImageView mPicture;
-        private TextView mName;
-        private TextView mDescription;
-        private TextView mRating;
-        private TextView mOrdersAmount;
-        private TextView mShippingTime;
-        private TextView mShippingCost;
-        private TextView mDiscounts;
+        private final View mView;
+        private final ImageView mPicture;
+        private final TextView mName;
+        private final TextView mDescription;
+        private final TextView mRating;
+        private final TextView mOrdersAmount;
+        private final TextView mShippingTime;
+        private final TextView mShippingCost;
+        private final TextView mDiscounts;
 
         CommerceViewHolder(View itemView) {
             super(itemView);
+            mView = itemView;
             mPicture = (ImageView) itemView.findViewById(R.id.imagenComercio);
-            mCardView = (CardView) itemView.findViewById(R.id.card_view_comercio_list_item);
             mName = (TextView) itemView.findViewById(R.id.nombreComercio);
             mDescription = (TextView) itemView.findViewById(R.id.descripcionComercio);
             mRating = (TextView) itemView.findViewById(R.id.puntajeComercio);
@@ -58,19 +58,12 @@ public class CommerceListAdapter extends RecyclerView.Adapter<CommerceListAdapte
     public CommerceViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_comercio_list_item, parent, false);
         CommerceViewHolder commerceViewHolder = new CommerceViewHolder(v);
-        v.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                mCommerceListListener.onCommerceClicked();
-            }
-        });
         return commerceViewHolder;
     }
 
     @Override
     public void onBindViewHolder(CommerceViewHolder holder, int position) {
-        Commerce commerce = mCommerces.get(position);
+        final Commerce commerce = mCommerces.get(position);
         holder.mPicture.setImageBitmap(commerce.getPicture());
         holder.mName.setText(commerce.getName());
         holder.mDescription.setText(commerce.getDescription());
@@ -87,6 +80,13 @@ public class CommerceListAdapter extends RecyclerView.Adapter<CommerceListAdapte
             holder.mDiscounts.setVisibility(View.VISIBLE);
             holder.mDiscounts.setText(mCommerces.get(position).getDiscounts());
         }
+
+        holder.mView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCommerceListListener.onCommerceClicked(commerce);
+            }
+        });
     }
 
     @Override

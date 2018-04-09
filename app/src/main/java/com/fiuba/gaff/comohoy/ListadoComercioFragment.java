@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.fiuba.gaff.comohoy.adapters.CommerceListAdapter;
+import com.fiuba.gaff.comohoy.model.Commerce;
 import com.fiuba.gaff.comohoy.services.ServiceLocator;
 import com.fiuba.gaff.comohoy.services.commerces.CommercesService;
 
@@ -34,7 +35,7 @@ public class ListadoComercioFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface CommerceListListener {
-        void onCommerceClicked(int commerceIndex);
+        void onCommerceClicked(Commerce commerce);
     }
 
     /**

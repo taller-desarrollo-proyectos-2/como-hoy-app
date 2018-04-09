@@ -33,10 +33,10 @@ public class MainActivity extends AppCompatActivity implements ListadoComercioFr
     }
 
     @Override
-    public void onCommerceClicked(int commerceIndex) {
+    public void onCommerceClicked(Commerce commerce) {
         Intent intent = new Intent();
         intent.setClass(this, VistaCompletaRestActivity.class);
-        intent.putExtra("index", commerceIndex);
+        //intent.putExtra("index", commerceIndex);
         startActivity(intent);
     }
 }
