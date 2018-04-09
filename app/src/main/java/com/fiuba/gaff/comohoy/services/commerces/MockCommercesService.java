@@ -20,10 +20,10 @@ public class MockCommercesService implements CommercesService {
         c1.setShippingTime("30-45 min");
 
         Commerce c2 = new Commerce("La Esquina de Tito");
-        c1.setDescription("Chori y Bondioletas");
-        c1.setRating("4.5");
-        c1.setShippingCost("$15");
-        c1.setShippingTime("15-30 min");
+        c2.setDescription("Chori y Bondioletas");
+        c2.setRating("4.5");
+        c2.setShippingCost("$15");
+        c2.setShippingTime("15-30 min");
 
         mCommerces.add(c1);
         mCommerces.add(c2);
