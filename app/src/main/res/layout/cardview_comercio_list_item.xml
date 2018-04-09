@@ -1,29 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/card_view"
-    android:orientation="horizontal"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view_comercio_list_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/vertical_margin_restourant"
     android:background="@color/cardview_light_background"
+    android:orientation="horizontal"
     card_view:cardCornerRadius="5dp">
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+<<<<<<< HEAD:app/src/main/res/layout/comercio_item_list.xml
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
             android:layout_weight="8"
+=======
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+>>>>>>> d866fa46bae8d9661144ee06fffe5c49ef804f0e:app/src/main/res/layout/cardview_comercio_list_item.xml
             android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/imagenComercio"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+<<<<<<< HEAD:app/src/main/res/layout/comercio_item_list.xml
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
                 android:src="@drawable/images" />
@@ -32,16 +41,24 @@
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:orientation="vertical"
             android:layout_weight="2"
+=======
+                android:src="@mipmap/ic_launcher" />
+        </LinearLayout>
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+>>>>>>> d866fa46bae8d9661144ee06fffe5c49ef804f0e:app/src/main/res/layout/cardview_comercio_list_item.xml
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_marginTop="5dp"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right">
+            android:orientation="vertical">
+
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:orientation="horizontal"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/nombreComercio"
@@ -59,10 +76,11 @@
                     android:gravity="right"
                     android:text="3.3" />
             </LinearLayout>
+
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:orientation="horizontal"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/descripcionComercio"
@@ -78,25 +96,19 @@
                     android:gravity="right"
                     android:text="(2015)" />
             </LinearLayout>
+
             <TextView
-                android:id="@+id/descuento"
-                android:visibility="visible"
+                android:id="@+id/descuento_comercio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="50% de descuento hoy"
                 android:textColor="@color/verde_py"
-                android:text="50% de descuento hoy"/>
-            <!--LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:orientation="horizontal"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
+                android:visibility="visible" />
 
-
-
-            </LinearLayout-->
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:orientation="horizontal"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/tiempoEnvioComercio"
