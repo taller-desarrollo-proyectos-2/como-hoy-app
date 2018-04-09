@@ -10,7 +10,7 @@ public class MockCommercesService implements CommercesService {
     private List<Commerce> mCommerces;
 
     @Override
-    public void syncFromServer() {
+    public void updateCommercesData() {
         mCommerces = new ArrayList<>();
         Commerce c1 = new Commerce("Banchero");
         c1.setDescription("Pizzas y Empanadas");
@@ -32,7 +32,7 @@ public class MockCommercesService implements CommercesService {
     @Override
     public List<Commerce> getCommerces() {
         if (mCommerces == null) {
-            syncFromServer();
+            updateCommercesData();
         }
         return mCommerces;
     }

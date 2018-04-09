@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface CommercesService extends CustomService {
 
-    void syncFromServer();
+    void updateCommercesData();
     List<Commerce> getCommerces();
     Commerce getCommerce(int index);
 }
