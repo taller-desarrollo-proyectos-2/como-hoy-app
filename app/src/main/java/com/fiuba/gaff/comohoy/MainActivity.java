@@ -9,44 +9,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+import com.fiuba.gaff.comohoy.model.Commerce;
+
+public class MainActivity extends AppCompatActivity implements ListadoComercioFragment.CommerceListListener {
 
     private TextView mTextMessage;
-
-   /* private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    mTextMessage.setText(R.string.title_home);
-                    return true;
-                case R.id.navigation_dashboard:
-                    mTextMessage.setText(R.string.title_dashboard);
-                    return true;
-                case R.id.navigation_notifications:
-                    mTextMessage.setText(R.string.title_notifications);
-                    return true;
-            }
-            return false;
-        }
-
-    };*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-/*
-        mTextMessage = (TextView) findViewById(R.id.message);
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-*/
-
-
-        View include_restaurant = findViewById(R.id.id_restaurant_prueba);
+        /*View include_restaurant = findViewById(R.id.id_restaurant_prueba);
         include_restaurant.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -54,8 +28,15 @@ public class MainActivity extends AppCompatActivity {
                 Intent RestIntent = new Intent(MainActivity.this, VistaCompletaRestActivity.class);
                 startActivity(RestIntent);
             }
-        });
+        });*/
 
     }
 
+    @Override
+    public void onCommerceClicked(int commerceIndex) {
+        Intent intent = new Intent();
+        intent.setClass(this, VistaCompletaRestActivity.class);
+        intent.putExtra("index", commerceIndex);
+        startActivity(intent);
+    }
 }
