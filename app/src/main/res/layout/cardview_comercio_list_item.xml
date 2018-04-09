@@ -14,34 +14,16 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-<<<<<<< HEAD:app/src/main/res/layout/comercio_item_list.xml
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:layout_weight="8"
-=======
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
->>>>>>> d866fa46bae8d9661144ee06fffe5c49ef804f0e:app/src/main/res/layout/cardview_comercio_list_item.xml
             android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/imagenComercio"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-<<<<<<< HEAD:app/src/main/res/layout/comercio_item_list.xml
-                android:adjustViewBounds="true"
-                android:scaleType="centerCrop"
-                android:src="@drawable/images" />
-        </LinearLayout>
-
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:orientation="vertical"
-            android:layout_weight="2"
-=======
                 android:src="@mipmap/ic_launcher" />
         </LinearLayout>
 
@@ -49,7 +31,6 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
->>>>>>> d866fa46bae8d9661144ee06fffe5c49ef804f0e:app/src/main/res/layout/cardview_comercio_list_item.xml
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_marginTop="5dp"
@@ -134,4 +115,3 @@
         </LinearLayout>
     </LinearLayout>
 </android.support.v7.widget.CardView>
-
