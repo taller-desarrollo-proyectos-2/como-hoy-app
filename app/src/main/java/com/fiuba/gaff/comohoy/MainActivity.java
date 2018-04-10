@@ -2,16 +2,12 @@ package com.fiuba.gaff.comohoy;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 
 import com.fiuba.gaff.comohoy.model.Commerce;
 
-public class MainActivity extends AppCompatActivity implements ListadoComercioFragment.CommerceListListener {
+public class MainActivity extends AppCompatActivity implements CommercesListFragment.CommerceListListener {
 
     private TextView mTextMessage;
 

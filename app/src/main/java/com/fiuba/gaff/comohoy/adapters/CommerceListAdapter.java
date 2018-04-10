@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.fiuba.gaff.comohoy.ListadoComercioFragment;
+import com.fiuba.gaff.comohoy.CommercesListFragment;
 import com.fiuba.gaff.comohoy.R;
 import com.fiuba.gaff.comohoy.model.Commerce;
 
@@ -15,10 +15,10 @@ import java.util.List;
 
 public class CommerceListAdapter extends RecyclerView.Adapter<CommerceListAdapter.CommerceViewHolder> {
 
-    private final ListadoComercioFragment.CommerceListListener mCommerceListListener;
+    private final CommercesListFragment.CommerceListListener mCommerceListListener;
     private List<Commerce> mCommerces;
 
-    public CommerceListAdapter(List<Commerce> commerces, ListadoComercioFragment.CommerceListListener listener){
+    public CommerceListAdapter(List<Commerce> commerces, CommercesListFragment.CommerceListListener listener){
         mCommerces = commerces;
         mCommerceListListener = listener;
     }
