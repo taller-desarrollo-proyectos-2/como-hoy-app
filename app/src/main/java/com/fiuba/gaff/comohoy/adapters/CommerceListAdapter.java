@@ -61,7 +61,7 @@ public class CommerceListAdapter extends RecyclerView.Adapter<CommerceListAdapte
     }
 
     @Override
-    public void onBindViewHolder(CommerceViewHolder holder, int position) {
+    public void onBindViewHolder(final CommerceViewHolder holder, int position) {
         final Commerce commerce = mCommerces.get(position);
         holder.mPicture.setImageBitmap(commerce.getPicture());
         holder.mName.setText(commerce.getName());
@@ -83,7 +83,7 @@ public class CommerceListAdapter extends RecyclerView.Adapter<CommerceListAdapte
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mCommerceListListener.onCommerceClicked(commerce);
+                mCommerceListListener.onCommerceClicked(commerce, holder.mName);
             }
         });
     }

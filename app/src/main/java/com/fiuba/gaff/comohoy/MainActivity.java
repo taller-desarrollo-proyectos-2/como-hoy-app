@@ -2,7 +2,9 @@ package com.fiuba.gaff.comohoy;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.TextView;
 
 import com.fiuba.gaff.comohoy.model.Commerce;
@@ -29,10 +31,12 @@ public class MainActivity extends AppCompatActivity implements CommercesListFrag
     }
 
     @Override
-    public void onCommerceClicked(Commerce commerce) {
+    public void onCommerceClicked(Commerce commerce, View commerceTittleTextView) {
         Intent intent = new Intent();
         intent.setClass(this, VistaCompletaRestActivity.class);
         //intent.putExtra("index", commerceIndex);
-        startActivity(intent);
+        ActivityOptionsCompat options = ActivityOptionsCompat.
+                makeSceneTransitionAnimation(this, commerceTittleTextView, getString(R.string.transition_commerce_title));
+        startActivity(intent, options.toBundle());
     }
 }

@@ -16,14 +16,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+
         <TextView
+            android:id="@+id/commerceTittle"
+            android:transitionName="@string/transition_commerce_title"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:gravity="center"
             android:text="Mi Restaurant"
-            android:textStyle="bold"
             android:textSize="20sp"
-            android:gravity="center" />
+            android:textStyle="bold" />
         <ImageButton
             android:id="@+id/info"
             android:layout_width="30dp"
