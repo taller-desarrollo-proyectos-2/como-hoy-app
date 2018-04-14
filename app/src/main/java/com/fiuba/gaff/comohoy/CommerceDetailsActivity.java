@@ -7,7 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 
-public class VistaCompletaRestActivity extends AppCompatActivity {
+public class CommerceDetailsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,7 +19,7 @@ public class VistaCompletaRestActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View arg0) {
-                Intent RestIntent = new Intent(VistaCompletaRestActivity.this, MapsRestaurantActivity.class);
+                Intent RestIntent = new Intent(CommerceDetailsActivity.this, MapsRestaurantActivity.class);
                 startActivity(RestIntent);
             }
         });

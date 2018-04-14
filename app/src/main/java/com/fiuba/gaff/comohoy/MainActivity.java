@@ -17,26 +17,16 @@ public class MainActivity extends AppCompatActivity implements CommercesListFrag
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        /*View include_restaurant = findViewById(R.id.id_restaurant_prueba);
-        include_restaurant.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-                Intent RestIntent = new Intent(MainActivity.this, VistaCompletaRestActivity.class);
-                startActivity(RestIntent);
-            }
-        });*/
-
     }
 
     @Override
-    public void onCommerceClicked(Commerce commerce, View commerceTittleTextView) {
+    public void onCommerceClicked(Commerce commerce, View commerceTitleTextView) {
         Intent intent = new Intent();
-        intent.setClass(this, VistaCompletaRestActivity.class);
+        intent.setClass(this, CommerceDetailsActivity.class);
         //intent.putExtra("index", commerceIndex);
         ActivityOptionsCompat options = ActivityOptionsCompat.
-                makeSceneTransitionAnimation(this, commerceTittleTextView, getString(R.string.transition_commerce_title));
+                makeSceneTransitionAnimation(this, commerceTitleTextView, getString(R.string.transition_commerce_title));
+
         startActivity(intent, options.toBundle());
     }
 }

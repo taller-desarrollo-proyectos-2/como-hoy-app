@@ -24,7 +24,7 @@
         android:visibility="visible"
         app:layoutManager="LinearLayoutManager"
         tools:context="com.fiuba.gaff.comohoy.CommercesListFragment"
-        tools:listitem="@layout/item_comercio1">
+        tools:listitem="@layout/cardview_item_comercio1">
 
     </android.support.v7.widget.RecyclerView>
 </FrameLayout>

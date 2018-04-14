@@ -39,7 +39,7 @@ public class CommercesListFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface CommerceListListener {
-        void onCommerceClicked(Commerce commerce, View commerceTittleTextView);
+        void onCommerceClicked(Commerce commerce, View commerceTitleTextView);
     }
 
     /**
