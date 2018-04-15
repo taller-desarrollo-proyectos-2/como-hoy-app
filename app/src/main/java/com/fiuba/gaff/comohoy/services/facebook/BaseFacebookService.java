@@ -90,7 +90,8 @@ public class BaseFacebookService implements FacebookService {
                 //login result tiene access token y otros valores relevantes a la sesion
                 Log.i("LoginActivity", "Login to facebook");
 
-                requestAuthToken(loginCallback, fragmentManager);
+                String userId = loginResult.getAccessToken().getUserId();
+                requestAuthToken(loginCallback, fragmentManager, userId);
             }
 
             @Override
@@ -108,8 +109,8 @@ public class BaseFacebookService implements FacebookService {
         return facebookCallback;
     }
 
-    private void requestAuthToken(final LoginCallback loginCallback, final FragmentManager fragmentManager) {
-        NetworkObject requestTokenObject = createRequestTokenObject();
+    private void requestAuthToken(final LoginCallback loginCallback, final FragmentManager fragmentManager, String userId) {
+        NetworkObject requestTokenObject = createRequestTokenObject(userId);
         NetworkFragment networkFragment = NetworkFragment.getInstance(fragmentManager, requestTokenObject);
         if (!mDownloading) {
             mDownloading = true;
@@ -145,17 +146,16 @@ public class BaseFacebookService implements FacebookService {
         }
     }
 
-    private NetworkObject createRequestTokenObject() {
-        String requestBody = createRequestTokenJson().toString();
+    private NetworkObject createRequestTokenObject(String userId) {
+        String requestBody = createRequestTokenJson(userId).toString();
         NetworkObject networkObject = new NetworkObject(POST_USERID_URL, HttpMethodType.POST, requestBody);
         return networkObject;
     }
 
-    private JSONObject createRequestTokenJson() {
+    private JSONObject createRequestTokenJson(String userId) {
         JSONObject requestTokenJsonObject = new JSONObject();
         try {
             final String userIdField = "token";
-            String userId = Profile.getCurrentProfile().getId();
             requestTokenJsonObject.put(userIdField, userId);
         } catch (JSONException e) {
             e.printStackTrace();

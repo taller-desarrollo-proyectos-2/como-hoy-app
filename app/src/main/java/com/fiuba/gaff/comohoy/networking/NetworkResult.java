@@ -1,5 +1,8 @@
 package com.fiuba.gaff.comohoy.networking;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * Wrapper class that serves as a union of a result value and an exception. When the download
  * task has completed, either the result value or exception can be a non-null value.
@@ -7,6 +10,7 @@ package com.fiuba.gaff.comohoy.networking;
  */
 public class NetworkResult {
     public String mResultValue;
+    public Map<String, List<String>> mHeaders;
     public Exception mException;
     public String mUrl;
 

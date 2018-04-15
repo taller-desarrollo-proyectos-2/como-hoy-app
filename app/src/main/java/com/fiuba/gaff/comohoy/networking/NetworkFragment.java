@@ -239,6 +239,7 @@ public class NetworkFragment extends Fragment {
                 if (responseCode != HttpsURLConnection.HTTP_OK) {
                     result = new NetworkResult(new Exception("HTTP error code: " + responseCode));
                 }
+                result.mHeaders = connection.getHeaderFields();
                 // Retrieve the response body as an InputStream.
                 stream = connection.getInputStream();
                 publishProgress(DownloadCallback.Progress.DOWNLOADING, 0);
