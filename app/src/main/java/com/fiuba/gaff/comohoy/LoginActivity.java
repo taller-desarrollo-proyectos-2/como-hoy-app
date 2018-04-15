@@ -37,6 +37,7 @@ import com.facebook.Profile;
 import com.facebook.login.LoginResult;
 import com.fiuba.gaff.comohoy.services.ServiceLocator;
 import com.fiuba.gaff.comohoy.services.facebook.FacebookService;
+import com.fiuba.gaff.comohoy.services.facebook.LoginCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -108,21 +109,17 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private void initializeLoginButton() {
         FacebookService facebookService = getFacebookService();
-        facebookService.initializeLoginButton(this, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                //login result tiene access token y otros valores relevantes a la sesion
-                Log.i("LoginActivity", "Login");
+        facebookService.initializeLoginButton(this, new LoginCallback() {
+            public void onSuccess() {
+                Intent MainIntent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(MainIntent);
             }
 
             @Override
             public void onCancel() {
-                Log.i("LoginActivity", "Cancel");
             }
 
-            @Override
-            public void onError(FacebookException error) {
-                Log.i("LoginActivity", "error");
+            public void onError() {
             }
         });
     }

@@ -31,6 +31,8 @@ public class NetworkFragment extends Fragment {
     private static final int CONNECT_TIMEOUT_MS = 3000;
     private static final int STREAM_MAX_SIZE = 4096;
 
+    private static final String AUTH_KEY_FIELD = "authorization";
+
     private static final String TAG = "NetworkFragment";
 
     private static final String DATA_OBJECT = "DataObject";
@@ -204,6 +206,8 @@ public class NetworkFragment extends Fragment {
                 connection = (HttpsURLConnection) url.openConnection();
 
                 AddRequestProperties(connection, networkObject);
+
+                connection.addRequestProperty(AUTH_KEY_FIELD, networkObject.getAuthToken());
 
                 // Timeout for reading InputStream
                 connection.setReadTimeout(READ_TIMEOUT_MS);

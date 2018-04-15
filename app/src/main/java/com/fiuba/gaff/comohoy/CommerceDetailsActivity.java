@@ -12,7 +12,7 @@ public class CommerceDetailsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.restourant_completo);
+        setContentView(R.layout.activity_commerce_details);
 
         ImageButton infoB = findViewById(R.id.info);
         infoB.setOnClickListener(new View.OnClickListener() {

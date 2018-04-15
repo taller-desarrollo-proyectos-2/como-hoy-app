@@ -20,12 +20,14 @@ public class NetworkObject implements Parcelable {
     };
 
     private final String mUrl;
+    private String mAuthToken;
     private HttpMethodType mHttpMethod;
     private Map<String, String> mRequestProperties;
     private String mPostData;
 
     public NetworkObject(String URL, HttpMethodType httpMethod) {
         this.mUrl = URL;
+        this.mAuthToken = "";
         this.mHttpMethod = httpMethod;
     }
 
@@ -42,6 +44,14 @@ public class NetworkObject implements Parcelable {
     public NetworkObject(String URL, HttpMethodType httpMethod, Map<String, String> requestProperties, String postData) {
         this(URL, httpMethod, requestProperties);
         this.mPostData = postData;
+    }
+
+    public void setAuthToken(String authToken) {
+        this.mAuthToken = authToken;
+    }
+
+    public String getAuthToken() {
+        return this.mAuthToken;
     }
 
     public String getURL() {
