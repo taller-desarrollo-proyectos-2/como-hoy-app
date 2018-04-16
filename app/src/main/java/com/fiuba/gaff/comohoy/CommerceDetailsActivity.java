@@ -50,8 +50,9 @@ public class CommerceDetailsActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View arg0) {
-                Intent RestIntent = new Intent(CommerceDetailsActivity.this, MapsRestaurantActivity.class);
-                startActivity(RestIntent);
+                Intent openMoreInfoIntent = new Intent(CommerceDetailsActivity.this, MapsRestaurantActivity.class);
+                openMoreInfoIntent.putExtra(getString(R.string.intent_data_commerce_id), mCommerceId);
+                startActivity(openMoreInfoIntent);
             }
         });
 
@@ -104,6 +105,8 @@ public class CommerceDetailsActivity extends AppCompatActivity {
     }
 
     private void createCommerceMenuView() {
+        // TODO obtener el menu a partir de los valores obtenidos para el comercio en la clase
+        // BaseCommercesService linea 99
         CommerceMenu menu = new CommerceMenu();
         CommerceMenuItem item1 = new CommerceMenuItem();
         item1.setCategory("Categoria 1");
