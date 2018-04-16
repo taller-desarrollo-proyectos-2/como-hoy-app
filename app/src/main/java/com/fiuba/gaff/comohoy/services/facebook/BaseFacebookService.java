@@ -117,7 +117,7 @@ public class BaseFacebookService implements FacebookService {
             @Override
             public void onError(FacebookException error) {
                 Log.i("LoginActivity", "error logging in");
-                loginCallback.onError("Couldn't connect to Facebook. Check you internet connection");
+                loginCallback.onError("No se pudo conectar a Facebook. Verifique su conección a internet");
             }
         };
         return facebookCallback;
@@ -139,7 +139,7 @@ public class BaseFacebookService implements FacebookService {
                         loginCallback.onSuccess();
                     } catch (Exception e) {
                         e.printStackTrace();
-                        loginCallback.onError("Failed authenticating user");
+                        loginCallback.onError("El usuario falló al ser autenticado");
                     }
                     mDownloading = false;
                 }
