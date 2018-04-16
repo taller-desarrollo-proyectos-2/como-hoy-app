@@ -1,5 +1,7 @@
 package com.fiuba.gaff.comohoy.services.commerces;
 
+import android.app.Activity;
+
 import com.fiuba.gaff.comohoy.model.Commerce;
 
 import java.util.ArrayList;
@@ -10,7 +12,7 @@ public class MockCommercesService implements CommercesService {
     private List<Commerce> mCommerces;
 
     @Override
-    public void updateCommercesData() {
+    public void updateCommercesData(Activity activity, UpdateCommercesCallback callback) {
         mCommerces = new ArrayList<>();
         Commerce c1 = new Commerce("Banchero");
         c1.setDescription("Pizzas y Empanadas");
@@ -27,18 +29,17 @@ public class MockCommercesService implements CommercesService {
 
         mCommerces.add(c1);
         mCommerces.add(c2);
+
+        callback.onCommercesUpdated();
     }
 
     @Override
     public List<Commerce> getCommerces() {
-        if (mCommerces == null) {
-            updateCommercesData();
-        }
         return mCommerces;
     }
 
     @Override
-    public Commerce getCommerce(int index) {
-        return mCommerces.get(index);
+    public Commerce getCommerce(int id) {
+        return mCommerces.get(0);
     }
 }

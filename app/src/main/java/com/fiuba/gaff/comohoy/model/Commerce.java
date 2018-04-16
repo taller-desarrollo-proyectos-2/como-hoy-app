@@ -2,8 +2,12 @@ package com.fiuba.gaff.comohoy.model;
 
 import android.graphics.Bitmap;
 
+import java.util.List;
+
 public class Commerce {
 
+    private int mId;
+    private String mBusinessName = "";
     private String mName = "";
     private String mDescription = "";
     private String mRating = "";
@@ -11,13 +15,37 @@ public class Commerce {
     private String mShippingTime = "";
     private String mShippingCost = "";
     private String mDiscounts = "";
-    private float mUbicationLong = 0;
-    private float mUbicationLat = 0;
+    private Location mLocation;
 
     private Bitmap mPicture;
 
+    private List<String> mCategories;
+    private List<Plate> mPlates;
+
     public Commerce(String name) {
         mName = name;
+        mLocation = new Location();
+    }
+
+    public int getId() {
+        return mId;
+    }
+
+    public void setId(int id) {
+        this.mId = id;
+    }
+
+    public String getBusinessName() {
+        return mBusinessName;
+    }
+
+    public void setBusinessName(String businessName) {
+        this.mBusinessName = businessName;
+    }
+
+    public String getShowableName() {
+        String name = getName().equals("") ? getBusinessName() : getName();
+        return name;
     }
 
     public String getName() {
@@ -84,12 +112,27 @@ public class Commerce {
         this.mPicture = picture;
     }
 
-    public void setUbicationLong(float longi ) { mUbicationLong = longi;}
+    public Location getLocation() {
+        return mLocation;
+    }
 
-    public float getUbicationLong(){ return mUbicationLong; }
+    public void setmLocation(Location location) {
+        this.mLocation = location;
+    }
 
-    public void setUbicationLat(float lat) { mUbicationLat = lat;}
+    public List<String> getCategories() {
+        return mCategories;
+    }
 
-    public float getUbicationLat() { return mUbicationLat; }
+    public void setCategories(List<String> categories) {
+        this.mCategories = categories;
+    }
 
+    public List<Plate> getPlates() {
+        return mPlates;
+    }
+
+    public void setmPlates(List<Plate> plates) {
+        this.mPlates = plates;
+    }
 }

@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity implements CommercesListFrag
     public void onCommerceClicked(Commerce commerce, View commerceTitleTextView) {
         Intent intent = new Intent();
         intent.setClass(this, CommerceDetailsActivity.class);
-        //intent.putExtra("index", commerceIndex);
+        intent.putExtra(getString(R.string.intent_data_commerce_id), commerce.getId());
         ActivityOptionsCompat options = ActivityOptionsCompat.
                 makeSceneTransitionAnimation(this, commerceTitleTextView, getString(R.string.transition_commerce_title));
 

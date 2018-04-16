@@ -13,6 +13,7 @@
         <ImageView
             android:id="@+id/imagenRestaurantFondo"
             android:layout_width="match_parent"
+            android:contentDescription="Imagen del Comercio"
             android:layout_height="70dp"
             android:scaleType="fitCenter"
             android:src="@drawable/pizza2" />
@@ -28,7 +29,7 @@
 
             <TextView
                 android:id="@+id/commerceTittle"
-                android:layout_width="fill_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
@@ -39,6 +40,7 @@
 
             <ImageButton
                 android:id="@+id/info"
+                android:contentDescription="Botón más información"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:gravity="right"
@@ -83,6 +85,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:baselineAligned="false"
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
@@ -162,31 +165,15 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/menu_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_marginTop="5dp"
             android:orientation="vertical">
 
-            <include
-                layout="@layout/plato"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp" />
-
-            <include
-                layout="@layout/plato"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp" />
-
-            <include
-                layout="@layout/plato"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp" />
         </LinearLayout>
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>
