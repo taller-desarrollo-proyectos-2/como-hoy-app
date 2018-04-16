@@ -11,13 +11,13 @@ public class Commerce {
     private String mShippingTime = "";
     private String mShippingCost = "";
     private String mDiscounts = "";
-    private float mUbicationLong = 0;
-    private float mUbicationLat = 0;
+    private Location mLocation;
 
     private Bitmap mPicture;
 
     public Commerce(String name) {
         mName = name;
+        mLocation = new Location();
     }
 
     public String getName() {
@@ -84,12 +84,11 @@ public class Commerce {
         this.mPicture = picture;
     }
 
-    public void setUbicationLong(float longi ) { mUbicationLong = longi;}
+    public Location getLocation() {
+        return mLocation;
+    }
 
-    public float getUbicationLong(){ return mUbicationLong; }
-
-    public void setUbicationLat(float lat) { mUbicationLat = lat;}
-
-    public float getUbicationLat() { return mUbicationLat; }
-
+    public void setmLocation(Location location) {
+        this.mLocation = location;
+    }
 }
