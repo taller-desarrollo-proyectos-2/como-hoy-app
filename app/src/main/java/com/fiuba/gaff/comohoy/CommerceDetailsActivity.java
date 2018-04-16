@@ -1,24 +1,41 @@
 package com.fiuba.gaff.comohoy;
 
 import android.content.Intent;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.fiuba.gaff.comohoy.adapters.MenuItemListAdapter;
 import com.fiuba.gaff.comohoy.model.Commerce;
+import com.fiuba.gaff.comohoy.model.CommerceMenu;
+import com.fiuba.gaff.comohoy.model.CommerceMenuItem;
+import com.fiuba.gaff.comohoy.model.Plate;
 import com.fiuba.gaff.comohoy.services.ServiceLocator;
 import com.fiuba.gaff.comohoy.services.commerces.CommercesService;
 
-import org.w3c.dom.Text;
+import java.util.List;
 
 public class CommerceDetailsActivity extends AppCompatActivity {
 
     private TextView mCommerceTittle;
+    private LinearLayout mMenuLayout;
 
     private int mCommerceId = -1;
+
+    public interface MenuListListener {
+        void onPlateClicked(Plate plate);
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +55,10 @@ public class CommerceDetailsActivity extends AppCompatActivity {
         });
 
         mCommerceTittle = findViewById(R.id.commerceTittle);
+        mMenuLayout = findViewById(R.id.menu_layout);
 
-        fillViewValues();
+        fillCommercesValues();
+        createCommerceMenuView();
     }
 
     @Override
@@ -75,11 +94,94 @@ public class CommerceDetailsActivity extends AppCompatActivity {
         }
     }
 
-    private void fillViewValues() {
+    private void fillCommercesValues() {
         Commerce commerce = getCommerceService().getCommerce(mCommerceId);
         if (commerce != null) {
             mCommerceTittle.setText(commerce.getShowableName());
+
         }
+    }
+
+    private void createCommerceMenuView() {
+        CommerceMenu menu = new CommerceMenu();
+        CommerceMenuItem item1 = new CommerceMenuItem();
+        item1.setCategory("Categoria 1");
+        item1.addPlate(new Plate("plato 1", "moluscos y otras cosas", 50));
+        item1.addPlate(new Plate("plato 2", "moluscos y otras cosas", 150));
+        item1.addPlate(new Plate("plato 3", "moluscos y otras cosas", 550));
+        CommerceMenuItem item2 = new CommerceMenuItem();
+        item2.setCategory("Categoria 2");
+        item2.addPlate(new Plate("plato 1", "moluscos y otras cosas", 50));
+        item2.addPlate(new Plate("plato 2", "moluscos y otras cosas", 150));
+        item2.addPlate(new Plate("plato 3", "moluscos y otras cosas", 550));
+        menu.addMenuItem(item1);
+        menu.addMenuItem(item2);
+
+        List<CommerceMenuItem> menuItems = menu.getMenuItems();
+        for (CommerceMenuItem subMenu : menu.getMenuItems()) {
+            View submenuView = createSubMenu(subMenu);
+            mMenuLayout.addView(submenuView);
+        }
+    }
+
+    private View createSubMenu(CommerceMenuItem submenu) {
+        ViewGroup parentLayout = createParentLayout();
+        View titleView = createSubmenuTitle(submenu);
+        View platesView = createPlatesListView(submenu);
+        parentLayout.addView(titleView);
+        parentLayout.addView(platesView);
+
+        return parentLayout;
+    }
+
+    private ViewGroup createParentLayout() {
+        LinearLayout parentLayout = new LinearLayout(this);
+        parentLayout.setOrientation(LinearLayout.VERTICAL);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        );
+        // lp.setMargins(5, 5, 5, 5);
+        parentLayout.setLayoutParams(lp);
+
+        return parentLayout;
+    }
+
+    private View createSubmenuTitle(CommerceMenuItem submenu) {
+        TextView titleView = new TextView(this);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        );
+        // lp.setMargins(5, 5, 5, 5);
+        titleView.setLayoutParams(lp);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            titleView.setTextAppearance(android.R.style.TextAppearance_Material_Medium);
+        }
+        titleView.setText(submenu.getCategory());
+        return titleView;
+    }
+
+    private View createPlatesListView(CommerceMenuItem submenu) {
+        RecyclerView platesList = new RecyclerView(this);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        );
+        platesList.setLayoutParams(lp);
+        platesList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+
+        platesList.setAdapter(new MenuItemListAdapter(submenu.getPlates(), new MenuListListener() {
+            @Override
+            public void onPlateClicked(Plate plate) {
+                onPlateClicked(plate);
+            }
+        }));
+        return platesList;
+    }
+
+    private void onPlateClicked(Plate plate) {
+        Toast.makeText(this, "clicked " + plate.getName(), Toast.LENGTH_SHORT);
     }
 
     private CommercesService getCommerceService() {
