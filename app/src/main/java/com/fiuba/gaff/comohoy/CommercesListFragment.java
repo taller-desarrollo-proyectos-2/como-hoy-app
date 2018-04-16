@@ -17,6 +17,8 @@ import com.fiuba.gaff.comohoy.services.ServiceLocator;
 import com.fiuba.gaff.comohoy.services.commerces.CommercesService;
 import com.fiuba.gaff.comohoy.services.commerces.UpdateCommercesCallback;
 
+import java.util.List;
+
 /**
  * A fragment representing a list of Items.
  * <p/>
@@ -95,7 +97,11 @@ public class CommercesListFragment extends Fragment {
     private void loadCommerces() {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         CommercesService commercesService = getCommercesService();
-        mRecyclerView.setAdapter(new CommerceListAdapter(commercesService.getCommerces(), mCommerceListListener));
+        List<Commerce> commerces = commercesService.getCommerces();
+        mRecyclerView.setAdapter(new CommerceListAdapter(commerces, mCommerceListListener));
+        if (commerces.size() < 1) {
+            Toast.makeText(getContext(), "No contamos con comercios en este momento", Toast.LENGTH_LONG).show();
+        }
     }
 
     private CommercesService getCommercesService() {
