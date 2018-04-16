@@ -9,6 +9,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
 
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -26,17 +27,19 @@ import com.fiuba.gaff.comohoy.networking.NetworkResult;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BaseFacebookService implements FacebookService {
 
-    private static final String POST_USERID_URL = "http://34.237.197.99:9000/api/v1/commerces";
+    private static final String POST_USERID_URL = "http://34.237.197.99:9000/api/v1/authenticate/facebook";
+    private static final String AUTH_HEADER_NAME = "authorization";
 
-    private Context mContext;
     private CallbackManager mCallbackManager;
     private boolean mDownloading = false;
     private String mAuthToken = null;
 
-    public BaseFacebookService(Context context) {
-        mContext = context;
+    public BaseFacebookService() {
         mCallbackManager = CallbackManager.Factory.create();
     }
 
@@ -46,6 +49,17 @@ public class BaseFacebookService implements FacebookService {
             Log.e("FacebookService", "Auth token is null");
         }
         return mAuthToken;
+    }
+
+    @Override
+    public boolean isLoggedIn() {
+        return AccessToken.getCurrentAccessToken() != null;
+    }
+
+    @Override
+    public void loginWithAccesToken(Activity activity, LoginCallback loginCalback) {
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        requestAuthToken(loginCalback, activity.getFragmentManager(), accessToken.getUserId());
     }
 
     @Override
@@ -103,7 +117,7 @@ public class BaseFacebookService implements FacebookService {
             @Override
             public void onError(FacebookException error) {
                 Log.i("LoginActivity", "error logging in");
-                loginCallback.onError();
+                loginCallback.onError("Couldn't connect to Facebook. Check you internet connection");
             }
         };
         return facebookCallback;
@@ -118,11 +132,14 @@ public class BaseFacebookService implements FacebookService {
                 @Override
                 public void onResponseReceived(NetworkResult result) {
                     try {
-                        mAuthToken = new JSONObject(result.mResultValue).getString("authorization");
+                        mAuthToken = result.mResponseHeaders.get(AUTH_HEADER_NAME);
+                        if (mAuthToken == null) {
+                            mAuthToken = "";
+                        }
                         loginCallback.onSuccess();
-                    } catch (JSONException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
-                        loginCallback.onError();
+                        loginCallback.onError("Failed authenticating user");
                     }
                     mDownloading = false;
                 }
@@ -149,6 +166,9 @@ public class BaseFacebookService implements FacebookService {
     private NetworkObject createRequestTokenObject(String userId) {
         String requestBody = createRequestTokenJson(userId).toString();
         NetworkObject networkObject = new NetworkObject(POST_USERID_URL, HttpMethodType.POST, requestBody);
+        List<String> responseHeaders = new ArrayList<>();
+        responseHeaders.add(AUTH_HEADER_NAME);
+        networkObject.setResponseHeaders(responseHeaders);
         return networkObject;
     }
 
