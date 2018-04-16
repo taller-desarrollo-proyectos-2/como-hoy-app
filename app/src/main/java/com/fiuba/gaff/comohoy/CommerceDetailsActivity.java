@@ -109,15 +109,15 @@ public class CommerceDetailsActivity extends AppCompatActivity {
         // BaseCommercesService linea 99
         CommerceMenu menu = new CommerceMenu();
         CommerceMenuItem item1 = new CommerceMenuItem();
-        item1.setCategory("Categoria 1");
-        item1.addPlate(new Plate("plato 1", "moluscos y otras cosas", 50));
-        item1.addPlate(new Plate("plato 2", "moluscos y otras cosas", 150));
-        item1.addPlate(new Plate("plato 3", "moluscos y otras cosas", 550));
+        item1.setCategory("Entradas");
+        item1.addPlate(new Plate("Papas Fritas", "descripción 1", 50));
+        item1.addPlate(new Plate("Batatas Fritas", "descripción 2", 150));
+        item1.addPlate(new Plate("Pan con Manteca", "descripción 3", 550));
         CommerceMenuItem item2 = new CommerceMenuItem();
-        item2.setCategory("Categoria 2");
-        item2.addPlate(new Plate("plato 1", "moluscos y otras cosas", 50));
-        item2.addPlate(new Plate("plato 2", "moluscos y otras cosas", 150));
-        item2.addPlate(new Plate("plato 3", "moluscos y otras cosas", 550));
+        item2.setCategory("Platos Principales");
+        item2.addPlate(new Plate("Milanesa de Soja", "descripción 4", 750));
+        item2.addPlate(new Plate("Spaguetties", "descripción 5", 250));
+        item2.addPlate(new Plate("Pollo al Horno", "descripción 6", 525));
         menu.addMenuItem(item1);
         menu.addMenuItem(item2);
 
