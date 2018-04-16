@@ -1,16 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    <TextView
-        android:text="Fernando Nitz"
-        android:textSize="20sp"
-        android:textStyle="bold"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/vertical_margin_restourant"
+    android:background="@color/cardview_light_background"
+    card_view:cardCornerRadius="5dp">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:text="asdasdasdasd asdasd asdasd"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-</LinearLayout>
+        android:layout_height="wrap_content">
+        <TextView
+            android:text="Fernando Nitz"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:text="Muy buena comida, excelente atencion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</android.support.v7.widget.CardView>

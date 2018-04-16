@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.fiuba.gaff.comohoy.ListadoComercioFragment;
+import com.fiuba.gaff.comohoy.CommercesListFragment;
 import com.fiuba.gaff.comohoy.R;
 import com.fiuba.gaff.comohoy.model.Commerce;
 
@@ -16,16 +16,17 @@ import java.util.List;
 
 public class CommerceListAdapter extends RecyclerView.Adapter<CommerceListAdapter.CommerceViewHolder> {
 
-    private final ListadoComercioFragment.CommerceListListener mCommerceListListener;
+    private final CommercesListFragment.CommerceListListener mCommerceListListener;
     private List<Commerce> mCommerces;
 
-    public CommerceListAdapter(List<Commerce> commerces, ListadoComercioFragment.CommerceListListener listener){
+    public CommerceListAdapter(List<Commerce> commerces, CommercesListFragment.CommerceListListener listener){
         mCommerces = commerces;
         mCommerceListListener = listener;
     }
 
     public static class CommerceViewHolder extends RecyclerView.ViewHolder {
         private final View mView;
+        private final CardView mCardView;
         private final ImageView mPicture;
         private final TextView mName;
         private final TextView mDescription;
@@ -38,6 +39,7 @@ public class CommerceListAdapter extends RecyclerView.Adapter<CommerceListAdapte
         CommerceViewHolder(View itemView) {
             super(itemView);
             mView = itemView;
+            mCardView = (CardView) itemView.findViewById(R.id.card_view_comercio_list_item);
             mPicture = (ImageView) itemView.findViewById(R.id.imagenComercio);
             mName = (TextView) itemView.findViewById(R.id.nombreComercio);
             mDescription = (TextView) itemView.findViewById(R.id.descripcionComercio);
@@ -56,13 +58,13 @@ public class CommerceListAdapter extends RecyclerView.Adapter<CommerceListAdapte
 
     @Override
     public CommerceViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_comercio_list_item, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_item_comercio1, parent, false);
         CommerceViewHolder commerceViewHolder = new CommerceViewHolder(v);
         return commerceViewHolder;
     }
 
     @Override
-    public void onBindViewHolder(CommerceViewHolder holder, int position) {
+    public void onBindViewHolder(final CommerceViewHolder holder, int position) {
         final Commerce commerce = mCommerces.get(position);
         holder.mPicture.setImageBitmap(commerce.getPicture());
         holder.mName.setText(commerce.getName());
@@ -84,7 +86,7 @@ public class CommerceListAdapter extends RecyclerView.Adapter<CommerceListAdapte
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mCommerceListListener.onCommerceClicked(commerce);
+                mCommerceListListener.onCommerceClicked(commerce, holder.mName);
             }
         });
     }

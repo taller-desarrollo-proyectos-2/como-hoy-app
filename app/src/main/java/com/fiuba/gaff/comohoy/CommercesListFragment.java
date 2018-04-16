@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.fiuba.gaff.comohoy.adapters.CommerceListAdapter;
 import com.fiuba.gaff.comohoy.model.Commerce;
@@ -20,7 +21,10 @@ import com.fiuba.gaff.comohoy.services.commerces.CommercesService;
  * Activities containing this fragment MUST implement the {@link CommerceListListener}
  * interface.
  */
-public class ListadoComercioFragment extends Fragment {
+public class CommercesListFragment extends Fragment {
+
+    private RecyclerView mRecyclerView;
+    private ProgressBar mProgressBar;
 
     private CommerceListListener mCommerceListListener;
 
@@ -35,18 +39,18 @@ public class ListadoComercioFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface CommerceListListener {
-        void onCommerceClicked(Commerce commerce);
+        void onCommerceClicked(Commerce commerce, View commerceTitleTextView);
     }
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public ListadoComercioFragment() {
+    public CommercesListFragment() {
     }
 
-    public static ListadoComercioFragment newInstance(int columnCount) {
-        ListadoComercioFragment fragment = new ListadoComercioFragment();
+    public static CommercesListFragment newInstance(int columnCount) {
+        CommercesListFragment fragment = new CommercesListFragment();
         return fragment;
     }
 
@@ -60,16 +64,14 @@ public class ListadoComercioFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_item_list, container, false);
 
-        // Set the adapter
-        if (view instanceof RecyclerView) {
-            RecyclerView recyclerView = (RecyclerView) view;
-            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-            CommercesService commercesService = getCommercesService();
-            recyclerView.setAdapter(new CommerceListAdapter(commercesService.getCommerces(), mCommerceListListener));
-        }
+        mRecyclerView = view.findViewById(R.id.recyclerview_commerces_list);
+        mProgressBar = view.findViewById(R.id.progress_bar_commerces_list);
+
+        showProgressBar();
+        loadCommerces();
+
         return view;
     }
-
 
     @Override
     public void onAttach(Context context) {
@@ -88,7 +90,25 @@ public class ListadoComercioFragment extends Fragment {
         mCommerceListListener = null;
     }
 
+    private void loadCommerces() {
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        CommercesService commercesService = getCommercesService();
+        mRecyclerView.setAdapter(new CommerceListAdapter(commercesService.getCommerces(), mCommerceListListener));
+        // after commerces are loaded
+        showCommercesList();
+    }
+
     private CommercesService getCommercesService() {
         return ServiceLocator.get(CommercesService.class);
+    }
+
+    private void showCommercesList() {
+        mProgressBar.setVisibility(View.GONE);
+        mRecyclerView.setVisibility(View.VISIBLE);
+    }
+
+    private void showProgressBar() {
+        mProgressBar.setVisibility(View.VISIBLE);
+        mRecyclerView.setVisibility(View.GONE);
     }
 }
