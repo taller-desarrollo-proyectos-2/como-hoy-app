@@ -9,11 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.fiuba.gaff.comohoy.adapters.CommerceListAdapter;
 import com.fiuba.gaff.comohoy.model.Commerce;
 import com.fiuba.gaff.comohoy.services.ServiceLocator;
 import com.fiuba.gaff.comohoy.services.commerces.CommercesService;
+import com.fiuba.gaff.comohoy.services.commerces.UpdateCommercesCallback;
 
 /**
  * A fragment representing a list of Items.
@@ -67,9 +69,9 @@ public class CommercesListFragment extends Fragment {
         mRecyclerView = view.findViewById(R.id.recyclerview_commerces_list);
         mProgressBar = view.findViewById(R.id.progress_bar_commerces_list);
 
-        showProgressBar();
-        loadCommerces();
+        showProgress(true);
 
+        getCommercesService().updateCommercesData(getActivity(), createOnUpdatedCommercesCallback());
         return view;
     }
 
@@ -94,21 +96,30 @@ public class CommercesListFragment extends Fragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         CommercesService commercesService = getCommercesService();
         mRecyclerView.setAdapter(new CommerceListAdapter(commercesService.getCommerces(), mCommerceListListener));
-        // after commerces are loaded
-        showCommercesList();
     }
 
     private CommercesService getCommercesService() {
         return ServiceLocator.get(CommercesService.class);
     }
 
-    private void showCommercesList() {
-        mProgressBar.setVisibility(View.GONE);
-        mRecyclerView.setVisibility(View.VISIBLE);
+    private void showProgress(boolean show) {
+        mProgressBar.setVisibility(show ? View.VISIBLE : View.GONE);
+        mRecyclerView.setVisibility(show ? View.GONE : View.VISIBLE);
     }
 
-    private void showProgressBar() {
-        mProgressBar.setVisibility(View.VISIBLE);
-        mRecyclerView.setVisibility(View.GONE);
+    private UpdateCommercesCallback createOnUpdatedCommercesCallback() {
+        return new UpdateCommercesCallback() {
+            @Override
+            public void onCommercesUpdated() {
+                loadCommerces();
+                showProgress(false);
+            }
+
+            @Override
+            public void onError(String reason) {
+                Toast.makeText(getContext(), reason, Toast.LENGTH_LONG);
+                showProgress(false);
+            }
+        };
     }
 }

@@ -11,5 +11,5 @@ public interface CommercesService extends CustomService {
 
     void updateCommercesData(Activity activity, UpdateCommercesCallback callback);
     List<Commerce> getCommerces();
-    Commerce getCommerce(int index);
+    Commerce getCommerce(int id);
 }

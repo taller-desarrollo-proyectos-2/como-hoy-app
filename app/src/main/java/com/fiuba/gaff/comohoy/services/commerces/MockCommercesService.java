@@ -39,7 +39,7 @@ public class MockCommercesService implements CommercesService {
     }
 
     @Override
-    public Commerce getCommerce(int index) {
-        return mCommerces.get(index);
+    public Commerce getCommerce(int id) {
+        return mCommerces.get(0);
     }
 }

@@ -67,7 +67,7 @@ public class CommerceListAdapter extends RecyclerView.Adapter<CommerceListAdapte
     public void onBindViewHolder(final CommerceViewHolder holder, int position) {
         final Commerce commerce = mCommerces.get(position);
         holder.mPicture.setImageBitmap(commerce.getPicture());
-        holder.mName.setText(commerce.getName());
+        holder.mName.setText(commerce.getShowableName());
         holder.mDescription.setText(commerce.getDescription());
         holder.mRating.setText(commerce.getRating());
         holder.mOrdersAmount.setText(commerce.getOrdersAmount());

@@ -24,4 +24,7 @@
 
     <!-- Transitions -->
     <string name="transition_commerce_title">commerceTitleTransition</string>
+
+    <!-- Transitions -->
+    <string name="intent_data_commerce_id">commerceTitleTransition</string>
 </resources>
