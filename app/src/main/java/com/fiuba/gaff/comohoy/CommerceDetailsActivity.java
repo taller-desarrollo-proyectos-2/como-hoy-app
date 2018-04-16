@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -141,8 +142,11 @@ public class CommerceDetailsActivity extends AppCompatActivity {
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
         );
-        // lp.setMargins(5, 5, 5, 5);
+        lp.setMargins(16, 8, 8, 16);
         parentLayout.setLayoutParams(lp);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            parentLayout.setBackgroundColor(getColor(R.color.gris));
+        }
 
         return parentLayout;
     }
@@ -153,7 +157,7 @@ public class CommerceDetailsActivity extends AppCompatActivity {
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
         );
-        // lp.setMargins(5, 5, 5, 5);
+        lp.setMargins(16, 8, 8, 16);
         titleView.setLayoutParams(lp);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             titleView.setTextAppearance(android.R.style.TextAppearance_Material_Medium);
@@ -174,14 +178,15 @@ public class CommerceDetailsActivity extends AppCompatActivity {
         platesList.setAdapter(new MenuItemListAdapter(submenu.getPlates(), new MenuListListener() {
             @Override
             public void onPlateClicked(Plate plate) {
-                onPlateClicked(plate);
+                showPlateClicked(plate);
             }
         }));
         return platesList;
     }
 
-    private void onPlateClicked(Plate plate) {
-        Toast.makeText(this, "clicked " + plate.getName(), Toast.LENGTH_SHORT);
+    private void showPlateClicked(Plate plate) {
+        String message = "clicked " + plate.getName();
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     private CommercesService getCommerceService() {

@@ -69,6 +69,8 @@ public class MenuItemListAdapter extends RecyclerView.Adapter<MenuItemListAdapte
                 mMenuListListener.onPlateClicked(plate);
             }
         });
+
+
     }
 
     @Override
