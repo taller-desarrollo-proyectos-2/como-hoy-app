@@ -37,18 +37,9 @@ public class BaseFacebookService implements FacebookService {
 
     private CallbackManager mCallbackManager;
     private boolean mDownloading = false;
-    private String mAuthToken = null;
 
     public BaseFacebookService() {
         mCallbackManager = CallbackManager.Factory.create();
-    }
-
-    @Override
-    public String getAuthToken() {
-        if (mAuthToken == null) {
-            Log.e("FacebookService", "Auth token is null");
-        }
-        return mAuthToken;
     }
 
     @Override
@@ -125,20 +116,24 @@ public class BaseFacebookService implements FacebookService {
 
     private void requestAuthToken(final LoginCallback loginCallback, final FragmentManager fragmentManager, String userId) {
         NetworkObject requestTokenObject = createRequestTokenObject(userId);
-        NetworkFragment networkFragment = NetworkFragment.getInstance(fragmentManager, requestTokenObject);
+        final NetworkFragment networkFragment = NetworkFragment.getInstance(fragmentManager, requestTokenObject);
         if (!mDownloading) {
             mDownloading = true;
             networkFragment.startDownload(new DownloadCallback<NetworkResult>() {
                 @Override
                 public void onResponseReceived(NetworkResult result) {
-                    try {
-                        mAuthToken = result.mResponseHeaders.get(AUTH_HEADER_NAME);
-                        if (mAuthToken == null) {
-                            mAuthToken = "";
+                    if (result.mException == null) {
+                        String authToken = result.mResponseHeaders.get(AUTH_HEADER_NAME);
+                        if (authToken == null) {
+                            authToken = "";
+                            loginCallback.onError("El usuario falló al ser autenticado");
+                            return;
                         }
+                        // Got auth token
+                        networkFragment.setAuthToken(authToken);
                         loginCallback.onSuccess();
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                    } else {
+                        Log.e("FacebookService", result.mException.getMessage());
                         loginCallback.onError("El usuario falló al ser autenticado");
                     }
                     mDownloading = false;

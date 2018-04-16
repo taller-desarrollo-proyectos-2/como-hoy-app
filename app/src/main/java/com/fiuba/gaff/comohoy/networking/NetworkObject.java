@@ -22,7 +22,6 @@ public class NetworkObject implements Parcelable {
     };
 
     private final String mUrl;
-    private String mAuthToken;
     private HttpMethodType mHttpMethod;
     private String mPostData;
     private Map<String, String> mRequestProperties;
@@ -30,7 +29,6 @@ public class NetworkObject implements Parcelable {
 
     public NetworkObject(String URL, HttpMethodType httpMethod) {
         this.mUrl = URL;
-        this.mAuthToken = "";
         this.mHttpMethod = httpMethod;
         mResponseHeaders = new ArrayList<>();
     }
@@ -48,14 +46,6 @@ public class NetworkObject implements Parcelable {
     public NetworkObject(String URL, HttpMethodType httpMethod, Map<String, String> requestProperties, String postData) {
         this(URL, httpMethod, requestProperties);
         this.mPostData = postData;
-    }
-
-    public void setAuthToken(String authToken) {
-        this.mAuthToken = authToken;
-    }
-
-    public String getAuthToken() {
-        return this.mAuthToken;
     }
 
     public String getURL() {
@@ -97,7 +87,6 @@ public class NetworkObject implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(mUrl);
-        dest.writeString(mAuthToken);
         dest.writeInt(mHttpMethod.getValue());
         dest.writeString(mPostData);
         dest.writeMap(mRequestProperties);
@@ -106,7 +95,6 @@ public class NetworkObject implements Parcelable {
 
     private NetworkObject(Parcel in) {
         mUrl = in.readString();
-        mAuthToken = in.readString();
         mHttpMethod = HttpMethodType.fromInteger(in.readInt());
         mPostData = in.readString();
         in.readMap(mRequestProperties, String.class.getClassLoader());

@@ -10,7 +10,6 @@ import com.facebook.login.LoginResult;
 import com.fiuba.gaff.comohoy.services.CustomService;
 
 public interface FacebookService extends CustomService {
-    String getAuthToken();
     boolean isLoggedIn();
     void loginWithAccesToken (Activity activity, LoginCallback loginCalback);
     void initializeLoginButton(Activity activity, LoginCallback loginCallback);
