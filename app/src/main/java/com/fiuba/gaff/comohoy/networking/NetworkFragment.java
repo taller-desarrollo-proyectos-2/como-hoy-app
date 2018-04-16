@@ -17,10 +17,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-
-import javax.net.ssl.HttpsURLConnection;
 
 /**
  * Implementation of headless Fragment that runs an AsyncTask to fetch data from the network.
@@ -198,12 +199,12 @@ public class NetworkFragment extends Fragment {
          */
         private NetworkResult downloadUrl(NetworkObject networkObject) {
             InputStream stream = null;
-            HttpsURLConnection connection = null;
+            HttpURLConnection connection = null;
             NetworkResult result = null;
             try {
                 URL url = new URL(networkObject.getURL());
 
-                connection = (HttpsURLConnection) url.openConnection();
+                connection = (HttpURLConnection) url.openConnection();
 
                 AddRequestProperties(connection, networkObject);
 
@@ -236,10 +237,9 @@ public class NetworkFragment extends Fragment {
                 connection.connect();
 
                 int responseCode = connection.getResponseCode();
-                if (responseCode != HttpsURLConnection.HTTP_OK) {
+                if (responseCode != HttpURLConnection.HTTP_OK) {
                     result = new NetworkResult(new Exception("HTTP error code: " + responseCode));
                 }
-                result.mHeaders = connection.getHeaderFields();
                 // Retrieve the response body as an InputStream.
                 stream = connection.getInputStream();
                 publishProgress(DownloadCallback.Progress.DOWNLOADING, 0);
@@ -254,7 +254,13 @@ public class NetworkFragment extends Fragment {
                 result = new NetworkResult(e);
             }
             finally {
-                // Close Stream and disconnect HTTPS connection.
+                // Get response headers
+                List<String> responseHeaders = networkObject.getResponseHeaders();
+                for (String header: responseHeaders) {
+                    String headerValue = connection.getHeaderField(header);
+                    result.mResponseHeaders.put(header, headerValue);
+                }
+                // Close Stream and disconnect HTTP connection.
                 try {
                     if (stream != null) {
                         stream.close();
@@ -270,7 +276,7 @@ public class NetworkFragment extends Fragment {
             return result;
         }
 
-        private void AddRequestProperties(HttpsURLConnection conn, NetworkObject networkObject) {
+        private void AddRequestProperties(HttpURLConnection conn, NetworkObject networkObject) {
             Map<String, String> requestProperties = networkObject.GetRequestProperties();
             if (requestProperties != null) {
                 for (Map.Entry<String, String> entry : requestProperties.entrySet()) {

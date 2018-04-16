@@ -1,5 +1,8 @@
 package com.fiuba.gaff.comohoy.networking;
 
+import android.util.Pair;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,13 +13,15 @@ import java.util.Map;
  */
 public class NetworkResult {
     public String mResultValue;
-    public Map<String, List<String>> mHeaders;
+    public Map<String, String> mHeaders;
+    public Map<String, String> mResponseHeaders;
     public Exception mException;
     public String mUrl;
 
     public NetworkResult(String resultValue, String url) {
         mResultValue = resultValue;
         mUrl = url;
+        mResponseHeaders = new HashMap<>();
     }
 
     public NetworkResult(Exception exception) {
