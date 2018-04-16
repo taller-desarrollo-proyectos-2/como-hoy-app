@@ -117,7 +117,7 @@ public class CommercesListFragment extends Fragment {
 
             @Override
             public void onError(String reason) {
-                Toast.makeText(getContext(), reason, Toast.LENGTH_LONG);
+                Toast.makeText(getContext(), reason, Toast.LENGTH_LONG).show();
                 showProgress(false);
             }
         };

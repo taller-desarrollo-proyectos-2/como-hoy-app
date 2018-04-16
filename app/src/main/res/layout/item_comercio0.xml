@@ -22,6 +22,7 @@
 
             <ImageView
                 android:id="@+id/imagenComercio"
+                android:contentDescription="Imagen del Comercio"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@mipmap/ic_launcher" />

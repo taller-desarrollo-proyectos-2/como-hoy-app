@@ -11,9 +11,10 @@
 
     <ProgressBar
         android:id="@+id/progress_bar_commerces_list"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center"
+        android:progressTint="@color/colorPrimary"
         android:visibility="visible" />
 
     <android.support.v7.widget.RecyclerView
@@ -21,7 +22,7 @@
         android:name="com.fiuba.gaff.comohoy.FramgmentListadoComercio"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layoutManager="LinearLayoutManager"
         tools:context="com.fiuba.gaff.comohoy.CommercesListFragment"
         tools:listitem="@layout/cardview_item_comercio1">

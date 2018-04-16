@@ -56,7 +56,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private View mLoginFormView;
     private ProgressBar mProgressView;
-    private Button mLoginButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,9 +64,9 @@ public class LoginActivity extends AppCompatActivity {
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
-        mLoginButton = (Button) findViewById(R.id.login_button);
+        Button loginButton = (Button) findViewById(R.id.login_button);
 
-        initializeLoginButton(mLoginButton);
+        initializeLoginButton(loginButton);
 
         FacebookService facebookService = getFacebookService();
         if (facebookService.isLoggedIn()) {
