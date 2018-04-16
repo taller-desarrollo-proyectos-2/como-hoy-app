@@ -32,7 +32,6 @@ public class NetworkFragment extends Fragment {
     private static final int CONNECT_TIMEOUT_MS = 3000;
     private static final int STREAM_MAX_SIZE = 4096;
 
-    private static final String AUTH_TOKEN_TAG = "authToken";
     private static final String AUTH_KEY_FIELD = "authorization";
 
     private static final String TAG = "NetworkFragment";
@@ -43,8 +42,6 @@ public class NetworkFragment extends Fragment {
 
     private DownloadCallback mCallback;
     private DownloadTask mDownloadTask;
-
-    private String mAuthToken = "";
 
     /**
      * Static initializer for NetworkFragment that sets the URL of the host it will be downloading
@@ -77,22 +74,9 @@ public class NetworkFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sNetworkObject = getArguments().getParcelable(DATA_OBJECT);
+
         // Retain this Fragment across configuration changes in the host Activity.
         setRetainInstance(true);
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putString(AUTH_TOKEN_TAG, mAuthToken);
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        if (savedInstanceState != null) {
-            mAuthToken = savedInstanceState.getString(AUTH_TOKEN_TAG, "");
-        }
     }
 
     @SuppressWarnings("EmptyMethod")
@@ -140,14 +124,6 @@ public class NetworkFragment extends Fragment {
     private static void updateFragmentNetworkObject(NetworkFragment fragment, NetworkObject networkObject) {
         Bundle bundle = fragment.getArguments();
         bundle.putParcelable(DATA_OBJECT, networkObject);
-    }
-
-    public String getAuthToken() {
-        return mAuthToken;
-    }
-
-    public void setAuthToken(String authToken) {
-        this.mAuthToken = authToken;
     }
 
     /**
@@ -232,7 +208,7 @@ public class NetworkFragment extends Fragment {
 
                 AddRequestProperties(connection, networkObject);
 
-                connection.addRequestProperty(AUTH_KEY_FIELD, mAuthToken);
+                connection.addRequestProperty(AUTH_KEY_FIELD, networkObject.getAuthToken());
 
                 // Timeout for reading InputStream
                 connection.setReadTimeout(READ_TIMEOUT_MS);
