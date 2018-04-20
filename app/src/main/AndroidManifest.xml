@@ -83,7 +83,7 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".MapsRestaurantActivity"
+            android:name=".MoreInfoActivity"
             android:screenOrientation="portrait"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_maps_restaurant"></activity>

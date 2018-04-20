@@ -6,8 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,7 +48,7 @@ public class CommerceDetailsActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View arg0) {
-                Intent openMoreInfoIntent = new Intent(CommerceDetailsActivity.this, MapsRestaurantActivity.class);
+                Intent openMoreInfoIntent = new Intent(CommerceDetailsActivity.this, MoreInfoActivity.class);
                 openMoreInfoIntent.putExtra(getString(R.string.intent_data_commerce_id), mCommerceId);
                 startActivity(openMoreInfoIntent);
             }

@@ -1,10 +1,10 @@
 package com.fiuba.gaff.comohoy.model;
 
 public class Location {
-    private float mLongitud;
-    private float mLatitud;
+    private double mLongitud;
+    private double mLatitud;
 
-    public float getmLongitud() {
+    public double getmLongitud() {
         return mLongitud;
     }
 
@@ -12,7 +12,7 @@ public class Location {
         this.mLongitud = longitud;
     }
 
-    public float getLatitud() {
+    public double getLatitud() {
         return mLatitud;
     }
 
