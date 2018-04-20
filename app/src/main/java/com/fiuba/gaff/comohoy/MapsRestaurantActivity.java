@@ -92,9 +92,17 @@ public class MapsRestaurantActivity extends AppCompatActivity implements OnMapRe
         UiSettings uiSettings = mMap.getUiSettings();
         uiSettings.setZoomControlsEnabled(true);
 
+
+        LatLng location = null;
+        try {
+            location = getLocationFromAddress("Avenida Paseo Colón, Buenos Aires 850");
+        }catch(IOException ex) {
+            //Do something with the exception
+        }
+
     // Add a marker in Sydney and move the camera
 
-        LatLng location = new LatLng(-34.617290, -58.367846); //PACEO COLON 850
+        //LatLng location = new LatLng(-34.617290, -58.367846); //PACEO COLON 850
 
         mMap.addMarker(new MarkerOptions().position(location).title("Mi item_comercio0").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
         float zoomLevel = 16;
