@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">como-hoy</string>
+    <string name="app_name">Hoy Como</string>
 
     <string name="facebook_app_id">176293456503920</string>
     <string name="fb_login_protocol_scheme">fb176293456503920</string>
@@ -20,7 +20,7 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
-    <string name="title_activity_maps_restaurant">Map</string>
+    <string name="title_activity_more_info">Mas Información</string>
 
     <!-- Transitions -->
     <string name="transition_commerce_title">commerceTitleTransition</string>
