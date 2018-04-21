@@ -2,8 +2,10 @@ package com.fiuba.gaff.comohoy;
 
 import android.content.Intent;
 import android.os.Build;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
@@ -127,13 +129,32 @@ public class CommerceDetailsActivity extends AppCompatActivity {
     }
 
     private View createSubMenu(CommerceMenuItem submenu) {
+        CardView submenuCardView = createCardView();
         ViewGroup parentLayout = createParentLayout();
         View titleView = createSubmenuTitle(submenu);
         View platesView = createPlatesListView(submenu);
         parentLayout.addView(titleView);
         parentLayout.addView(platesView);
 
-        return parentLayout;
+        submenuCardView.addView(parentLayout);
+
+        return submenuCardView;
+    }
+
+    private CardView createCardView() {
+        CardView cardview = new CardView(this);
+        cardview.setRadius(10.0f);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            cardview.setElevation(2);
+            cardview.setCardBackgroundColor(getColor(R.color.gris));
+        }
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        params.setMargins(8, 10, 16, 8);
+        cardview.setLayoutParams(params);
+        return cardview;
     }
 
     private ViewGroup createParentLayout() {
@@ -143,11 +164,7 @@ public class CommerceDetailsActivity extends AppCompatActivity {
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
         );
-        lp.setMargins(16, 8, 8, 16);
         parentLayout.setLayoutParams(lp);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            parentLayout.setBackgroundColor(getColor(R.color.gris));
-        }
 
         return parentLayout;
     }
