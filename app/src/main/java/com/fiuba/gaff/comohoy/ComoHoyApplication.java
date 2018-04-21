@@ -23,7 +23,7 @@ public class ComoHoyApplication extends Application {
     private void bindServices(Context applicationContext) {
         ServiceLocator.init(applicationContext);
         ServiceLocator.bindCustomServiceImplementation(FacebookService.class, BaseFacebookService.class);
-        ServiceLocator.bindCustomServiceImplementation(CommercesService.class, BaseCommercesService.class);
+        ServiceLocator.bindCustomServiceImplementation(CommercesService.class, MockCommercesService.class);
     }
 
 }

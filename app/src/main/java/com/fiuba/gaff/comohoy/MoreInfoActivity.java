@@ -102,7 +102,7 @@ public class MoreInfoActivity extends AppCompatActivity implements OnMapReadyCal
         //}catch(IOException ex) {
             //Do something with the exception
         //}
-    
+
         LatLng location = new LatLng(-34.617290, -58.367846); //PACEO COLON 850
         mMap.addMarker(new MarkerOptions().position(location).title("Mi item_comercio0").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
         float zoomLevel = 16;
