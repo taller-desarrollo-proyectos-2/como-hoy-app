@@ -20,7 +20,7 @@
         android:layout_height="match_parent">
 
         <android.support.constraint.Guideline
-            android:id="@+id/guideline"
+            android:id="@+id/plate_guideline"
             android:layout_width="1dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -40,7 +40,7 @@
             android:src="@drawable/prueba1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/linearLayout"
-            app:layout_constraintRight_toRightOf="@+id/guideline"
+            app:layout_constraintRight_toRightOf="@+id/plate_guideline"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -53,7 +53,7 @@
             android:orientation="vertical"
             android:layout_marginLeft="8dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/guideline">
+            app:layout_constraintStart_toStartOf="@+id/plate_guideline">
 
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="fill_parent"
