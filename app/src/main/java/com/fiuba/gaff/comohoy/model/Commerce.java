@@ -136,7 +136,7 @@ public class Commerce {
         return mPlates;
     }
 
-    public void setmPlates(List<Plate> plates) {
+    public void setPlates(List<Plate> plates) {
         this.mPlates = plates;
     }
 }

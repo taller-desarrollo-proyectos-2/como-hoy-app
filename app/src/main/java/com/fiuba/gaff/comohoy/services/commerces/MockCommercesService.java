@@ -3,11 +3,13 @@ package com.fiuba.gaff.comohoy.services.commerces;
 import android.app.Activity;
 import android.graphics.BitmapFactory;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 
 import com.fiuba.gaff.comohoy.model.Category;
 import com.fiuba.gaff.comohoy.model.Commerce;
 import com.fiuba.gaff.comohoy.R;
 import com.fiuba.gaff.comohoy.model.Plate;
+import com.fiuba.gaff.comohoy.utils.RandomUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,19 +25,42 @@ public class MockCommercesService implements CommercesService {
 
     @Override
     public void updateCommercesData(Activity activity, UpdateCommercesCallback callback) {
+        final int commercesAmount = 5;
         mCommerces = new ArrayList<>();
-        Commerce c1 = new Commerce(0, "Banchero");
-        c1.setDescription("Pizzas y Empanadas");
-        c1.setDiscounts("20% off en empanadas de ensalada");
-        c1.setRating("3.4");
-        c1.setShippingCost("$50");
-        c1.setShippingTime("30-45 min");
-        c1.setPicture(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.luigi));
+        for (int i = 0; i < commercesAmount; ++i) {
+            mCommerces.add(createCommerce(i));
+            createPlatesAndCategories(mCommerces.get(i));
+        }
 
+        callback.onCommercesUpdated();
+    }
+
+    private Commerce createCommerce(int id) {
+        Commerce commerce = new Commerce(id, "Comercio " + id);
+        commerce.setDescription("Comercio autogenerado " + id);
+        boolean hasDiscount = (RandomUtils.getIntBetween(0, 1) == 1);
+        int discount = getRandomDiscount();
+        if (hasDiscount) {
+            commerce.setDiscounts(String.format("%%d off en empanadas de ensalada", discount));
+        }
+        commerce.setRating(String.format("%.1f", RandomUtils.getDoubleBetween(1.0, 5.0)));
+        commerce.setShippingCost(String.format("$%d", RandomUtils.getIntBetween(10, 250)));
+
+        int minShippingTime = RandomUtils.getIntBetween(10, 45);
+        int maxShippingTime = RandomUtils.getIntBetween(minShippingTime, minShippingTime * 2);
+        commerce.setShippingTime(String.format("%d-%d min", minShippingTime, maxShippingTime));
+
+        commerce.setPicture(BitmapFactory.decodeResource(mContext.getResources(), getRandomDrawableId()));
+
+        return commerce;
+    }
+
+    //TODO refactor
+    private void createPlatesAndCategories (Commerce commerce) {
         List<Category> categories = new ArrayList<>();
         categories.add(new Category(1L, "Entradas"));
         categories.add(new Category(2L, "Plato Principal"));
-        c1.setCategories(categories);
+        commerce.setCategories(categories);
 
         List<Plate> plates = new ArrayList<>();
         Plate p1 = new Plate(0L, "Papas", "Las mejores papas", 50);
@@ -52,19 +77,19 @@ public class MockCommercesService implements CommercesService {
         plates.add(p1);;
         plates.add(p2);
 
-        c1.setmPlates(plates);
+        commerce.setPlates(plates);
+    }
 
-        Commerce c2 = new Commerce(1, "La Esquina de Tito");
-        c2.setDescription("Chori y Bondioletas");
-        c2.setRating("4.5");
-        c2.setShippingCost("$15");
-        c2.setShippingTime("15-30 min");
-        c2.setPicture(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.pizzeria2));
+    private int getRandomDiscount() {
+        int discounts[] = {5, 10, 15, 20, 25};
+        int randomIndex = RandomUtils.getIntBetween(0, discounts.length - 1);
+        return discounts[randomIndex];
+    }
 
-        mCommerces.add(c1);
-        mCommerces.add(c2);
-
-        callback.onCommercesUpdated();
+    private int getRandomDrawableId() {
+        int ids[] = {R.drawable.luigi, R.drawable.pizzeria};
+        int randomIndex = RandomUtils.getIntBetween(0, ids.length - 1);
+        return  ids[randomIndex];
     }
 
     @Override
