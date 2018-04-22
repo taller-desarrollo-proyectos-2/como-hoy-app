@@ -4,19 +4,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CommerceMenuItem {
-    private String mCategory;
+    private String mCategoryName;
     private List<Plate> mPlates;
 
     public CommerceMenuItem() {
         mPlates = new ArrayList<>();
     }
 
+    public CommerceMenuItem(String categoryName, List<Plate> plates) {
+        mCategoryName = categoryName;
+        mPlates = (plates != null) ? plates : new ArrayList<Plate>();
+    }
+
     public String getCategory() {
-        return mCategory;
+        return mCategoryName;
     }
 
     public void setCategory(String category) {
-        this.mCategory = category;
+        this.mCategoryName = category;
     }
 
     public List<Plate> getPlates() {

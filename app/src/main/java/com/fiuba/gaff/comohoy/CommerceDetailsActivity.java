@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Pair;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fiuba.gaff.comohoy.adapters.MenuItemListAdapter;
+import com.fiuba.gaff.comohoy.model.Category;
 import com.fiuba.gaff.comohoy.model.Commerce;
 import com.fiuba.gaff.comohoy.model.CommerceMenu;
 import com.fiuba.gaff.comohoy.model.CommerceMenuItem;
@@ -23,7 +25,11 @@ import com.fiuba.gaff.comohoy.model.Plate;
 import com.fiuba.gaff.comohoy.services.ServiceLocator;
 import com.fiuba.gaff.comohoy.services.commerces.CommercesService;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public class CommerceDetailsActivity extends AppCompatActivity {
 
@@ -103,28 +109,62 @@ public class CommerceDetailsActivity extends AppCompatActivity {
         }
     }
 
+    private Commerce getCommerce() {
+        return getCommerceService().getCommerce(mCommerceId);
+    }
+
     private void createCommerceMenuView() {
         // TODO obtener el menu a partir de los valores obtenidos para el comercio en la clase
         // BaseCommercesService linea 99
         CommerceMenu menu = new CommerceMenu();
         CommerceMenuItem item1 = new CommerceMenuItem();
-        item1.setCategory("Entradas");
-        item1.addPlate(new Plate("Papas Fritas", "descripción 1", 50));
-        item1.addPlate(new Plate("Batatas Fritas", "descripción 2", 150));
-        item1.addPlate(new Plate("Pan con Manteca", "descripción 3", 550));
-        CommerceMenuItem item2 = new CommerceMenuItem();
-        item2.setCategory("Platos Principales");
-        item2.addPlate(new Plate("Milanesa de Soja", "descripción 4", 750));
-        item2.addPlate(new Plate("Spaguetties", "descripción 5", 250));
-        item2.addPlate(new Plate("Pollo al Horno", "descripción 6", 525));
-        menu.addMenuItem(item1);
-        menu.addMenuItem(item2);
 
-        List<CommerceMenuItem> menuItems = menu.getMenuItems();
-        for (CommerceMenuItem subMenu : menu.getMenuItems()) {
+        HashMap<String, List<Plate>> platesByCategory = new HashMap<>();
+        addCategoriesToMap(platesByCategory);
+        assignPlatesToCategories(platesByCategory);
+
+        CommerceMenu commerceMenu = createCommerceMenu(platesByCategory);
+
+        List<CommerceMenuItem> menuItems = commerceMenu.getMenuItems();
+        for (CommerceMenuItem subMenu : menuItems) {
             View submenuView = createSubMenu(subMenu);
             mMenuLayout.addView(submenuView);
         }
+    }
+
+    private void addCategoriesToMap(HashMap<String, List<Plate>> platesByCategory) {
+        List<Category> categories = getCommerce().getCategories();
+        for (Category category : categories) {
+            platesByCategory.put(category.getName(), new ArrayList<Plate>());
+        }
+    }
+
+    private void assignPlatesToCategories(HashMap<String, List<Plate>> platesByCategory) {
+        List<Plate> commercePlates = getCommerce().getPlates();
+        for (Plate plate : commercePlates) {
+            List<Category> plateCategories = plate.getCategories();
+            for (Category category : plateCategories) {
+                // Add each plate to the category it was assigned to if it exists.
+                String categoryName = category.getName();
+                if (platesByCategory.containsKey(categoryName)) {
+                    platesByCategory.get(categoryName).add(plate);
+                }
+            }
+        }
+    }
+
+    private CommerceMenu createCommerceMenu(HashMap<String, List<Plate>> platesByCategory) {
+        CommerceMenu commerceMenu = new CommerceMenu();
+        Iterator it = platesByCategory.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry<String, List<Plate>> pair = (Map.Entry<String, List<Plate>>) it.next();
+            String categoryName = pair.getKey();
+            List<Plate> plates = pair.getValue();
+
+            CommerceMenuItem menuItem = new CommerceMenuItem(categoryName, plates);
+            commerceMenu.addMenuItem(menuItem);
+        }
+        return commerceMenu;
     }
 
     private View createSubMenu(CommerceMenuItem submenu) {

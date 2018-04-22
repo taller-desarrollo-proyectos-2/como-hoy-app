@@ -103,9 +103,8 @@ public class BaseCommercesService implements CommercesService {
             String businessName = currCommerceJson.getString("businessName");
             String name = currCommerceJson.getString("name");
             int id = currCommerceJson.getInt("id");
-            Commerce commerce = new Commerce(name);
+            Commerce commerce = new Commerce(id, name);
             commerce.setBusinessName(businessName);
-            commerce.setId(id);
             mCommerces.put(id, commerce);
         }
     }
