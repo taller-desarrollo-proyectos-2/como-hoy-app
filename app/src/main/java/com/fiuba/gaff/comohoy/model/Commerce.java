@@ -2,6 +2,7 @@ package com.fiuba.gaff.comohoy.model;
 
 import android.graphics.Bitmap;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Commerce {
@@ -19,11 +20,14 @@ public class Commerce {
 
     private Bitmap mPicture;
 
-    private List<String> mCategories;
+    private List<Category> mCategories;
     private List<Plate> mPlates;
 
-    public Commerce(String name) {
+    public Commerce(int id, String name) {
+        mId = id;
         mName = name;
+        mCategories = new ArrayList<>();
+        mPlates = new ArrayList<>();
         mLocation = new Location();
     }
 
@@ -120,11 +124,11 @@ public class Commerce {
         this.mLocation = location;
     }
 
-    public List<String> getCategories() {
+    public List<Category> getCategories() {
         return mCategories;
     }
 
-    public void setCategories(List<String> categories) {
+    public void setCategories(List<Category> categories) {
         this.mCategories = categories;
     }
 

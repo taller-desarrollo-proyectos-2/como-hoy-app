@@ -3,18 +3,33 @@ package com.fiuba.gaff.comohoy.model;
 import android.graphics.Bitmap;
 import android.support.design.internal.BottomNavigationItemView;
 
+import java.util.List;
+
 public class Plate {
+    private Long mId;
     private String mName;
     private String mDescription;
     private int mPrice;
+    private List<Category> mCategories;
     private Bitmap mPicture;
 
-    public Plate() {}
+    public Plate(Long id) {
+        mId = id;
+    }
 
-    public Plate (String name, String description, int price) {
+    public Plate (Long id, String name, String description, int price) {
+        mId = id;
         mName = name;
         mDescription = description;
         mPrice = price;
+    }
+
+    public Long getId() {
+        return mId;
+    }
+
+    public void setId(Long id) {
+        this.mId = id;
     }
 
     public String getName() {
@@ -39,6 +54,14 @@ public class Plate {
 
     public void setPrice(int price) {
         this.mPrice = price;
+    }
+
+    public List<Category> getCategories() {
+        return mCategories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.mCategories = categories;
     }
 
     public Bitmap getPicture() {

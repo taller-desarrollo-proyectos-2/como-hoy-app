@@ -1,6 +1,8 @@
 package com.fiuba.gaff.comohoy.adapters;
 
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.widget.CardView;
@@ -14,6 +16,7 @@ import android.widget.TextView;
 import com.fiuba.gaff.comohoy.CommercesListFragment;
 import com.fiuba.gaff.comohoy.R;
 import com.fiuba.gaff.comohoy.model.Commerce;
+import com.fiuba.gaff.comohoy.model.CommerceMenu;
 
 import java.util.List;
 
@@ -70,17 +73,10 @@ public class CommerceListAdapter extends RecyclerView.Adapter<CommerceListAdapte
     public void onBindViewHolder(final CommerceViewHolder holder, int position) {
         final Commerce commerce = mCommerces.get(position);
 
-        Bitmap originalBitmap = commerce.getPicture();
-        if (originalBitmap.getWidth() > originalBitmap.getHeight()){
-            originalBitmap = Bitmap.createBitmap(originalBitmap, 0, 0, originalBitmap.getHeight(), originalBitmap.getHeight());
-        }else if (originalBitmap.getWidth() < originalBitmap.getHeight()) {
-            originalBitmap = Bitmap.createBitmap(originalBitmap, 0, 0, originalBitmap.getWidth(), originalBitmap.getWidth());
-        }
-        RoundedBitmapDrawable roundedDrawable = RoundedBitmapDrawableFactory.create(
-                holder.mView.getContext().getResources(), originalBitmap);
-        roundedDrawable.setCornerRadius(originalBitmap.getHeight());
+        Bitmap commercePictureBitmap = commerce.getPicture();
+        Drawable commercePictureDrawable = getCommercePictureDrawable(commercePictureBitmap, holder.mView.getContext());
 
-        holder.mPicture.setImageDrawable(roundedDrawable);
+        holder.mPicture.setImageDrawable(commercePictureDrawable);
         //holder.mPicture.setImageBitmap(commerce.getPicture());
         holder.mName.setText(commerce.getShowableName());
         holder.mDescription.setText(commerce.getDescription());
@@ -109,5 +105,19 @@ public class CommerceListAdapter extends RecyclerView.Adapter<CommerceListAdapte
     @Override
     public int getItemCount() {
         return mCommerces.size();
+    }
+
+    private Drawable getCommercePictureDrawable (Bitmap pictureBitmap, Context context) {
+        RoundedBitmapDrawable roundedDrawable = null;
+        if (pictureBitmap != null) {
+            if (pictureBitmap.getWidth() > pictureBitmap.getHeight()) {
+                pictureBitmap = Bitmap.createBitmap(pictureBitmap, 0, 0, pictureBitmap.getHeight(), pictureBitmap.getHeight());
+            } else if (pictureBitmap.getWidth() < pictureBitmap.getHeight()) {
+                pictureBitmap = Bitmap.createBitmap(pictureBitmap, 0, 0, pictureBitmap.getWidth(), pictureBitmap.getWidth());
+            }
+            roundedDrawable = RoundedBitmapDrawableFactory.create(context.getResources(), pictureBitmap);
+            roundedDrawable.setCornerRadius(pictureBitmap.getHeight());
+        }
+        return roundedDrawable;
     }
 }
