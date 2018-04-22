@@ -12,5 +12,6 @@
     <color name="verde">#52ff01</color>
     <color name="celeste">#02ddf5</color>
     <color name="verde_py">#fd00ffbb</color>
+    <color name="blanco">#fdfdfdfd</color>
 
 </resources>

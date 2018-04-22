@@ -55,14 +55,57 @@
                 android:text="Cantidad"
                 android:textSize="18sp"
                 android:textStyle="bold"/>
+
+            <EditText
+                android:id="@+id/number_of_plates"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/numer_of_plates"
+                android:inputType="number" />
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:gravity="left"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Extras"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
+                <ImageButton
+                    android:background="@color/blanco"
+                    android:id="@+id/desplegar_opciones"
+                    android:src="@drawable/ic_add"
+                    android:gravity="right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
             <TextView
-                android:text="1"
+                android:text="Opcional"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
     </android.support.v7.widget.CardView>
 
     <android.support.v7.widget.CardView
+        android:layout_marginTop="5dp"
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
         android:layout_width="match_parent"
@@ -74,34 +117,23 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Extras"
+                android:text="Añadir aclaraciones"
                 android:textSize="18sp"
                 android:textStyle="bold"/>
-            <TextView
-                android:text="Opcional"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+            <EditText
+                android:id="@+id/aclaraciones_plate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/aclaraciones_plate"
+                android:inputType="text" />
         </LinearLayout>
-    </android.support.v7.widget.CardView>
-
-    <android.support.v7.widget.CardView
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Añadir aclaraciones"
-            android:textSize="18sp"
-            android:textStyle="bold"/>
     </android.support.v7.widget.CardView>
 
 
     <Button
+        android:id="@+id/agregar_plato_pedido"
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="140dp"
         android:gravity="bottom"
         android:text="Agregar a mi pedido ($179)"
         android:layout_gravity="center_horizontal"
