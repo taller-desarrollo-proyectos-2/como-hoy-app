@@ -6,7 +6,9 @@ import android.content.Context;
 import com.fiuba.gaff.comohoy.services.ServiceLocator;
 import com.fiuba.gaff.comohoy.services.commerces.BaseCommercesService;
 import com.fiuba.gaff.comohoy.services.commerces.CommercesService;
+import com.fiuba.gaff.comohoy.services.commerces.InformationPlateService;
 import com.fiuba.gaff.comohoy.services.commerces.MockCommercesService;
+import com.fiuba.gaff.comohoy.services.commerces.MockInformationPlate;
 import com.fiuba.gaff.comohoy.services.facebook.BaseFacebookService;
 import com.fiuba.gaff.comohoy.services.facebook.FacebookService;
 
@@ -24,6 +26,7 @@ public class ComoHoyApplication extends Application {
         ServiceLocator.init(applicationContext);
         ServiceLocator.bindCustomServiceImplementation(FacebookService.class, BaseFacebookService.class);
         ServiceLocator.bindCustomServiceImplementation(CommercesService.class, MockCommercesService.class);
+        ServiceLocator.bindCustomServiceImplementation(InformationPlateService.class, MockInformationPlate.class);
     }
 
 }

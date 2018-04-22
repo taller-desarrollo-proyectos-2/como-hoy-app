@@ -13,7 +13,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/txtNombrePlato"
+            android:id="@+id/txtNombreInfoPlato"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -23,7 +23,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/txtPrecioPlato"
+            android:id="@+id/txtPrecioInfoPlato"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="2"
@@ -31,6 +31,7 @@
             android:text="$179" />
     </LinearLayout>
     <TextView
+        android:id="@+id/txtDescInfoPlato"
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="30dp"

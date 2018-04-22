@@ -8,8 +8,10 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.fiuba.gaff.comohoy.model.Commerce;
+import com.fiuba.gaff.comohoy.model.Plate;
 
-public class MainActivity extends AppCompatActivity implements CommercesListFragment.CommerceListListener {
+public class MainActivity extends AppCompatActivity implements CommercesListFragment.CommerceListListener,
+                                                                InformationPlateFragment.InformationPlateListener{
 
     private TextView mTextMessage;
 
@@ -28,5 +30,9 @@ public class MainActivity extends AppCompatActivity implements CommercesListFrag
                 makeSceneTransitionAnimation(this, commerceTitleTextView, getString(R.string.transition_commerce_title));
 
         startActivity(intent, options.toBundle());
+    }
+
+    @Override
+    public void onInformationPlateClicked(Plate plate, View informationPlateTitleTextView) {
     }
 }

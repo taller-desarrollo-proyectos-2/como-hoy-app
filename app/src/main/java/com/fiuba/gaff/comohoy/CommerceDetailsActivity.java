@@ -203,8 +203,17 @@ public class CommerceDetailsActivity extends AppCompatActivity {
     }
 
     private void showPlateClicked(Plate plate) {
-        String message = "clicked " + plate.getName();
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent();
+        intent.setClass(CommerceDetailsActivity.this, InfoPlateActivity.class);
+        Bundle extras = new Bundle();
+        extras.putString("Nombre",plate.getName());
+        extras.putString("Descripcion",plate.getDescription());
+        extras.putString("Precio",String.valueOf(plate.getPrice()));
+        intent.putExtras(extras);
+        startActivity(intent);
+
+        //String message = "clicked " + plate.getName();
+        //Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     private CommercesService getCommerceService() {

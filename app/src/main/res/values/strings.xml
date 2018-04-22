@@ -21,6 +21,8 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_activity_more_info">Mas Información</string>
+    <string name="title_activity_more_info_plate">Mas Información del Plato</string>
+
 
     <!-- Transitions -->
     <string name="transition_commerce_title">commerceTitleTransition</string>
