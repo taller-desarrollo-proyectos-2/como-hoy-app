@@ -7,7 +7,11 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
 
+import com.fiuba.gaff.comohoy.model.Category;
 import com.fiuba.gaff.comohoy.model.Commerce;
+import com.fiuba.gaff.comohoy.model.Extra;
+import com.fiuba.gaff.comohoy.model.Location;
+import com.fiuba.gaff.comohoy.model.Plate;
 import com.fiuba.gaff.comohoy.networking.DownloadCallback;
 import com.fiuba.gaff.comohoy.networking.HttpMethodType;
 import com.fiuba.gaff.comohoy.networking.NetworkFragment;
@@ -99,14 +103,82 @@ public class BaseCommercesService implements CommercesService {
     private void getCommercesFromResponse(String response) throws JSONException {
         JSONArray commercesJson = new JSONArray(response);
         for(int i = 0; i < commercesJson.length(); i++) {
-            JSONObject currCommerceJson = commercesJson.getJSONObject(i);
-            String businessName = currCommerceJson.getString("businessName");
-            String name = currCommerceJson.getString("name");
-            int id = currCommerceJson.getInt("id");
-            Commerce commerce = new Commerce(id, name);
-            commerce.setBusinessName(businessName);
-            mCommerces.put(id, commerce);
+            JSONObject commerceJson = commercesJson.getJSONObject(i);
+
+            int commerceId = commerceJson.getInt("id");
+            Commerce commerce = new Commerce(commerceId);
+            commerce.setName(commerceJson.getString("name"));
+            commerce.setBusinessName(commerceJson.getString("businessName"));
+            commerce.setCategories(getCommerceCategories(commerceJson));
+            commerce.setPlates(getCommercePlates(commerceJson));
+            commerce.setmLocation(getCommerceLocation(commerceJson));
+
+            mCommerces.put(commerceId, commerce);
         }
+    }
+
+    private Location getCommerceLocation(JSONObject commerceJson) throws  JSONException {
+        JSONObject locationObject = commerceJson.getJSONObject("location");
+        double lat = locationObject.getDouble("lat");
+        double lon = locationObject.getDouble("lng");
+        return new Location(lat, lon);
+    }
+
+    private List<Category> getCommerceCategories(JSONObject commerceJson) throws  JSONException {
+        List<Category> categories = new ArrayList<>();
+        JSONArray categoriesArray = commerceJson.getJSONArray("categories");
+        for(int i = 0; i < categoriesArray.length(); i++) {
+            JSONObject categoryObject = categoriesArray.getJSONObject(i);
+            Long id = categoryObject.getLong("id");
+            String name = categoryObject.getString("name");
+            Category category = new Category(id, name);
+            categories.add(category);
+        }
+        return categories;
+    }
+
+    private List<Plate> getCommercePlates(JSONObject commerceJson) {
+        List<Plate> plates = new ArrayList<>();
+        try {
+            JSONArray platesArray = commerceJson.getJSONArray("plates");
+            int a = platesArray.length();
+            for (int i = 0; i < platesArray.length(); ++i) {
+                JSONObject plateJson = platesArray.getJSONObject(i);
+                Plate plate = new Plate(plateJson.getLong("id"));
+                plate.setName(plateJson.getString("name"));
+                plate.setPrice(plateJson.getDouble("price"));
+                plate.setCategories(getPlateCategories(plateJson));
+                plate.setExtras(getPlateExtras(plateJson));
+
+                plates.add(plate);
+            }
+        } catch (JSONException e) {
+            Log.e("CommerceService", "Error parsing plates: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return plates;
+    }
+
+    private List<Category> getPlateCategories(JSONObject plateJson) throws JSONException {
+        List<Category> categories = new ArrayList<>();
+        JSONObject categotyObject = plateJson.getJSONObject("category");
+        Long id = categotyObject.getLong("id");
+        String name = categotyObject.getString("name");
+        Category category = new Category(id, name);
+        categories.add(category);
+        return categories;
+    }
+
+    private List<Extra> getPlateExtras(JSONObject plateJson) throws  JSONException {
+        List<Extra> extras = new ArrayList<>();
+        /*JSONArray extrasArray = plateJson.getJSONArray("optionals");
+        for(int i = 0; i < extrasArray.length(); i++) {
+            JSONObject extraObject = extrasArray.getJSONObject(i);
+            Long id = extraObject.getLong("id");
+            Extra extra = new Extra(id);
+            extras.add(extra);
+        }*/
+        return extras;
     }
 
 }

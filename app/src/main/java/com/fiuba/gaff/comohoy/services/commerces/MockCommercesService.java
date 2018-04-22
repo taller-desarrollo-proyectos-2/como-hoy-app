@@ -36,7 +36,8 @@ public class MockCommercesService implements CommercesService {
     }
 
     private Commerce createCommerce(int id) {
-        Commerce commerce = new Commerce(id, "Comercio " + id);
+        Commerce commerce = new Commerce(id);
+        commerce.setName("Comercio " + id);
         commerce.setDescription("Comercio autogenerado " + id);
         boolean hasDiscount = (RandomUtils.getIntBetween(0, 1) == 1);
         int discount = getRandomDiscount();

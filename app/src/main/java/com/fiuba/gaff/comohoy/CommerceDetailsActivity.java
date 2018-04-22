@@ -120,7 +120,6 @@ public class CommerceDetailsActivity extends AppCompatActivity {
         CommerceMenuItem item1 = new CommerceMenuItem();
 
         HashMap<String, List<Plate>> platesByCategory = new HashMap<>();
-        addCategoriesToMap(platesByCategory);
         assignPlatesToCategories(platesByCategory);
 
         CommerceMenu commerceMenu = createCommerceMenu(platesByCategory);
@@ -129,13 +128,6 @@ public class CommerceDetailsActivity extends AppCompatActivity {
         for (CommerceMenuItem subMenu : menuItems) {
             View submenuView = createSubMenu(subMenu);
             mMenuLayout.addView(submenuView);
-        }
-    }
-
-    private void addCategoriesToMap(HashMap<String, List<Plate>> platesByCategory) {
-        List<Category> categories = getCommerce().getCategories();
-        for (Category category : categories) {
-            platesByCategory.put(category.getName(), new ArrayList<Plate>());
         }
     }
 
@@ -148,6 +140,12 @@ public class CommerceDetailsActivity extends AppCompatActivity {
                 String categoryName = category.getName();
                 if (platesByCategory.containsKey(categoryName)) {
                     platesByCategory.get(categoryName).add(plate);
+                }
+                else {
+                    // If map doesnt have the categoty, add it
+                    List<Plate> categoryPlates = new ArrayList<Plate>();
+                    categoryPlates.add(plate);
+                    platesByCategory.put(categoryName, categoryPlates);
                 }
             }
         }

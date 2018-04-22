@@ -9,15 +9,16 @@ public class Plate {
     private Long mId;
     private String mName;
     private String mDescription;
-    private int mPrice;
+    private double mPrice;
     private List<Category> mCategories;
+    private List<Extra> mExtras;
     private Bitmap mPicture;
 
     public Plate(Long id) {
         mId = id;
     }
 
-    public Plate (Long id, String name, String description, int price) {
+    public Plate (Long id, String name, String description, double price) {
         mId = id;
         mName = name;
         mDescription = description;
@@ -48,11 +49,11 @@ public class Plate {
         this.mDescription = description;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return mPrice;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(double price) {
         this.mPrice = price;
     }
 
@@ -70,5 +71,13 @@ public class Plate {
 
     public void setPicture(Bitmap picture) {
         this.mPicture = picture;
+    }
+
+    public List<Extra> getExtras() {
+        return mExtras;
+    }
+
+    public void setExtras(List<Extra> extras) {
+        this.mExtras = extras;
     }
 }

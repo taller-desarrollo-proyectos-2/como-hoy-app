@@ -61,7 +61,7 @@ public class MenuItemListAdapter extends RecyclerView.Adapter<MenuItemListAdapte
         //holder.mPicture.setImageBitmap(commerce.getPicture());
         holder.mPlateName.setText(plate.getName());
         holder.mDescription.setText(plate.getDescription());
-        String price = String.format(Locale.ENGLISH,"$%d", plate.getPrice());
+        String price = String.format(Locale.ENGLISH,"$%.2f", plate.getPrice());
         holder.mPrice.setText(price);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {

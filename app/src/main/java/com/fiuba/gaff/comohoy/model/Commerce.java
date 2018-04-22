@@ -23,12 +23,10 @@ public class Commerce {
     private List<Category> mCategories;
     private List<Plate> mPlates;
 
-    public Commerce(int id, String name) {
+    public Commerce(int id) {
         mId = id;
-        mName = name;
         mCategories = new ArrayList<>();
         mPlates = new ArrayList<>();
-        mLocation = new Location();
     }
 
     public int getId() {
