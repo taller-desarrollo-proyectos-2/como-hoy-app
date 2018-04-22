@@ -26,7 +26,7 @@ public class ComoHoyApplication extends Application {
         ServiceLocator.init(applicationContext);
         ServiceLocator.bindCustomServiceImplementation(FacebookService.class, BaseFacebookService.class);
         ServiceLocator.bindCustomServiceImplementation(CommercesService.class, MockCommercesService.class);
-        ServiceLocator.bindCustomServiceImplementation(InformationPlateService.class, MockInformationPlate.class);
+        //ServiceLocator.bindCustomServiceImplementation(InformationPlateService.class, MockInformationPlate.class);
     }
 
 }
