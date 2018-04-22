@@ -12,6 +12,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -27,9 +28,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.io.IOException;
 import java.util.List;
 
-public class MapsRestaurantActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class MoreInfoActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 10;
+    private static final String LOG_TAG = "MoreInfoActivity";
 
     private GoogleMap mMap;
 
@@ -70,15 +72,17 @@ public class MapsRestaurantActivity extends AppCompatActivity implements OnMapRe
         try {
             address = coder.getFromLocationName(strAddress, 5);
             if (address == null) {
+                Log.e(LOG_TAG, "Error getting location from " + strAddress);
                 return null;
             }
-            Address location=address.get(0);
+            Address location = address.get(0);
             location.getLatitude();
             location.getLongitude();
-            p1 = new LatLng((double) (location.getLatitude() * 1E6),
-                    (double) (location.getLongitude() * 1E6));
+            p1 = new LatLng((location.getLatitude() * 1E6),
+                    (location.getLongitude() * 1E6));
         }
         catch (IOException ex) {
+            Log.e(LOG_TAG, "Error getting location from " + strAddress + ": " + ex.getMessage());
             ex.printStackTrace();
         }
         return p1;
@@ -92,10 +96,14 @@ public class MapsRestaurantActivity extends AppCompatActivity implements OnMapRe
         UiSettings uiSettings = mMap.getUiSettings();
         uiSettings.setZoomControlsEnabled(true);
 
-    // Add a marker in Sydney and move the camera
+        //LatLng location = null;
+        //try {
+        //    location = getLocationFromAddress("Avenida Paseo Colón, Buenos Aires 850");
+        //}catch(IOException ex) {
+            //Do something with the exception
+        //}
 
         LatLng location = new LatLng(-34.617290, -58.367846); //PACEO COLON 850
-
         mMap.addMarker(new MarkerOptions().position(location).title("Mi item_comercio0").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
         float zoomLevel = 16;
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location,zoomLevel));

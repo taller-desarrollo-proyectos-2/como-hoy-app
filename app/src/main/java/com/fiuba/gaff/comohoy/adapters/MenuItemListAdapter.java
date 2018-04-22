@@ -39,7 +39,7 @@ public class MenuItemListAdapter extends RecyclerView.Adapter<MenuItemListAdapte
             //mPicture = (ImageView) itemView.findViewById(R.id.imagenComercio);
             mPlateName = (TextView) itemView.findViewById(R.id.textview_plate_name);
             mDescription = (TextView) itemView.findViewById(R.id.text_view_plate_desc);
-            mPrice = (TextView) itemView.findViewById(R.id.text_view_price);
+            mPrice = (TextView) itemView.findViewById(R.id.text_view_order_status);
         }
     }
 
@@ -50,7 +50,7 @@ public class MenuItemListAdapter extends RecyclerView.Adapter<MenuItemListAdapte
 
     @Override
     public MenuItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.plato, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.plate_item, parent, false);
         MenuItemViewHolder menuItemViewHolder = new MenuItemViewHolder(v);
         return menuItemViewHolder;
     }

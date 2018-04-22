@@ -1,5 +1,8 @@
 package com.fiuba.gaff.comohoy.adapters;
 
+import android.graphics.Bitmap;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -66,7 +69,19 @@ public class CommerceListAdapter extends RecyclerView.Adapter<CommerceListAdapte
     @Override
     public void onBindViewHolder(final CommerceViewHolder holder, int position) {
         final Commerce commerce = mCommerces.get(position);
-        holder.mPicture.setImageBitmap(commerce.getPicture());
+
+        Bitmap originalBitmap = commerce.getPicture();
+        if (originalBitmap.getWidth() > originalBitmap.getHeight()){
+            originalBitmap = Bitmap.createBitmap(originalBitmap, 0, 0, originalBitmap.getHeight(), originalBitmap.getHeight());
+        }else if (originalBitmap.getWidth() < originalBitmap.getHeight()) {
+            originalBitmap = Bitmap.createBitmap(originalBitmap, 0, 0, originalBitmap.getWidth(), originalBitmap.getWidth());
+        }
+        RoundedBitmapDrawable roundedDrawable = RoundedBitmapDrawableFactory.create(
+                holder.mView.getContext().getResources(), originalBitmap);
+        roundedDrawable.setCornerRadius(originalBitmap.getHeight());
+
+        holder.mPicture.setImageDrawable(roundedDrawable);
+        //holder.mPicture.setImageBitmap(commerce.getPicture());
         holder.mName.setText(commerce.getShowableName());
         holder.mDescription.setText(commerce.getDescription());
         holder.mRating.setText(commerce.getRating());

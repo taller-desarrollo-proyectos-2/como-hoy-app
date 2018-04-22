@@ -8,8 +8,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.fiuba.gaff.comohoy.model.Commerce;
+import com.fiuba.gaff.comohoy.model.Plate;
 
-public class MainActivity extends AppCompatActivity implements CommercesListFragment.CommerceListListener {
+public class MainActivity extends AppCompatActivity implements CommercesListFragment.CommerceListListener{
 
     private TextView mTextMessage;
 
@@ -29,4 +30,5 @@ public class MainActivity extends AppCompatActivity implements CommercesListFrag
 
         startActivity(intent, options.toBundle());
     }
+
 }
