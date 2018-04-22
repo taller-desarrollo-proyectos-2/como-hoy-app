@@ -1,11 +1,8 @@
 package com.fiuba.gaff.comohoy;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -14,17 +11,16 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class InfoPlateActivity extends AppCompatActivity {
+public class OrderPlateActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.information_plato);
+        setContentView(R.layout.activity_order_plate);
 
         TextView nombrePlato = (TextView)findViewById(R.id.txtNombreInfoPlato);
         TextView descriPlato = (TextView)findViewById(R.id.txtDescInfoPlato);
@@ -49,7 +45,7 @@ public class InfoPlateActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                final Dialog dialog = new Dialog(InfoPlateActivity.this);
+                final Dialog dialog = new Dialog(OrderPlateActivity.this);
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setContentView(R.layout.opciones_extra_plato);
                 List<String> stringList=new ArrayList<>();  // here is list
@@ -58,7 +54,7 @@ public class InfoPlateActivity extends AppCompatActivity {
                 }
                 RadioGroup rg = (RadioGroup) dialog.findViewById(R.id.id_opciones_extra_plato);
                 for(int i=0;i<stringList.size();i++){
-                    RadioButton rb=new RadioButton(InfoPlateActivity.this); // dynamically creating RadioButton and adding to RadioGroup.
+                    RadioButton rb=new RadioButton(OrderPlateActivity.this); // dynamically creating RadioButton and adding to RadioGroup.
                     rb.setText(stringList.get(i));
                     rg.addView(rb);
                 }

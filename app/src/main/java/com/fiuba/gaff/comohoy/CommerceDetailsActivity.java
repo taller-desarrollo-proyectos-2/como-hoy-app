@@ -2,7 +2,6 @@ package com.fiuba.gaff.comohoy;
 
 import android.content.Intent;
 import android.os.Build;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -14,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.fiuba.gaff.comohoy.adapters.MenuItemListAdapter;
 import com.fiuba.gaff.comohoy.model.Commerce;
@@ -204,7 +202,7 @@ public class CommerceDetailsActivity extends AppCompatActivity {
 
     private void showPlateClicked(Plate plate) {
         Intent intent = new Intent();
-        intent.setClass(CommerceDetailsActivity.this, InfoPlateActivity.class);
+        intent.setClass(CommerceDetailsActivity.this, OrderPlateActivity.class);
         Bundle extras = new Bundle();
         extras.putString("Nombre",plate.getName());
         extras.putString("Descripcion",plate.getDescription());

@@ -91,7 +91,7 @@
         </activity>
 
         <activity
-            android:name=".InfoPlateActivity"
+            android:name=".OrderPlateActivity"
             android:screenOrientation="portrait"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_more_info_plate" >

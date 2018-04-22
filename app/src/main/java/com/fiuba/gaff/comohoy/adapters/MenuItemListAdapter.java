@@ -39,7 +39,7 @@ public class MenuItemListAdapter extends RecyclerView.Adapter<MenuItemListAdapte
             //mPicture = (ImageView) itemView.findViewById(R.id.imagenComercio);
             mPlateName = (TextView) itemView.findViewById(R.id.textview_plate_name);
             mDescription = (TextView) itemView.findViewById(R.id.text_view_plate_desc);
-            mPrice = (TextView) itemView.findViewById(R.id.text_view_price);
+            mPrice = (TextView) itemView.findViewById(R.id.text_view_order_status);
         }
     }
 

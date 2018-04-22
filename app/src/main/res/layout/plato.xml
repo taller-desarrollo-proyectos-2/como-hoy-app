@@ -46,7 +46,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/text_view_price"
+            android:id="@+id/text_view_order_status"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="7"

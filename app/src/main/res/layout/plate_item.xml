@@ -60,7 +60,7 @@
             card_view:layout_constraintVertical_bias="1.0" />
 
         <TextView
-            android:id="@+id/text_view_price"
+            android:id="@+id/text_view_order_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -80,7 +80,7 @@
             android:text="$50"
             android:visibility="gone"
             card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintTop_toBottomOf="@+id/text_view_price" />
+            card_view:layout_constraintTop_toBottomOf="@+id/text_view_order_status" />
 
         <ImageButton
             android:id="@+id/icon_celiac_plate"
