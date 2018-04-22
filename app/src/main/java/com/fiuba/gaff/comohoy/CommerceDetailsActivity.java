@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fiuba.gaff.comohoy.adapters.MenuItemListAdapter;
 import com.fiuba.gaff.comohoy.model.Commerce;
@@ -203,11 +204,8 @@ public class CommerceDetailsActivity extends AppCompatActivity {
     private void showPlateClicked(Plate plate) {
         Intent intent = new Intent();
         intent.setClass(CommerceDetailsActivity.this, OrderPlateActivity.class);
-        Bundle extras = new Bundle();
-        extras.putString("Nombre",plate.getName());
-        extras.putString("Descripcion",plate.getDescription());
-        extras.putString("Precio",String.valueOf(plate.getPrice()));
-        intent.putExtras(extras);
+        intent.putExtra(getString(R.string.intent_data_commerce_id), mCommerceId);
+        intent.putExtra(getString(R.string.intent_data_plate_id), plate.getId());
         startActivity(intent);
 
         //String message = "clicked " + plate.getName();

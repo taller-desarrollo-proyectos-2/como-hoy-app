@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.support.design.internal.BottomNavigationItemView;
 
 public class Plate {
+    private Long mId;
     private String mName;
     private String mDescription;
     private int mPrice;
@@ -15,6 +16,14 @@ public class Plate {
         mName = name;
         mDescription = description;
         mPrice = price;
+    }
+
+    public Long getId() {
+        return mId;
+    }
+
+    public void setId(Long id) {
+        this.mId = id;
     }
 
     public String getName() {

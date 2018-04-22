@@ -32,4 +32,5 @@
 
     <!-- Transitions -->
     <string name="intent_data_commerce_id">commerceTitleTransition</string>
+    <string name="intent_data_plate_id">commerceTitleTransition</string>
 </resources>
