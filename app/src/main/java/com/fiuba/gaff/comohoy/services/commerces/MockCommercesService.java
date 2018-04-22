@@ -44,7 +44,7 @@ public class MockCommercesService implements CommercesService {
         if (hasDiscount) {
             commerce.setDiscounts(String.format("%%d off en empanadas de ensalada", discount));
         }
-        commerce.setRating(String.format("%.1f", RandomUtils.getDoubleBetween(1.0, 5.0)));
+        commerce.setRating(RandomUtils.getDoubleBetween(1.0, 5.0));
         commerce.setShippingCost(String.format("$%d", RandomUtils.getIntBetween(10, 250)));
 
         int minShippingTime = RandomUtils.getIntBetween(10, 45);

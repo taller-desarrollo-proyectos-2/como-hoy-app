@@ -16,18 +16,15 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.fiuba.gaff.comohoy.adapters.CommerceListAdapter;
-import com.fiuba.gaff.comohoy.filters.CalificationFilter;
+import com.fiuba.gaff.comohoy.filters.RatingFilter;
 import com.fiuba.gaff.comohoy.model.Commerce;
 import com.fiuba.gaff.comohoy.services.ServiceLocator;
 import com.fiuba.gaff.comohoy.services.commerces.CommercesService;
 import com.fiuba.gaff.comohoy.services.commerces.UpdateCommercesCallback;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CommercesListFragment extends Fragment {
@@ -66,46 +63,7 @@ public class CommercesListFragment extends Fragment {
 
         getCommercesService().updateCommercesData(getActivity(), createOnUpdatedCommercesCallback());
 
-        FloatingActionButton filterButton =  view.findViewById(R.id.filter);
-        filterButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final Dialog dialog = new Dialog(getContext());
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setContentView(R.layout.filters);
-                dialog.show();
-                WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-                Window window = dialog.getWindow();
-                lp.copyFrom(window.getAttributes());
-                lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-                lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-                window.setAttributes(lp);
-
-                Button filterbutton= (Button) dialog.findViewById(R.id.button_confirm_filtrar);
-                filterbutton.setOnClickListener(new View.OnClickListener(){
-                    @Override
-                    public void onClick(View v) {
-                        //CheckBox filtroPuntaje = (CheckBox) v.findElementById(R.id.id_filtro_puntaje);
-                        if(((CheckBox) dialog.findViewById(R.id.id_filtro_puntaje)).isChecked()){
-
-                            mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                            CommercesService commercesService = getCommercesService();
-                            List<Commerce> commerces = commercesService.getCommerces();
-                            EditText strpuntajeFiltrar = (EditText) dialog.findViewById(R.id.puntajeafiltrar);
-                            float puntajeFiltrar = Float.valueOf(strpuntajeFiltrar.getText().toString());
-
-                            CalificationFilter filtroCalificaciones = new CalificationFilter(commerces,puntajeFiltrar);
-                            List<Commerce> listaComercioFiltrada = filtroCalificaciones.apply(commerces);
-
-                            mRecyclerView.setAdapter(new CommerceListAdapter(listaComercioFiltrada, mCommerceListListener));
-                            if (commerces.size() < 1) {
-                                Toast.makeText(getContext(), "No contamos con comercios en este momento", Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    }
-                });
-            }
-        });
+        setUpFilterButton(view);
 
         return view;
     }
@@ -127,10 +85,8 @@ public class CommercesListFragment extends Fragment {
         mCommerceListListener = null;
     }
 
-    private void loadCommerces() {
+    private void loadCommerces(List<Commerce> commerces) {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        CommercesService commercesService = getCommercesService();
-        List<Commerce> commerces = commercesService.getCommerces();
         mRecyclerView.setAdapter(new CommerceListAdapter(commerces, mCommerceListListener));
         if (commerces.size() < 1) {
             Toast.makeText(getContext(), "No contamos con comercios en este momento", Toast.LENGTH_LONG).show();
@@ -150,7 +106,7 @@ public class CommercesListFragment extends Fragment {
         return new UpdateCommercesCallback() {
             @Override
             public void onCommercesUpdated() {
-                loadCommerces();
+                loadCommerces(getCommercesService().getCommerces());
                 showProgress(false);
             }
 
@@ -160,5 +116,53 @@ public class CommercesListFragment extends Fragment {
                 showProgress(false);
             }
         };
+    }
+
+    private void setUpFilterButton(View fragmentView) {
+        FloatingActionButton filterButton =  fragmentView.findViewById(R.id.filter);
+        filterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Dialog dialog = new Dialog(getContext());
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(R.layout.filters);
+                dialog.show();
+
+                WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                Window window = dialog.getWindow();
+                lp.copyFrom(window.getAttributes());
+                lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+                lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+                window.setAttributes(lp);
+
+                Button filterButton= (Button) dialog.findViewById(R.id.button_confirm_filtrar);
+                filterButton.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v) {
+                        if(((CheckBox) dialog.findViewById(R.id.id_filtro_puntaje)).isChecked()){
+                            List<Commerce> commerces = getCommercesService().getCommerces();
+
+                            EditText ratingFilterEditText = dialog.findViewById(R.id.edittext_puntaje_ingresado);
+                            String enteredValue = ratingFilterEditText.getText().toString();
+                            double puntajeFiltrar = 0;
+                            if(enteredValue != null && !enteredValue.isEmpty()) {
+                                puntajeFiltrar = Double.parseDouble(ratingFilterEditText.getText().toString());
+                            } else {
+                                String hintText = ratingFilterEditText.getHint().toString();
+                                if (!hintText.isEmpty()){
+                                    puntajeFiltrar = Double.parseDouble(hintText);
+                                }
+                            }
+
+                            RatingFilter ratingFilter = new RatingFilter(puntajeFiltrar);
+                            List<Commerce> filteredList = ratingFilter.apply(commerces);
+
+                            loadCommerces(filteredList);
+                            dialog.dismiss();
+                        }
+                    }
+                });
+            }
+        });
     }
 }

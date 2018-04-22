@@ -80,7 +80,7 @@ public class CommerceListAdapter extends RecyclerView.Adapter<CommerceListAdapte
         //holder.mPicture.setImageBitmap(commerce.getPicture());
         holder.mName.setText(commerce.getShowableName());
         holder.mDescription.setText(commerce.getDescription());
-        holder.mRating.setText(commerce.getRating());
+        holder.mRating.setText(String.format("%.1f", commerce.getRating()));
         holder.mOrdersAmount.setText(commerce.getOrdersAmount());
         holder.mShippingTime.setText(commerce.getShippingTime());
         holder.mShippingCost.setText(commerce.getShippingCost());

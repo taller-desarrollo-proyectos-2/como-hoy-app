@@ -11,12 +11,12 @@ public class Commerce {
     private String mBusinessName = "";
     private String mName = "";
     private String mDescription = "";
-    private String mRating = "";
     private String mOrdersAmount = "";
     private String mShippingTime = "";
     private String mShippingCost = "";
     private String mDiscounts = "";
     private Location mLocation;
+    private double mRating;
 
     private Bitmap mPicture;
 
@@ -66,11 +66,11 @@ public class Commerce {
         this.mDescription = description;
     }
 
-    public String getRating() {
+    public double getRating() {
         return mRating;
     }
 
-    public void setRating(String rating) {
+    public void setRating(double rating) {
         this.mRating = rating;
     }
 
