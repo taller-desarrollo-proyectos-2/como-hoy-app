@@ -25,6 +25,7 @@
 
     <string name="numer_of_plates">1</string>
     <string name="aclaraciones_plate">Opcional</string>
+    <string name="puntajeFiltrar">3</string>
 
 
     <!-- Transitions -->

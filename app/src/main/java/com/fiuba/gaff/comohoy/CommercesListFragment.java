@@ -1,30 +1,35 @@
 package com.fiuba.gaff.comohoy;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.fiuba.gaff.comohoy.adapters.CommerceListAdapter;
+import com.fiuba.gaff.comohoy.filters.CalificationFilter;
 import com.fiuba.gaff.comohoy.model.Commerce;
 import com.fiuba.gaff.comohoy.services.ServiceLocator;
 import com.fiuba.gaff.comohoy.services.commerces.CommercesService;
 import com.fiuba.gaff.comohoy.services.commerces.UpdateCommercesCallback;
 
+import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A fragment representing a list of Items.
- * <p/>
- * Activities containing this fragment MUST implement the {@link CommerceListListener}
- * interface.
- */
 public class CommercesListFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
@@ -32,24 +37,10 @@ public class CommercesListFragment extends Fragment {
 
     private CommerceListListener mCommerceListListener;
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface CommerceListListener {
         void onCommerceClicked(Commerce commerce, View commerceTitleTextView);
     }
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
     public CommercesListFragment() {
     }
 
@@ -74,6 +65,48 @@ public class CommercesListFragment extends Fragment {
         showProgress(true);
 
         getCommercesService().updateCommercesData(getActivity(), createOnUpdatedCommercesCallback());
+
+        FloatingActionButton filterButton =  view.findViewById(R.id.filter);
+        filterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Dialog dialog = new Dialog(getContext());
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(R.layout.filters);
+                dialog.show();
+                WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                Window window = dialog.getWindow();
+                lp.copyFrom(window.getAttributes());
+                lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+                lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+                window.setAttributes(lp);
+
+                Button filterbutton= (Button) dialog.findViewById(R.id.button_confirm_filtrar);
+                filterbutton.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v) {
+                        //CheckBox filtroPuntaje = (CheckBox) v.findElementById(R.id.id_filtro_puntaje);
+                        if(((CheckBox) dialog.findViewById(R.id.id_filtro_puntaje)).isChecked()){
+
+                            mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                            CommercesService commercesService = getCommercesService();
+                            List<Commerce> commerces = commercesService.getCommerces();
+                            EditText strpuntajeFiltrar = (EditText) dialog.findViewById(R.id.puntajeafiltrar);
+                            float puntajeFiltrar = Float.valueOf(strpuntajeFiltrar.getText().toString());
+
+                            CalificationFilter filtroCalificaciones = new CalificationFilter(commerces,puntajeFiltrar);
+                            List<Commerce> listaComercioFiltrada = filtroCalificaciones.apply(commerces);
+
+                            mRecyclerView.setAdapter(new CommerceListAdapter(listaComercioFiltrada, mCommerceListListener));
+                            if (commerces.size() < 1) {
+                                Toast.makeText(getContext(), "No contamos con comercios en este momento", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }
+                });
+            }
+        });
+
         return view;
     }
 

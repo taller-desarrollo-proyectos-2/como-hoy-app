@@ -45,20 +45,20 @@ public class OrderPlateActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                final Dialog dialog = new Dialog(OrderPlateActivity.this);
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setContentView(R.layout.opciones_extra_plato);
-                List<String> stringList=new ArrayList<>();  // here is list
-                for(int i=0;i<5;i++) {
-                    stringList.add("RadioButton " + (i + 1));
-                }
-                RadioGroup rg = (RadioGroup) dialog.findViewById(R.id.id_opciones_extra_plato);
-                for(int i=0;i<stringList.size();i++){
-                    RadioButton rb=new RadioButton(OrderPlateActivity.this); // dynamically creating RadioButton and adding to RadioGroup.
-                    rb.setText(stringList.get(i));
-                    rg.addView(rb);
-                }
-                dialog.show();
+            final Dialog dialog = new Dialog(OrderPlateActivity.this);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setContentView(R.layout.opciones_extra_plato);
+            List<String> stringList=new ArrayList<>();  // here is list
+            for(int i=0;i<5;i++) {
+                stringList.add("RadioButton " + (i + 1));
+            }
+            RadioGroup rg = (RadioGroup) dialog.findViewById(R.id.id_opciones_extra_plato);
+            for(int i=0;i<stringList.size();i++){
+                RadioButton rb=new RadioButton(OrderPlateActivity.this); // dynamically creating RadioButton and adding to RadioGroup.
+                rb.setText(stringList.get(i));
+                rg.addView(rb);
+            }
+            dialog.show();
             }
         });
 

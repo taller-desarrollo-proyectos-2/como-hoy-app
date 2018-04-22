@@ -28,4 +28,16 @@
         tools:listitem="@layout/cardview_item_comercio1">
 
     </android.support.v7.widget.RecyclerView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:backgroundTint="@color/blanco"
+        android:id="@+id/filter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="8dp"
+        android:clickable="true"
+        android:elevation="5dp"
+        android:src="@drawable/filter" />
+
 </FrameLayout>
