@@ -2,7 +2,11 @@ package com.fiuba.gaff.comohoy.model;
 
 import android.graphics.Bitmap;
 
+import com.fiuba.gaff.comohoy.services.ServiceLocator;
+import com.fiuba.gaff.comohoy.services.location.LocationService;
+
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class Commerce {
@@ -118,7 +122,7 @@ public class Commerce {
         return mLocation;
     }
 
-    public void setmLocation(Location location) {
+    public void setLocation(Location location) {
         this.mLocation = location;
     }
 

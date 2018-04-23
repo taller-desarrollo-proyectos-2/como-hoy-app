@@ -9,6 +9,8 @@ import com.fiuba.gaff.comohoy.services.commerces.CommercesService;
 import com.fiuba.gaff.comohoy.services.commerces.MockCommercesService;
 import com.fiuba.gaff.comohoy.services.facebook.BaseFacebookService;
 import com.fiuba.gaff.comohoy.services.facebook.FacebookService;
+import com.fiuba.gaff.comohoy.services.location.GpsLocationService;
+import com.fiuba.gaff.comohoy.services.location.LocationService;
 
 public class ComoHoyApplication extends Application {
 
@@ -24,6 +26,7 @@ public class ComoHoyApplication extends Application {
         ServiceLocator.init(applicationContext);
         ServiceLocator.bindCustomServiceImplementation(FacebookService.class, BaseFacebookService.class);
         ServiceLocator.bindCustomServiceImplementation(CommercesService.class, MockCommercesService.class);
+        ServiceLocator.bindCustomServiceImplementation(LocationService.class, GpsLocationService.class);
     }
 
 }

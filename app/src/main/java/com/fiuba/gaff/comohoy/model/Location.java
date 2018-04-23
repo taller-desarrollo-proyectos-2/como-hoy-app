@@ -9,11 +9,11 @@ public class Location {
         mLongitud = lon;
     }
 
-    public double getmLongitud() {
+    public double getLongitud() {
         return mLongitud;
     }
 
-    public void setLongitud(float longitud) {
+    public void setLongitud(double longitud) {
         this.mLongitud = longitud;
     }
 
@@ -21,7 +21,7 @@ public class Location {
         return mLatitud;
     }
 
-    public void setLatitud(float latitud) {
+    public void setLatitud(double latitud) {
         this.mLatitud = latitud;
     }
 }

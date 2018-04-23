@@ -132,7 +132,7 @@ public class CommercesListFragment extends Fragment {
                 Window window = dialog.getWindow();
                 lp.copyFrom(window.getAttributes());
                 lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-                lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+                lp.height = WindowManager.LayoutParams.MATCH_PARENT;
                 window.setAttributes(lp);
 
                 Button filterButton= (Button) dialog.findViewById(R.id.button_confirm_filtrar);
@@ -158,8 +158,8 @@ public class CommercesListFragment extends Fragment {
                             List<Commerce> filteredList = ratingFilter.apply(commerces);
 
                             loadCommerces(filteredList);
-                            dialog.dismiss();
                         }
+                        dialog.dismiss();
                     }
                 });
             }

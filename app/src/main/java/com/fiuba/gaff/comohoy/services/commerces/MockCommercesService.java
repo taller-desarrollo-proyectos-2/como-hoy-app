@@ -3,8 +3,8 @@ package com.fiuba.gaff.comohoy.services.commerces;
 import android.app.Activity;
 import android.graphics.BitmapFactory;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 
+import com.fiuba.gaff.comohoy.comparators.CommerceLocationComparator;
 import com.fiuba.gaff.comohoy.model.Category;
 import com.fiuba.gaff.comohoy.model.Commerce;
 import com.fiuba.gaff.comohoy.R;
@@ -13,6 +13,7 @@ import com.fiuba.gaff.comohoy.model.Plate;
 import com.fiuba.gaff.comohoy.utils.RandomUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class MockCommercesService implements CommercesService {
@@ -36,6 +37,18 @@ public class MockCommercesService implements CommercesService {
         callback.onCommercesUpdated();
     }
 
+    @Override
+    public List<Commerce> getCommercesSortedBy(Context context, SortCriteria sortCriteria) {
+        switch (sortCriteria) {
+            case Closeness:
+                Collections.sort(mCommerces, new CommerceLocationComparator(context));
+                break;
+            default:
+                Collections.sort(mCommerces, new CommerceLocationComparator(context));
+        }
+        return mCommerces;
+    }
+
     private Commerce createCommerce(int id) {
         Commerce commerce = new Commerce(id);
         commerce.setName("Comercio " + id);
@@ -55,7 +68,7 @@ public class MockCommercesService implements CommercesService {
         commerce.setPicture(BitmapFactory.decodeResource(mContext.getResources(), getRandomDrawableId()));
 
         Location loc = new Location(-34.617290, -58.367846);
-        commerce.setmLocation(loc);
+        commerce.setLocation(loc);
 
         return commerce;
     }

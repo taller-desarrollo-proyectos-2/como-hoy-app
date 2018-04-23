@@ -2,11 +2,11 @@ package com.fiuba.gaff.comohoy.services.commerces;
 
 import android.app.Activity;
 import android.content.Context;
-import android.media.FaceDetector;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
 
+import com.fiuba.gaff.comohoy.comparators.CommerceLocationComparator;
 import com.fiuba.gaff.comohoy.model.Category;
 import com.fiuba.gaff.comohoy.model.Commerce;
 import com.fiuba.gaff.comohoy.model.Extra;
@@ -25,6 +25,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -85,6 +86,19 @@ public class BaseCommercesService implements CommercesService {
     }
 
     @Override
+    public List<Commerce> getCommercesSortedBy(Context context, SortCriteria sortCriteria) {
+        List<Commerce> commerces = new ArrayList<>(mCommerces.values());
+        switch (sortCriteria) {
+            case Closeness:
+                Collections.sort(commerces, new CommerceLocationComparator(context));
+                break;
+            default:
+                Collections.sort(commerces, new CommerceLocationComparator(context));
+        }
+        return commerces;
+    }
+
+    @Override
     public Commerce getCommerce(int id) {
         if (mCommerces.containsKey(id)) {
             return mCommerces.get(id);
@@ -111,7 +125,7 @@ public class BaseCommercesService implements CommercesService {
             commerce.setBusinessName(commerceJson.getString("businessName"));
             commerce.setCategories(getCommerceCategories(commerceJson));
             commerce.setPlates(getCommercePlates(commerceJson));
-            commerce.setmLocation(getCommerceLocation(commerceJson));
+            commerce.setLocation(getCommerceLocation(commerceJson));
 
             mCommerces.put(commerceId, commerce);
         }

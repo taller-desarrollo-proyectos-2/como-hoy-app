@@ -53,7 +53,7 @@ public class MoreInfoActivity extends AppCompatActivity implements OnMapReadyCal
 
         Commerce commerce = getCommerceService().getCommerce(mCommerceId);
         mLatitud = commerce.getLocation().getLatitud();
-        mLongitud = commerce.getLocation().getmLongitud();
+        mLongitud = commerce.getLocation().getLongitud();
 
         GoogleApiAvailability googleAPI = GoogleApiAvailability.getInstance();
         int resultCode = googleAPI.isGooglePlayServicesAvailable(this);
