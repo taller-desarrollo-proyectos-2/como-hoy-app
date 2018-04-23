@@ -43,7 +43,7 @@ public class MockCommercesService implements CommercesService {
         boolean hasDiscount = (RandomUtils.getIntBetween(0, 1) == 1);
         int discount = getRandomDiscount();
         if (hasDiscount) {
-            commerce.setDiscounts(String.format("%%d off en empanadas de ensalada", discount));
+            commerce.setDiscounts(String.format("%%%d off en empanadas de ensalada", discount));
         }
         commerce.setRating(RandomUtils.getDoubleBetween(1.0, 5.0));
         commerce.setShippingCost(String.format("$%d", RandomUtils.getIntBetween(10, 250)));
