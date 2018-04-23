@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import com.fiuba.gaff.comohoy.model.Category;
 import com.fiuba.gaff.comohoy.model.Commerce;
 import com.fiuba.gaff.comohoy.R;
+import com.fiuba.gaff.comohoy.model.Location;
 import com.fiuba.gaff.comohoy.model.Plate;
 import com.fiuba.gaff.comohoy.utils.RandomUtils;
 
@@ -52,6 +53,9 @@ public class MockCommercesService implements CommercesService {
         commerce.setShippingTime(String.format("%d-%d min", minShippingTime, maxShippingTime));
 
         commerce.setPicture(BitmapFactory.decodeResource(mContext.getResources(), getRandomDrawableId()));
+
+        Location loc = new Location(-34.617290, -58.367846);
+        commerce.setmLocation(loc);
 
         return commerce;
     }

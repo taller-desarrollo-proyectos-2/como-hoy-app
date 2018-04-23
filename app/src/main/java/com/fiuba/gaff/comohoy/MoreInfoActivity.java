@@ -14,6 +14,9 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.fiuba.gaff.comohoy.model.Commerce;
+import com.fiuba.gaff.comohoy.services.ServiceLocator;
+import com.fiuba.gaff.comohoy.services.commerces.CommercesService;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -33,6 +36,11 @@ public class MoreInfoActivity extends AppCompatActivity implements OnMapReadyCal
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 10;
     private static final String LOG_TAG = "MoreInfoActivity";
 
+    private double mLatitud;
+    private double mLongitud;
+
+    private int mCommerceId = -1;
+
     private GoogleMap mMap;
 
     @Override
@@ -40,6 +48,12 @@ public class MoreInfoActivity extends AppCompatActivity implements OnMapReadyCal
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps_restaurant);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+
+        obtainCommerceId(savedInstanceState);
+
+        Commerce commerce = getCommerceService().getCommerce(mCommerceId);
+        mLatitud = commerce.getLocation().getLatitud();
+        mLongitud = commerce.getLocation().getmLongitud();
 
         GoogleApiAvailability googleAPI = GoogleApiAvailability.getInstance();
         int resultCode = googleAPI.isGooglePlayServicesAvailable(this);
@@ -52,17 +66,6 @@ public class MoreInfoActivity extends AppCompatActivity implements OnMapReadyCal
             dialog.show();
         }
     }
-
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
-
 
     public LatLng getLocationFromAddress(String strAddress) throws IOException {
 
@@ -88,6 +91,15 @@ public class MoreInfoActivity extends AppCompatActivity implements OnMapReadyCal
         return p1;
     }
 
+    private void obtainCommerceId(Bundle savedInstanceState) {
+        if (mCommerceId == -1) {
+            Bundle extras = getIntent().getExtras();
+            mCommerceId = extras.getInt(getString(R.string.intent_data_commerce_id), -1);
+        }
+        if ((mCommerceId == -1) && (savedInstanceState != null) && (savedInstanceState.containsKey(getString(R.string.intent_data_commerce_id)))) {
+            mCommerceId = savedInstanceState.getInt(getString(R.string.intent_data_commerce_id));
+        }
+    }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -95,17 +107,13 @@ public class MoreInfoActivity extends AppCompatActivity implements OnMapReadyCal
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         UiSettings uiSettings = mMap.getUiSettings();
         uiSettings.setZoomControlsEnabled(true);
-
-        //LatLng location = null;
-        //try {
-        //    location = getLocationFromAddress("Avenida Paseo Colón, Buenos Aires 850");
-        //}catch(IOException ex) {
-            //Do something with the exception
-        //}
-
-        LatLng location = new LatLng(-34.617290, -58.367846); //PACEO COLON 850
+        LatLng location = new LatLng(mLatitud, mLongitud); //PACEO COLON 850
         mMap.addMarker(new MarkerOptions().position(location).title("Mi item_comercio0").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
         float zoomLevel = 16;
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location,zoomLevel));
+    }
+
+    private CommercesService getCommerceService() {
+        return ServiceLocator.get(CommercesService.class);
     }
 }
