@@ -27,7 +27,7 @@ public class MockCommercesService implements CommercesService {
 
     @Override
     public void updateCommercesData(Activity activity, UpdateCommercesCallback callback) {
-        final int commercesAmount = 5;
+        final int commercesAmount = 3;
         mCommerces = new ArrayList<>();
         for (int i = 0; i < commercesAmount; ++i) {
             mCommerces.add(createCommerce(i));

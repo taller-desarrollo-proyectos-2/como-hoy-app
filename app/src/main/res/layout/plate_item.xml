@@ -87,6 +87,7 @@
             android:layout_width="25dp"
             android:layout_height="24dp"
             android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:background="@android:color/transparent"
@@ -94,6 +95,7 @@
             android:visibility="visible"
             app:srcCompat="@drawable/celiac_icon"
             card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintEnd_toStartOf="@+id/text_view_order_status"
             card_view:layout_constraintStart_toStartOf="@+id/plate_guideline"
             card_view:layout_constraintTop_toTopOf="parent" />
     </android.support.constraint.ConstraintLayout>

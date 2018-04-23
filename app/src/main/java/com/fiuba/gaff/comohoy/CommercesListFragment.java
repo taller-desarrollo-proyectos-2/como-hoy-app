@@ -119,7 +119,7 @@ public class CommercesListFragment extends Fragment {
     }
 
     private void setUpFilterButton(View fragmentView) {
-        FloatingActionButton filterButton =  fragmentView.findViewById(R.id.filter);
+        FloatingActionButton filterButton =  fragmentView.findViewById(R.id.action_button_filter);
         filterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

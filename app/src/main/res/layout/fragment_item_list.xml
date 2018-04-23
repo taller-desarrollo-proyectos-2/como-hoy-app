@@ -30,12 +30,12 @@
     </android.support.v7.widget.RecyclerView>
 
     <android.support.design.widget.FloatingActionButton
-        android:backgroundTint="@color/blanco"
-        android:id="@+id/filter"
+        android:id="@+id/action_button_filter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
         android:layout_margin="8dp"
+        app:backgroundTint="@color/blanco"
         android:clickable="true"
         android:elevation="5dp"
         android:src="@drawable/filter" />
