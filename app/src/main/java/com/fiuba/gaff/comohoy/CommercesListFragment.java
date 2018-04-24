@@ -23,6 +23,7 @@ import com.fiuba.gaff.comohoy.filters.RatingFilter;
 import com.fiuba.gaff.comohoy.model.Commerce;
 import com.fiuba.gaff.comohoy.services.ServiceLocator;
 import com.fiuba.gaff.comohoy.services.commerces.CommercesService;
+import com.fiuba.gaff.comohoy.services.commerces.SortCriteria;
 import com.fiuba.gaff.comohoy.services.commerces.UpdateCommercesCallback;
 
 import java.util.List;
@@ -106,7 +107,7 @@ public class CommercesListFragment extends Fragment {
         return new UpdateCommercesCallback() {
             @Override
             public void onCommercesUpdated() {
-                loadCommerces(getCommercesService().getCommerces());
+                loadCommerces(getCommercesService().getCommercesSortedBy(getActivity(), SortCriteria.Closeness));
                 showProgress(false);
             }
 
