@@ -82,6 +82,7 @@ public class MockCommercesService implements CommercesService {
 
         List<Plate> plates = new ArrayList<>();
         Plate p1 = new Plate(0L, "Papas", "Las mejores papas", 50);
+        p1.setPicture(BitmapFactory.decodeResource(mContext.getResources(), getRandomDrawableId()));
         List<Category> p1Cat = new ArrayList<>();
         p1Cat.add(new Category(0L, "Entradas"));
         p1.setCategories(p1Cat);
@@ -91,7 +92,7 @@ public class MockCommercesService implements CommercesService {
         p2Cat.add(new Category(0L, "Entradas"));
         p2Cat.add(new Category(1L, "Plato Principal"));
         p2.setCategories(p2Cat);
-
+        p2.setPicture(BitmapFactory.decodeResource(mContext.getResources(), getRandomDrawableId()));
         plates.add(p1);;
         plates.add(p2);
 
