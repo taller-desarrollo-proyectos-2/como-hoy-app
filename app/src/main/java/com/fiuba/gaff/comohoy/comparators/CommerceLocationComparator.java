@@ -24,9 +24,9 @@ public class CommerceLocationComparator implements Comparator<Commerce>{
         double distanceToCommerce1 = LocationUtils.GetDistanceBetween(mCurrentLocation, commerce1.getLocation(), LocationUtils.DistanceUnit.KILOMETERS);
         double distanceToCommerce2 = LocationUtils.GetDistanceBetween(mCurrentLocation, commerce2.getLocation(), LocationUtils.DistanceUnit.KILOMETERS);
         if (distanceToCommerce1 < distanceToCommerce2) {
-            return 1;
-        } else if (distanceToCommerce1 > distanceToCommerce2) {
             return -1;
+        } else if (distanceToCommerce1 > distanceToCommerce2) {
+            return 1;
         }
         return 0;
     }

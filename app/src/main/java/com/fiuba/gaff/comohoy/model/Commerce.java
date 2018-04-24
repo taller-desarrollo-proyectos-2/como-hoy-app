@@ -50,7 +50,7 @@ public class Commerce {
     }
 
     public String getShowableName() {
-        String name = getName().equals("") ? getBusinessName() : getName();
+        String name = (mName.isEmpty() || mName.equals("null")) ? mBusinessName : mName;
         return name;
     }
 
