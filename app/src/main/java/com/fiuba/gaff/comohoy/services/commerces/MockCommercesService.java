@@ -85,6 +85,7 @@ public class MockCommercesService implements CommercesService {
         p1.setPicture(BitmapFactory.decodeResource(mContext.getResources(), getRandomDrawableId()));
         List<Category> p1Cat = new ArrayList<>();
         p1Cat.add(new Category(0L, "Entradas"));
+        p1.setSuitableForCeliac((RandomUtils.getIntBetween(0, 1) == 1));
         p1.setCategories(p1Cat);
 
         Plate p2 = new Plate(0L, "Papas con Panceta", "Entrada y Cena", 500);
@@ -92,6 +93,7 @@ public class MockCommercesService implements CommercesService {
         p2Cat.add(new Category(0L, "Entradas"));
         p2Cat.add(new Category(1L, "Plato Principal"));
         p2.setCategories(p2Cat);
+        p2.setSuitableForCeliac((RandomUtils.getIntBetween(0, 1) == 1));
         p2.setPicture(BitmapFactory.decodeResource(mContext.getResources(), getRandomDrawableId()));
         plates.add(p1);;
         plates.add(p2);

@@ -37,6 +37,7 @@ public class MenuItemListAdapter extends RecyclerView.Adapter<MenuItemListAdapte
         private final TextView mPlateName;
         private final TextView mDescription;
         private final TextView mPrice;
+        private final ImageView mCeliacPicture;
 
         MenuItemViewHolder(View itemView) {
             super(itemView);
@@ -46,6 +47,7 @@ public class MenuItemListAdapter extends RecyclerView.Adapter<MenuItemListAdapte
             mPlateName = (TextView) itemView.findViewById(R.id.textview_plate_name);
             mDescription = (TextView) itemView.findViewById(R.id.text_view_plate_desc);
             mPrice = (TextView) itemView.findViewById(R.id.text_view_order_status);
+            mCeliacPicture = itemView.findViewById(R.id.icon_celiac_plate);
         }
     }
 
@@ -70,6 +72,10 @@ public class MenuItemListAdapter extends RecyclerView.Adapter<MenuItemListAdapte
         holder.mDescription.setText(plate.getDescription());
         String price = String.format(Locale.ENGLISH,"$%.2f", plate.getPrice());
         holder.mPrice.setText(price);
+
+        if (!plate.isSuitableForCeliac()) {
+            holder.mCeliacPicture.setVisibility(View.GONE);
+        }
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override

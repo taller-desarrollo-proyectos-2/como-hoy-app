@@ -12,6 +12,7 @@ public class Plate {
     private double mPrice;
     private List<Category> mCategories;
     private List<Extra> mExtras;
+    private boolean mSuitableForCeliac;
     private Bitmap mPicture;
 
     public Plate(Long id) {
@@ -79,5 +80,13 @@ public class Plate {
 
     public void setExtras(List<Extra> extras) {
         this.mExtras = extras;
+    }
+
+    public boolean isSuitableForCeliac() {
+        return mSuitableForCeliac;
+    }
+
+    public void setSuitableForCeliac(boolean suitableForCeliac) {
+        this.mSuitableForCeliac = suitableForCeliac;
     }
 }

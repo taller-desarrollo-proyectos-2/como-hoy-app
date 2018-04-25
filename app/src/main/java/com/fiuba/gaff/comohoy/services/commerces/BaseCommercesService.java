@@ -161,6 +161,7 @@ public class BaseCommercesService implements CommercesService {
                 Plate plate = new Plate(plateJson.getLong("id"));
                 plate.setName(plateJson.getString("name"));
                 plate.setPrice(plateJson.getDouble("price"));
+                plate.setSuitableForCeliac(plateJson.getBoolean("glutenFree"));
                 plate.setCategories(getPlateCategories(plateJson));
                 plate.setExtras(getPlateExtras(plateJson));
 
@@ -194,5 +195,4 @@ public class BaseCommercesService implements CommercesService {
         }*/
         return extras;
     }
-
 }
