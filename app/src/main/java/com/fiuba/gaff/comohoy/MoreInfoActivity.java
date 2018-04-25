@@ -36,9 +36,6 @@ public class MoreInfoActivity extends AppCompatActivity implements OnMapReadyCal
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 10;
     private static final String LOG_TAG = "MoreInfoActivity";
 
-    private double mLatitud;
-    private double mLongitud;
-
     private int mCommerceId = -1;
 
     private GoogleMap mMap;
@@ -50,10 +47,6 @@ public class MoreInfoActivity extends AppCompatActivity implements OnMapReadyCal
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
 
         obtainCommerceId(savedInstanceState);
-
-        Commerce commerce = getCommerceService().getCommerce(mCommerceId);
-        mLatitud = commerce.getLocation().getLatitud();
-        mLongitud = commerce.getLocation().getLongitud();
 
         GoogleApiAvailability googleAPI = GoogleApiAvailability.getInstance();
         int resultCode = googleAPI.isGooglePlayServicesAvailable(this);
@@ -107,8 +100,12 @@ public class MoreInfoActivity extends AppCompatActivity implements OnMapReadyCal
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         UiSettings uiSettings = mMap.getUiSettings();
         uiSettings.setZoomControlsEnabled(true);
-        LatLng location = new LatLng(mLatitud, mLongitud); //PACEO COLON 850
-        mMap.addMarker(new MarkerOptions().position(location).title("Mi item_comercio0").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+
+        Commerce commerce = getCommerceService().getCommerce(mCommerceId);
+        double latitud = commerce.getLocation().getLatitud();
+        double longitud = commerce.getLocation().getLongitud();
+        LatLng location = new LatLng(latitud, longitud);
+        mMap.addMarker(new MarkerOptions().position(location).title(commerce.getShowableName()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
         float zoomLevel = 16;
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location,zoomLevel));
     }

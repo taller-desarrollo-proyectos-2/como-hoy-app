@@ -7,6 +7,7 @@ import com.fiuba.gaff.comohoy.services.location.LocationService;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 
 public class Commerce {
@@ -25,12 +26,12 @@ public class Commerce {
     private Bitmap mPicture;
 
     private List<Category> mCategories;
-    private List<Plate> mPlates;
+    private HashMap<Long, Plate> mPlates;
 
     public Commerce(int id) {
         mId = id;
         mCategories = new ArrayList<>();
-        mPlates = new ArrayList<>();
+        mPlates = new HashMap<>();
     }
 
     public int getId() {
@@ -135,10 +136,22 @@ public class Commerce {
     }
 
     public List<Plate> getPlates() {
-        return mPlates;
+        return new ArrayList<>(mPlates.values());
+    }
+
+    public Plate getPlate(Long id) {
+        return mPlates.get(id);
+    }
+
+    public void setPlates(HashMap<Long, Plate> plates) {
+        mPlates = plates;
     }
 
     public void setPlates(List<Plate> plates) {
-        this.mPlates = plates;
+        for (Plate plate : plates) {
+            mPlates.put(plate.getId(), plate);
+        }
     }
+
+
 }

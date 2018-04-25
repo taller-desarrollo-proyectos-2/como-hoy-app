@@ -16,9 +16,9 @@
             android:id="@+id/txtNombreInfoPlato"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_gravity="left"
-            android:text="Promo - Hamburgesa gourmet a la provoleta + guarnicion de papas fritas"
+            android:layout_weight="1"
+            android:text="Papas Fritas"
             android:textSize="20sp"
             android:textStyle="bold" />
 

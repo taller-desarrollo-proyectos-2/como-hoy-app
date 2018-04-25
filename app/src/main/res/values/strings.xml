@@ -32,9 +32,10 @@
     <string name="transition_commerce_title">commerceTitleTransition</string>
 
     <!-- Transitions -->
-    <string name="intent_data_commerce_id">commerceTitleTransition</string>
-    <string name="intent_data_commerce_longitud_id">commerceLongitudTransition</string>
-    <string name="intent_data_commerce_latitud_id">commerceLatitudTransition</string>
+    <string name="intent_data_commerce_id">extraCommerceId</string>
+    <string name="intent_data_commerce_longitud_id">extraLongId</string>
+    <string name="intent_data_commerce_latitud_id">extraLatId</string>
 
-    <string name="intent_data_plate_id">commerceTitleTransition</string>
+    <string name="intent_data_plate_and_commerce_id">extraCommerceAndPlateIds</string>
+    <string name="intent_data_plate_id">extraPlateId</string>
 </resources>

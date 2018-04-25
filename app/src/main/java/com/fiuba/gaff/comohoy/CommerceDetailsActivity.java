@@ -37,8 +37,6 @@ public class CommerceDetailsActivity extends AppCompatActivity {
     private LinearLayout mMenuLayout;
 
     private int mCommerceId = -1;
-    //private double mCommerceLongitud = 0;
-    //private double mCommerceLatitud = 0;
 
     public interface MenuListListener {
         void onPlateClicked(Plate plate);
@@ -51,8 +49,6 @@ public class CommerceDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_commerce_details);
 
         obtainCommerceId(savedInstanceState);
-        //obtainCommerceLat(savedInstanceState);
-        //obtainCommerceLong(savedInstanceState);
 
         ImageButton infoB = findViewById(R.id.info);
         infoB.setOnClickListener(new View.OnClickListener() {
@@ -61,8 +57,6 @@ public class CommerceDetailsActivity extends AppCompatActivity {
             public void onClick(View arg0) {
                 Intent openMoreInfoIntent = new Intent(CommerceDetailsActivity.this, MoreInfoActivity.class);
                 openMoreInfoIntent.putExtra(getString(R.string.intent_data_commerce_id), mCommerceId);
-                //openMoreInfoIntent.putExtra(getString(R.string.intent_data_commerce_longitud_id), mCommerceLongitud);
-                //openMoreInfoIntent.putExtra(getString(R.string.intent_data_commerce_latitud_id), mCommerceLatitud);
                 startActivity(openMoreInfoIntent);
             }
         });
@@ -97,26 +91,6 @@ public class CommerceDetailsActivity extends AppCompatActivity {
         mCommerceId = savedInstanceState.getInt(getString(R.string.intent_data_commerce_id));
     }
 
-    /*private void obtainCommerceLat(Bundle savedInstanceState){
-        if (mCommerceLatitud == 0) {
-            Bundle extras = getIntent().getExtras();
-            mCommerceLatitud = extras.getDouble(getString(R.string.intent_data_commerce_latitud_id),0);
-        }
-        if ((mCommerceLatitud == 0) && (savedInstanceState != null) && (savedInstanceState.containsKey(getString(R.string.intent_data_commerce_latitud_id)))) {
-            mCommerceLatitud = savedInstanceState.getDouble(getString(R.string.intent_data_commerce_latitud_id));
-        }
-    }
-
-    private void obtainCommerceLong(Bundle savedInstanceState) {
-        if (mCommerceLongitud == 0) {
-            Bundle extras = getIntent().getExtras();
-            mCommerceLongitud = extras.getDouble(getString(R.string.intent_data_commerce_longitud_id),0);
-        }
-        if ((mCommerceLongitud == 0) && (savedInstanceState != null) && (savedInstanceState.containsKey(getString(R.string.intent_data_commerce_longitud_id)))) {
-            mCommerceLongitud = savedInstanceState.getDouble(getString(R.string.intent_data_commerce_longitud_id));
-        }
-    }*/
-
     private void obtainCommerceId(Bundle savedInstanceState) {
         if (mCommerceId == -1) {
             Bundle extras = getIntent().getExtras();
@@ -140,10 +114,6 @@ public class CommerceDetailsActivity extends AppCompatActivity {
     }
 
     private void createCommerceMenuView() {
-        // TODO obtener el menu a partir de los valores obtenidos para el comercio en la clase
-        // BaseCommercesService linea 99
-        CommerceMenu menu = new CommerceMenu();
-        CommerceMenuItem item1 = new CommerceMenuItem();
 
         HashMap<String, List<Plate>> platesByCategory = new HashMap<>();
         assignPlatesToCategories(platesByCategory);
@@ -271,9 +241,6 @@ public class CommerceDetailsActivity extends AppCompatActivity {
         intent.putExtra(getString(R.string.intent_data_commerce_id), mCommerceId);
         intent.putExtra(getString(R.string.intent_data_plate_id), plate.getId());
         startActivity(intent);
-
-        //String message = "clicked " + plate.getName();
-        //Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     private CommercesService getCommerceService() {

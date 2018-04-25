@@ -14,6 +14,7 @@ import com.fiuba.gaff.comohoy.utils.RandomUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 public class MockCommercesService implements CommercesService {
@@ -80,7 +81,7 @@ public class MockCommercesService implements CommercesService {
         categories.add(new Category(2L, "Plato Principal"));
         commerce.setCategories(categories);
 
-        List<Plate> plates = new ArrayList<>();
+        HashMap<Long, Plate> plates = new HashMap<>();
         Plate p1 = new Plate(0L, "Papas", "Las mejores papas", 50);
         p1.setPicture(BitmapFactory.decodeResource(mContext.getResources(), getRandomDrawableId()));
         List<Category> p1Cat = new ArrayList<>();
@@ -95,8 +96,8 @@ public class MockCommercesService implements CommercesService {
         p2.setCategories(p2Cat);
         p2.setSuitableForCeliac((RandomUtils.getIntBetween(0, 1) == 1));
         p2.setPicture(BitmapFactory.decodeResource(mContext.getResources(), getRandomDrawableId()));
-        plates.add(p1);;
-        plates.add(p2);
+        plates.put(p1.getId(), p1);;
+        plates.put(p2.getId(), p2);
 
         commerce.setPlates(plates);
     }

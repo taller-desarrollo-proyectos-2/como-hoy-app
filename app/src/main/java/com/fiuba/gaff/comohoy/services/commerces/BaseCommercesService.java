@@ -151,8 +151,8 @@ public class BaseCommercesService implements CommercesService {
         return categories;
     }
 
-    private List<Plate> getCommercePlates(JSONObject commerceJson) {
-        List<Plate> plates = new ArrayList<>();
+    private HashMap<Long, Plate> getCommercePlates(JSONObject commerceJson) {
+        HashMap<Long, Plate> plates = new HashMap<>();
         try {
             JSONArray platesArray = commerceJson.getJSONArray("plates");
             int a = platesArray.length();
@@ -165,7 +165,7 @@ public class BaseCommercesService implements CommercesService {
                 plate.setCategories(getPlateCategories(plateJson));
                 plate.setExtras(getPlateExtras(plateJson));
 
-                plates.add(plate);
+                plates.put(plate.getId(), plate);
             }
         } catch (JSONException e) {
             Log.e("CommerceService", "Error parsing plates: " + e.getMessage());
