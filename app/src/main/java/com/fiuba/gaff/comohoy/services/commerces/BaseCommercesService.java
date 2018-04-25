@@ -184,15 +184,21 @@ public class BaseCommercesService implements CommercesService {
         return categories;
     }
 
-    private List<Extra> getPlateExtras(JSONObject plateJson) throws  JSONException {
+    private List<Extra> getPlateExtras(JSONObject plateJson) {
         List<Extra> extras = new ArrayList<>();
-        /*JSONArray extrasArray = plateJson.getJSONArray("optionals");
-        for(int i = 0; i < extrasArray.length(); i++) {
-            JSONObject extraObject = extrasArray.getJSONObject(i);
-            Long id = extraObject.getLong("id");
-            Extra extra = new Extra(id);
-            extras.add(extra);
-        }*/
+        try {
+            JSONArray extrasArray = plateJson.getJSONArray("optionals");
+            for(int i = 0; i < extrasArray.length(); i++) {
+                JSONObject extraObject = extrasArray.getJSONObject(i);
+                Long id = extraObject.getLong("id");
+                Extra extra = new Extra(id);
+                extra.setName(extraObject.getString("name"));
+                extra.setPrice(extraObject.getDouble("price"));
+                extras.add(extra);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         return extras;
     }
 }

@@ -1,13 +1,13 @@
 package com.fiuba.gaff.comohoy.model;
 
 /***
- *  Extras that can be added to a plate, e.g., bacon
+ *  Can be added to a plate, e.g., bacon
  */
 public class Extra {
 
     private Long mId;
     private String mName;
-    private float mPrice;
+    private double mPrice;
 
     public Extra(Long id) {
         mId = id;
@@ -29,11 +29,11 @@ public class Extra {
         this.mName = name;
     }
 
-    public float getPrice() {
+    public double getPrice() {
         return mPrice;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(double price) {
         this.mPrice = price;
     }
 }
