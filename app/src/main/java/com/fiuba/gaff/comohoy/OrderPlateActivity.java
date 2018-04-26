@@ -29,6 +29,8 @@ public class OrderPlateActivity extends AppCompatActivity {
     private int mCommerceId = -1;
     private Long mPlateId = -1L;
 
+    private int mOrderQuantity = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,6 +113,7 @@ public class OrderPlateActivity extends AppCompatActivity {
         final NumberPicker numberPicker = dialog.findViewById(R.id.numberPicker);
         numberPicker.setMaxValue(100);
         numberPicker.setMinValue(1);
+        numberPicker.setValue(mOrderQuantity);
         numberPicker.setWrapSelectorWheel(false);
         numberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
@@ -125,7 +128,8 @@ public class OrderPlateActivity extends AppCompatActivity {
         acceptButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateQuantityValue(numberPicker.getValue());
+                mOrderQuantity = numberPicker.getValue();
+                updateQuantityValue(mOrderQuantity);
                 dialog.dismiss();
             }
         });
