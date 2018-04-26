@@ -16,7 +16,6 @@ import android.widget.TextView;
 import com.fiuba.gaff.comohoy.CommercesListFragment;
 import com.fiuba.gaff.comohoy.R;
 import com.fiuba.gaff.comohoy.model.Commerce;
-import com.fiuba.gaff.comohoy.model.CommerceMenu;
 
 import java.util.List;
 
@@ -64,7 +63,7 @@ public class CommerceListAdapter extends RecyclerView.Adapter<CommerceListAdapte
 
     @Override
     public CommerceViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_item_comercio1, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_item_comercio, parent, false);
         CommerceViewHolder commerceViewHolder = new CommerceViewHolder(v);
         return commerceViewHolder;
     }
