@@ -11,7 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
@@ -35,6 +34,7 @@ public class OrderPlateActivity extends AppCompatActivity {
     private int mCommerceId = -1;
     private Long mPlateId = -1L;
 
+    private double mOrderPrice = 0;
     private Dialog mQuantityDialog;
     private Dialog mExtrasDialog;
 
@@ -59,14 +59,9 @@ public class OrderPlateActivity extends AppCompatActivity {
         setUpQuantityCard();
         setUpExtrasCard();
 
-        Button agregarPlatoPedido = findViewById(R.id.add_plate_button);
-        agregarPlatoPedido.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        setUpAddPlateButton();
 
-            }
-        });
-
+        updateOrderCost();
     }
 
     private void fillFieldsWithPlateData() {
@@ -83,6 +78,16 @@ public class OrderPlateActivity extends AppCompatActivity {
         if (!plate.isSuitableForCeliac()) {
             celiacImageView.setVisibility(View.GONE);
         }
+    }
+
+    private void setUpAddPlateButton() {
+        Button addPlateButton = findViewById(R.id.add_plate_button);
+        addPlateButton.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     private void setUpQuantityCard() {
@@ -142,7 +147,7 @@ public class OrderPlateActivity extends AppCompatActivity {
             public void onClick(View v) {
                 mOrderQuantity = numberPicker.getValue();
                 updateQuantityValue(mOrderQuantity);
-                updateTotal();
+                updateOrderCost();
                 mQuantityDialog.dismiss();
             }
         });
@@ -172,7 +177,7 @@ public class OrderPlateActivity extends AppCompatActivity {
             public void onClick(View v) {
                 mExtrasAdded = new HashMap<>(mExtrasToBeAdded);
                 updateExtrasValue();
-                updateTotal();
+                updateOrderCost();
                 mExtrasDialog.dismiss();
             }
         });
@@ -245,8 +250,16 @@ public class OrderPlateActivity extends AppCompatActivity {
         extrasTextview.setText(stringBuilder.toString());
     }
 
-    private void updateTotal() {
-
+    private void updateOrderCost() {
+        Plate plate = getCommerceService().getCommerce(mCommerceId).getPlate(mPlateId);
+        double extrasPrice = 0;
+        for (Extra extra : mExtrasAdded.values()) {
+            extrasPrice += extra.getPrice();
+        }
+        double pricePerUnit = plate.getPrice() + extrasPrice;
+        mOrderPrice = pricePerUnit * mOrderQuantity;
+        TextView costTextView = findViewById(R.id.textView_total_cost);
+        costTextView.setText(String.format(Locale.ENGLISH, "Total = $%.2f", mOrderPrice));
     }
 
     // Recovering activity state
