@@ -11,14 +11,14 @@
         android:layout_width="1dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.25" />
+        app:layout_constraintGuide_percent="0.15" />
 
     <android.support.constraint.Guideline
         android:id="@+id/buttons_guideline"
         android:layout_width="1dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.75" />
+        app:layout_constraintGuide_percent="0.85" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/extrasList"

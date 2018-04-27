@@ -225,7 +225,7 @@ public class OrderPlateActivity extends AppCompatActivity {
         StringBuilder stringBuilder = new StringBuilder();
         int extrasCount = 0;
         for (Extra extra : mExtrasAdded.values()) {
-            if (extrasCount > 1) {
+            if (extrasCount > 0) {
                 stringBuilder.append(", ");
             }
             stringBuilder.append(String.format("%s ($%.2f)", extra.getName(), extra.getPrice()));
