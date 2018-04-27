@@ -103,7 +103,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="50% de descuento hoy"
-                android:textColor="@color/verde_py"
+                android:textColor="@color/salmon"
                 android:visibility="visible" />
 
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

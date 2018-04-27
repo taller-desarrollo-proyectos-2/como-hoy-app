@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +25,8 @@ import com.fiuba.gaff.comohoy.model.CommerceMenuItem;
 import com.fiuba.gaff.comohoy.model.Plate;
 import com.fiuba.gaff.comohoy.services.ServiceLocator;
 import com.fiuba.gaff.comohoy.services.commerces.CommercesService;
+import com.synnapps.carouselview.CarouselView;
+import com.synnapps.carouselview.ImageListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,6 +41,10 @@ public class CommerceDetailsActivity extends AppCompatActivity {
 
     private int mCommerceId = -1;
 
+    private CarouselView carouselView;
+    private int[] sampleImages = {R.drawable.prueba1, R.drawable.prueba2, R.drawable.prueba3};
+
+
     public interface MenuListListener {
         void onPlateClicked(Plate plate);
     }
@@ -47,6 +54,18 @@ public class CommerceDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_commerce_details);
+
+        //Desde aca carrusel
+        carouselView = (CarouselView) findViewById(R.id.carouselView);
+        carouselView.setPageCount(sampleImages.length);
+        ImageListener imageListener = new ImageListener() {
+            @Override
+            public void setImageForPosition(int position, ImageView imageView) {
+                imageView.setImageResource(sampleImages[position]);
+            }
+        };
+        carouselView.setImageListener(imageListener);
+        //Hasta aca carrusel
 
         obtainCommerceId(savedInstanceState);
 
