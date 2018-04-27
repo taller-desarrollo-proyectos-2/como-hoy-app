@@ -3,6 +3,7 @@ package com.fiuba.gaff.comohoy.model;
 import android.graphics.Bitmap;
 import android.support.design.internal.BottomNavigationItemView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Plate {
@@ -24,6 +25,7 @@ public class Plate {
         mName = name;
         mDescription = description;
         mPrice = price;
+        mExtras = new ArrayList<>();
     }
 
     public Long getId() {

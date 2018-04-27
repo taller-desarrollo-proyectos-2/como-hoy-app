@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="@drawable/dialog_bg">
 
     <android.support.constraint.Guideline
@@ -20,18 +20,21 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.75" />
 
-    <NumberPicker
-        android:id="@+id/numberPicker"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/extrasList"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        app:layoutManager="LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@+id/buttons_guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tittle_divider" />
+        app:layout_constraintTop_toBottomOf="@+id/tittle_divider"
+        tools:context="com.fiuba.gaff.comohoy.OrderPlateActivity"
+        tools:listitem="@layout/cardview_item_extra" />
 
     <View
         android:id="@+id/tittle_divider"
@@ -91,7 +94,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:gravity="center_vertical"
-        android:text="Cantidad"
+        android:text="Extras"
         android:textAlignment="center"
         android:textAppearance="@android:style/TextAppearance.Material.Medium"
         android:textStyle="bold"

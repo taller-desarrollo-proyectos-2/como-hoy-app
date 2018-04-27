@@ -1,26 +1,31 @@
 package com.fiuba.gaff.comohoy;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
+import com.fiuba.gaff.comohoy.adapters.ExtrasListAdapter;
 import com.fiuba.gaff.comohoy.model.Commerce;
+import com.fiuba.gaff.comohoy.model.Extra;
 import com.fiuba.gaff.comohoy.model.Plate;
 import com.fiuba.gaff.comohoy.services.ServiceLocator;
 import com.fiuba.gaff.comohoy.services.commerces.CommercesService;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 
@@ -29,7 +34,16 @@ public class OrderPlateActivity extends AppCompatActivity {
     private int mCommerceId = -1;
     private Long mPlateId = -1L;
 
+    private Dialog mQuantityDialog;
+    private Dialog mExtrasDialog;
+
     private int mOrderQuantity = 1;
+    private HashMap<Long, Extra> mExtrasAdded = new HashMap<>();
+    private HashMap<Long, Extra> mExtrasToBeAdded = new HashMap<>();
+
+    public interface ExtrasListListener {
+        void onExtraClicked(ExtrasListAdapter.ExtraItem extraItem);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +56,7 @@ public class OrderPlateActivity extends AppCompatActivity {
         fillFieldsWithPlateData();
 
         setUpQuantityCard();
+        setUpExtrasCard();
 
         Button agregarPlatoPedido = findViewById(R.id.add_plate_button);
         agregarPlatoPedido.setOnClickListener( new View.OnClickListener() {
@@ -50,28 +65,6 @@ public class OrderPlateActivity extends AppCompatActivity {
 
             }
         });
-
-       /* ImageButton desplegarOpcionesExtra = (ImageButton) findViewById(R.id.desplegar_opciones);
-        desplegarOpcionesExtra.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            final Dialog dialog = new Dialog(OrderPlateActivity.this);
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            dialog.setContentView(R.layout.opciones_extra_plato);
-            List<String> stringList=new ArrayList<>();  // here is list
-            for(int i=0;i<5;i++) {
-                stringList.add("RadioButton " + (i + 1));
-            }
-            RadioGroup rg = dialog.findViewById(R.id.id_opciones_extra_plato);
-            for(int i=0;i<stringList.size();i++){
-                RadioButton rb=new RadioButton(OrderPlateActivity.this); // dynamically creating RadioButton and adding to RadioGroup.
-                rb.setText(stringList.get(i));
-                rg.addView(rb);
-            }
-            dialog.show();
-            }
-        });*/
 
     }
 
@@ -92,6 +85,7 @@ public class OrderPlateActivity extends AppCompatActivity {
     }
 
     private void setUpQuantityCard() {
+        createQuantityDialog();
         CardView quantityField = findViewById(R.id.cardview_cantidad);
         quantityField.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,20 +95,37 @@ public class OrderPlateActivity extends AppCompatActivity {
         });
     }
 
-    private void openQuantityDialog() {
-        final Dialog dialog = new Dialog(this, android.R.style.Theme_Dialog);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.dialog_cantidad);
-        dialog.setCanceledOnTouchOutside(false);
-        //dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+    private void setUpExtrasCard() {
+        CardView extrasCard = findViewById(R.id.cardview_extras);
+        Commerce commerce = getCommerceService().getCommerce(mCommerceId);
+        Plate plate = commerce.getPlate(mPlateId);
+        final List<Extra> extras = plate.getExtras();
+        if (extras.size() > 0) {
+            createExtrasDialog(extras);
+            extrasCard.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    openExtrasDialog(extras);
+                }
+            });
+        } else {
+            extrasCard.setVisibility(View.GONE);
+        }
+    }
 
-        final NumberPicker numberPicker = dialog.findViewById(R.id.numberPicker);
+    private void createQuantityDialog() {
+        mQuantityDialog = new Dialog(this, android.R.style.Theme_Dialog);
+        mQuantityDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        mQuantityDialog.setContentView(R.layout.dialog_cantidad);
+        mQuantityDialog.setCanceledOnTouchOutside(false);
+        mQuantityDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        mQuantityDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+
+        final NumberPicker numberPicker = mQuantityDialog.findViewById(R.id.numberPicker);
         numberPicker.setMaxValue(100);
         numberPicker.setMinValue(1);
         numberPicker.setValue(mOrderQuantity);
-        numberPicker.setWrapSelectorWheel(false);
+        numberPicker.setWrapSelectorWheel(true);
         numberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker numberPicker, int i, int i1) {
@@ -122,31 +133,110 @@ public class OrderPlateActivity extends AppCompatActivity {
             }
         });
 
-        Button acceptButton = dialog.findViewById(R.id.button_accept);
-        Button cancelButton = dialog.findViewById(R.id.button_cancel);
+        Button acceptButton = mQuantityDialog.findViewById(R.id.button_accept);
+        Button cancelButton = mQuantityDialog.findViewById(R.id.button_cancel);
 
         acceptButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mOrderQuantity = numberPicker.getValue();
                 updateQuantityValue(mOrderQuantity);
-                dialog.dismiss();
+                updateTotal();
+                mQuantityDialog.dismiss();
             }
         });
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mQuantityDialog.dismiss();
+            }
+        });
+    }
 
+    private void createExtrasDialog(List<Extra> extras) {
+        mExtrasDialog = new Dialog(this, android.R.style.Theme_Holo_Light_Dialog);
+        mExtrasDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        mExtrasDialog.setContentView(R.layout.dialog_extras);
+        mExtrasDialog.setCanceledOnTouchOutside(false);
+        mExtrasDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        mExtrasDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+
+        setExtrasListAdapter(extras);
+
+        Button acceptButton = mExtrasDialog.findViewById(R.id.button_accept);
+        Button cancelButton = mExtrasDialog.findViewById(R.id.button_cancel);
+
+        acceptButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mExtrasAdded = mExtrasToBeAdded;
+                updateExtrasValue();
+                updateTotal();
+                mExtrasDialog.dismiss();
+            }
+        });
 
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.dismiss();
+                mExtrasDialog.dismiss();
             }
         });
-        dialog.show();
+    }
+
+    private void openQuantityDialog() {
+        mQuantityDialog.show();
+    }
+
+    private void openExtrasDialog(List<Extra> extras) {
+        mExtrasToBeAdded.clear();
+        setExtrasListAdapter(extras);
+        mExtrasDialog.show();
+    }
+
+    private void setExtrasListAdapter(List<Extra> extras) {
+        final RecyclerView recyclerView = mExtrasDialog.findViewById(R.id.extrasList);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        List<ExtrasListAdapter.ExtraItem> extraItems = new ArrayList<>();
+        for (Extra extra : extras) {
+            ExtrasListAdapter.ExtraItem extraItem = new ExtrasListAdapter.ExtraItem(extra);
+            if (mExtrasAdded.containsKey(extra.getId())) {
+                extraItem.setIsSelected(true);
+            }
+            extraItems.add(extraItem);
+        }
+        recyclerView.setAdapter(new ExtrasListAdapter(extraItems, new ExtrasListListener() {
+            @Override
+            public void onExtraClicked(ExtrasListAdapter.ExtraItem extraItem) {
+                if (extraItem.IsSelected()) {
+                    Extra extra = extraItem.getExtra();
+                    mExtrasToBeAdded.put(extra.getId(), extra);
+                }
+            }
+        }));
     }
 
     private void updateQuantityValue(int value) {
         TextView textView = findViewById(R.id.cantidad_field_value);
         textView.setText(Integer.toString(value));
+    }
+
+    private void updateExtrasValue() {
+        StringBuilder stringBuilder = new StringBuilder();
+        int extrasCount = 0;
+        for (Extra extra : mExtrasAdded.values()) {
+            if (extrasCount > 1) {
+                stringBuilder.append(", ");
+            }
+            stringBuilder.append(String.format("%s ($%.2f)", extra.getName(), extra.getPrice()));
+            extrasCount++;
+        }
+        TextView extrasTextview = findViewById(R.id.extras_field_value);
+        extrasTextview.setText(stringBuilder.toString());
+    }
+
+    private void updateTotal() {
+
     }
 
     // Recovering activity state
