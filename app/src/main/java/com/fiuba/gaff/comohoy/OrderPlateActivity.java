@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
@@ -105,7 +106,7 @@ public class OrderPlateActivity extends AppCompatActivity {
             extrasCard.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    openExtrasDialog(extras);
+                    openExtrasDialog();
                 }
             });
         } else {
@@ -169,7 +170,7 @@ public class OrderPlateActivity extends AppCompatActivity {
         acceptButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mExtrasAdded = mExtrasToBeAdded;
+                mExtrasAdded = new HashMap<>(mExtrasToBeAdded);
                 updateExtrasValue();
                 updateTotal();
                 mExtrasDialog.dismiss();
@@ -188,9 +189,9 @@ public class OrderPlateActivity extends AppCompatActivity {
         mQuantityDialog.show();
     }
 
-    private void openExtrasDialog(List<Extra> extras) {
+    private void openExtrasDialog() {
         mExtrasToBeAdded.clear();
-        setExtrasListAdapter(extras);
+        updateExtrasListAdapterItems();
         mExtrasDialog.show();
     }
 
@@ -200,9 +201,7 @@ public class OrderPlateActivity extends AppCompatActivity {
         List<ExtrasListAdapter.ExtraItem> extraItems = new ArrayList<>();
         for (Extra extra : extras) {
             ExtrasListAdapter.ExtraItem extraItem = new ExtrasListAdapter.ExtraItem(extra);
-            if (mExtrasAdded.containsKey(extra.getId())) {
-                extraItem.setIsSelected(true);
-            }
+            extraItem.setIsSelected(mExtrasAdded.containsKey(extra.getId()));
             extraItems.add(extraItem);
         }
         recyclerView.setAdapter(new ExtrasListAdapter(extraItems, new ExtrasListListener() {
@@ -214,6 +213,17 @@ public class OrderPlateActivity extends AppCompatActivity {
                 }
             }
         }));
+    }
+
+    private void updateExtrasListAdapterItems() {
+        final RecyclerView recyclerView = mExtrasDialog.findViewById(R.id.extrasList);
+        ExtrasListAdapter extrasAdapter = (ExtrasListAdapter) recyclerView.getAdapter();
+        List<ExtrasListAdapter.ExtraItem> extraItems = extrasAdapter.getExtras();
+        for (ExtrasListAdapter.ExtraItem item : extraItems) {
+            Extra extra = item.getExtra();
+            item.setIsSelected(mExtrasAdded.containsKey(extra.getId()));
+        }
+        extrasAdapter.notifyDataSetChanged();
     }
 
     private void updateQuantityValue(int value) {

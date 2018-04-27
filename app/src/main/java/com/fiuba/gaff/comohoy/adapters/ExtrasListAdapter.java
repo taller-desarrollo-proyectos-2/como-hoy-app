@@ -24,6 +24,10 @@ public class ExtrasListAdapter extends RecyclerView.Adapter<ExtrasListAdapter.Ex
         mExtrasListListener = listener;
      }
 
+     public List<ExtraItem> getExtras(){
+         return mExtras;
+    }
+
      public static class ExtraItem {
          private final Extra mExtra;
          private boolean mIsSelected;
@@ -37,8 +41,8 @@ public class ExtrasListAdapter extends RecyclerView.Adapter<ExtrasListAdapter.Ex
              return mExtra;
         }
 
-        public void setIsSelected(boolean isSelected) {
-             mIsSelected = isSelected;
+        public void setIsSelected(boolean value) {
+             mIsSelected = value;
         }
 
         public boolean IsSelected() {
