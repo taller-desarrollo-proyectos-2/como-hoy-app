@@ -11,7 +11,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
@@ -22,6 +24,8 @@ import com.fiuba.gaff.comohoy.model.Extra;
 import com.fiuba.gaff.comohoy.model.Plate;
 import com.fiuba.gaff.comohoy.services.ServiceLocator;
 import com.fiuba.gaff.comohoy.services.commerces.CommercesService;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,11 +38,13 @@ public class OrderPlateActivity extends AppCompatActivity {
     private int mCommerceId = -1;
     private Long mPlateId = -1L;
 
-    private double mOrderPrice = 0;
     private Dialog mQuantityDialog;
     private Dialog mExtrasDialog;
+    private Dialog mClarificationsDialog;
 
+    private double mOrderPrice = 0;
     private int mOrderQuantity = 1;
+    private String mClarifications = "";
     private HashMap<Long, Extra> mExtrasAdded = new HashMap<>();
     private HashMap<Long, Extra> mExtrasToBeAdded = new HashMap<>();
 
@@ -58,6 +64,7 @@ public class OrderPlateActivity extends AppCompatActivity {
 
         setUpQuantityCard();
         setUpExtrasCard();
+        setUpClarificationsCard();
 
         setUpAddPlateButton();
 
@@ -119,6 +126,17 @@ public class OrderPlateActivity extends AppCompatActivity {
         }
     }
 
+    private void setUpClarificationsCard() {
+        createClarificationsDialog();
+        CardView clarificationsCardView = findViewById(R.id.cardview_aclaraciones);
+        clarificationsCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openClarificationsDialog();
+            }
+        });
+    }
+
     private void createQuantityDialog() {
         mQuantityDialog = new Dialog(this, android.R.style.Theme_Dialog);
         mQuantityDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -146,7 +164,7 @@ public class OrderPlateActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mOrderQuantity = numberPicker.getValue();
-                updateQuantityValue(mOrderQuantity);
+                updateQuantityValue();
                 updateOrderCost();
                 mQuantityDialog.dismiss();
             }
@@ -190,6 +208,38 @@ public class OrderPlateActivity extends AppCompatActivity {
         });
     }
 
+    private void createClarificationsDialog() {
+        mClarificationsDialog = new Dialog(this, android.R.style.Theme_Holo_Light_Dialog);
+        mClarificationsDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        mClarificationsDialog.setContentView(R.layout.dialog_clarifications);
+        mClarificationsDialog.setCanceledOnTouchOutside(false);
+        mClarificationsDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        mClarificationsDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+
+        mClarificationsDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+
+        final EditText clarificationsEditText = mClarificationsDialog.findViewById(R.id.editText_clarifications);
+        clarificationsEditText.setText("");
+
+        Button acceptButton = mClarificationsDialog.findViewById(R.id.button_accept);
+        Button cancelButton = mClarificationsDialog.findViewById(R.id.button_cancel);
+
+        acceptButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mClarifications = clarificationsEditText.getText().toString();
+                updateClarificationsValue();
+                mClarificationsDialog.dismiss();
+            }
+        });
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mClarificationsDialog.dismiss();
+            }
+        });
+    }
+
     private void openQuantityDialog() {
         mQuantityDialog.show();
     }
@@ -198,6 +248,13 @@ public class OrderPlateActivity extends AppCompatActivity {
         mExtrasToBeAdded.clear();
         updateExtrasListAdapterItems();
         mExtrasDialog.show();
+    }
+
+    private void openClarificationsDialog() {
+        EditText clarificationsEditText = mClarificationsDialog.findViewById(R.id.editText_clarifications);
+        clarificationsEditText.setText(mClarifications);
+        clarificationsEditText.requestFocus();
+        mClarificationsDialog.show();
     }
 
     private void setExtrasListAdapter(List<Extra> extras) {
@@ -231,9 +288,9 @@ public class OrderPlateActivity extends AppCompatActivity {
         extrasAdapter.notifyDataSetChanged();
     }
 
-    private void updateQuantityValue(int value) {
+    private void updateQuantityValue() {
         TextView textView = findViewById(R.id.cantidad_field_value);
-        textView.setText(Integer.toString(value));
+        textView.setText(Integer.toString(mOrderQuantity));
     }
 
     private void updateExtrasValue() {
@@ -248,6 +305,11 @@ public class OrderPlateActivity extends AppCompatActivity {
         }
         TextView extrasTextview = findViewById(R.id.extras_field_value);
         extrasTextview.setText(stringBuilder.toString());
+    }
+
+    private void updateClarificationsValue() {
+        TextView clarificationsTextView = findViewById(R.id.aclaraciones_field_value);
+        clarificationsTextView.setText(mClarifications);
     }
 
     private void updateOrderCost() {
