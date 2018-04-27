@@ -45,7 +45,7 @@ public class ExtrasListAdapter extends RecyclerView.Adapter<ExtrasListAdapter.Ex
              mIsSelected = value;
         }
 
-        public boolean IsSelected() {
+        public boolean isSelected() {
              return mIsSelected;
         }
     }
@@ -81,14 +81,14 @@ public class ExtrasListAdapter extends RecyclerView.Adapter<ExtrasListAdapter.Ex
     public void onBindViewHolder(final ExtrasListAdapter.ExtraItemViewHolder holder, int position) {
         final ExtraItem extraItem = mExtras.get(position);
         Extra extra = extraItem.getExtra();
-        holder.mExtraCheckBox.setVisibility(getCheckboxVisibility(extraItem.IsSelected()));
+        holder.mExtraCheckBox.setVisibility(getCheckboxVisibility(extraItem.isSelected()));
         holder.mExtraText.setText(String.format(Locale.ENGLISH, "%s (+%.2f)", extra.getName(), extra.getPrice()));
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                extraItem.setIsSelected(!extraItem.IsSelected());
-                holder.mExtraCheckBox.setVisibility(getCheckboxVisibility(extraItem.IsSelected()));
+                extraItem.setIsSelected(!extraItem.isSelected());
+                holder.mExtraCheckBox.setVisibility(getCheckboxVisibility(extraItem.isSelected()));
                 mExtrasListListener.onExtraClicked(extraItem);
             }
         });

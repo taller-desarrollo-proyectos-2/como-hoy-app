@@ -25,8 +25,6 @@ import com.fiuba.gaff.comohoy.model.Plate;
 import com.fiuba.gaff.comohoy.services.ServiceLocator;
 import com.fiuba.gaff.comohoy.services.commerces.CommercesService;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -46,7 +44,6 @@ public class OrderPlateActivity extends AppCompatActivity {
     private int mOrderQuantity = 1;
     private String mClarifications = "";
     private HashMap<Long, Extra> mExtrasAdded = new HashMap<>();
-    private HashMap<Long, Extra> mExtrasToBeAdded = new HashMap<>();
 
     public interface ExtrasListListener {
         void onExtraClicked(ExtrasListAdapter.ExtraItem extraItem);
@@ -193,7 +190,7 @@ public class OrderPlateActivity extends AppCompatActivity {
         acceptButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mExtrasAdded = new HashMap<>(mExtrasToBeAdded);
+                updateExtrasMap();
                 updateExtrasValue();
                 updateOrderCost();
                 mExtrasDialog.dismiss();
@@ -206,6 +203,22 @@ public class OrderPlateActivity extends AppCompatActivity {
                 mExtrasDialog.dismiss();
             }
         });
+    }
+
+    private void updateExtrasMap() {
+        final RecyclerView recyclerView = mExtrasDialog.findViewById(R.id.extrasList);
+        ExtrasListAdapter extrasAdapter = (ExtrasListAdapter) recyclerView.getAdapter();
+        List<ExtrasListAdapter.ExtraItem> extraItems = extrasAdapter.getExtras();
+        for (ExtrasListAdapter.ExtraItem item : extraItems) {
+            Extra extra = item.getExtra();
+            if (item.isSelected()) {
+                mExtrasAdded.put(extra.getId(), extra);
+            } else {
+                if (mExtrasAdded.containsKey(extra.getId())) {
+                    mExtrasAdded.remove(extra.getId());
+                }
+            }
+        }
     }
 
     private void createClarificationsDialog() {
@@ -245,7 +258,6 @@ public class OrderPlateActivity extends AppCompatActivity {
     }
 
     private void openExtrasDialog() {
-        mExtrasToBeAdded.clear();
         updateExtrasListAdapterItems();
         mExtrasDialog.show();
     }
@@ -269,9 +281,8 @@ public class OrderPlateActivity extends AppCompatActivity {
         recyclerView.setAdapter(new ExtrasListAdapter(extraItems, new ExtrasListListener() {
             @Override
             public void onExtraClicked(ExtrasListAdapter.ExtraItem extraItem) {
-                if (extraItem.IsSelected()) {
-                    Extra extra = extraItem.getExtra();
-                    mExtrasToBeAdded.put(extra.getId(), extra);
+                if (extraItem.isSelected()) {
+
                 }
             }
         }));
