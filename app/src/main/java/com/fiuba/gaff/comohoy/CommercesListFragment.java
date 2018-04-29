@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.fiuba.gaff.comohoy.adapters.CommerceListAdapter;
 import com.fiuba.gaff.comohoy.filters.RatingFilter;
+import com.fiuba.gaff.comohoy.filters.SearchFilter;
 import com.fiuba.gaff.comohoy.model.Commerce;
 import com.fiuba.gaff.comohoy.services.ServiceLocator;
 import com.fiuba.gaff.comohoy.services.commerces.CommercesService;
@@ -117,6 +118,13 @@ public class CommercesListFragment extends Fragment {
                 showProgress(false);
             }
         };
+    }
+
+    private void setSearchCommerces(String search) {
+        List<Commerce> commerces = getCommercesService().getCommerces();
+        SearchFilter searchFilter = new SearchFilter(search);
+        List<Commerce> filteredList = searchFilter.apply(commerces);
+        loadCommerces(filteredList);
     }
 
     private void setUpFilterButton(View fragmentView) {

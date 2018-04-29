@@ -22,7 +22,7 @@
     <string name="title_notifications">Notifications</string>
     <string name="title_activity_more_info">Mas Información</string>
     <string name="title_activity_more_info_plate">Mas Información del Plato</string>
-
+    <string name="hint_search">buscar comercio</string>
     <string name="numer_of_plates">1</string>
     <string name="aclaraciones_plate">Opcional</string>
     <string name="puntajeFiltrar">3</string>
