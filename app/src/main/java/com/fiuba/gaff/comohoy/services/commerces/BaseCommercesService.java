@@ -9,9 +9,12 @@ import android.util.Log;
 import com.fiuba.gaff.comohoy.comparators.CommerceLocationComparator;
 import com.fiuba.gaff.comohoy.model.Category;
 import com.fiuba.gaff.comohoy.model.Commerce;
+import com.fiuba.gaff.comohoy.model.Day;
 import com.fiuba.gaff.comohoy.model.Extra;
 import com.fiuba.gaff.comohoy.model.Location;
+import com.fiuba.gaff.comohoy.model.OpeningTime;
 import com.fiuba.gaff.comohoy.model.Plate;
+import com.fiuba.gaff.comohoy.model.TimeInterval;
 import com.fiuba.gaff.comohoy.networking.DownloadCallback;
 import com.fiuba.gaff.comohoy.networking.HttpMethodType;
 import com.fiuba.gaff.comohoy.networking.NetworkFragment;
@@ -24,6 +27,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -126,6 +130,7 @@ public class BaseCommercesService implements CommercesService {
             commerce.setCategories(getCommerceCategories(commerceJson));
             commerce.setPlates(getCommercePlates(commerceJson));
             commerce.setLocation(getCommerceLocation(commerceJson));
+            commerce.setOpeningTimes(getOpeningTimes(commerceJson));
 
             mCommerces.put(commerceId, commerce);
         }
@@ -200,5 +205,36 @@ public class BaseCommercesService implements CommercesService {
             e.printStackTrace();
         }
         return extras;
+    }
+
+    private HashMap<Day, OpeningTime> getOpeningTimes(JSONObject commerceJson) throws JSONException {
+        HashMap<Day, OpeningTime> openingTimesMap = new HashMap<>();
+        JSONArray timesArray = commerceJson.getJSONArray("times");
+        for(int i = 0; i < timesArray.length(); i++) {
+            JSONObject openingTimeObject = timesArray.getJSONObject(i);
+            OpeningTime openingTime = getOpeningTime(openingTimeObject);
+            openingTimesMap.put(openingTime.getDay(), openingTime);
+        }
+        return openingTimesMap;
+    }
+
+    private OpeningTime getOpeningTime(JSONObject openingTimeJson) {
+        OpeningTime openingTime = new OpeningTime();
+        try {
+            Day day = Day.fromString(openingTimeJson.getString("day"));
+            openingTime.setDay(day);
+
+            Long fromHour = openingTimeJson.getLong("fromHour");
+            Long toHour = openingTimeJson.getLong("toHour");
+            TimeInterval timeInterval = new TimeInterval(new Timestamp(fromHour), new Timestamp(toHour));
+            openingTime.setOpeningTimes(timeInterval);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return openingTime;
     }
 }
