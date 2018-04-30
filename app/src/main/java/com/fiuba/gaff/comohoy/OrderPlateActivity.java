@@ -40,6 +40,7 @@ public class OrderPlateActivity extends AppCompatActivity {
     private Dialog mExtrasDialog;
     private Dialog mClarificationsDialog;
 
+
     private double mOrderPrice = 0;
     private int mOrderQuantity = 1;
     private String mClarifications = "";
