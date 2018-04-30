@@ -16,6 +16,12 @@ import android.widget.TextView;
 import com.fiuba.gaff.comohoy.CommercesListFragment;
 import com.fiuba.gaff.comohoy.R;
 import com.fiuba.gaff.comohoy.model.Commerce;
+import com.fiuba.gaff.comohoy.services.ServiceLocator;
+import com.fiuba.gaff.comohoy.services.commerces.CommercesService;
+import com.fiuba.gaff.comohoy.services.commerces.MockCommercesService;
+import com.fiuba.gaff.comohoy.services.picasso.CircleTransform;
+import com.fiuba.gaff.comohoy.services.picasso.PicassoService;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -72,11 +78,18 @@ public class CommerceListAdapter extends RecyclerView.Adapter<CommerceListAdapte
     public void onBindViewHolder(final CommerceViewHolder holder, int position) {
         final Commerce commerce = mCommerces.get(position);
 
-        Bitmap commercePictureBitmap = commerce.getPicture();
-        Drawable commercePictureDrawable = getCommercePictureDrawable(commercePictureBitmap, holder.mView.getContext());
-
-        holder.mPicture.setImageDrawable(commercePictureDrawable);
-        //holder.mPicture.setImageBitmap(commerce.getPicture());
+        CommercesService commercesService = ServiceLocator.get(CommercesService.class);
+        if (commercesService instanceof MockCommercesService) {
+            // DEBUG
+            Bitmap commercePictureBitmap = commerce.getPicture();
+            Drawable commercePictureDrawable = getCommercePictureDrawable(commercePictureBitmap, holder.mView.getContext());
+            holder.mPicture.setImageDrawable(commercePictureDrawable);
+        } else {
+            String uriFormat = "http://34.237.197.99:9000/api/v1/commerces/%d/picture";
+            String uri = String.format(uriFormat, commerce.getId());
+            Picasso picasso = ServiceLocator.get(PicassoService.class).getPicasso();
+            picasso.load(uri).fit().transform(new CircleTransform()).placeholder(R.drawable.progress_animation).error(R.drawable.no_image).into(holder.mPicture);
+        }
         holder.mName.setText(commerce.getShowableName());
         holder.mDescription.setText(commerce.getDescription());
         holder.mRating.setText(String.format("%.1f", commerce.getRating()));
