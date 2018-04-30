@@ -7,6 +7,8 @@ import android.net.NetworkInfo;
 import android.util.Log;
 
 import com.fiuba.gaff.comohoy.comparators.CommerceLocationComparator;
+import com.fiuba.gaff.comohoy.model.Categorie;
+import com.fiuba.gaff.comohoy.model.CategoriesList;
 import com.fiuba.gaff.comohoy.model.Category;
 import com.fiuba.gaff.comohoy.model.Commerce;
 import com.fiuba.gaff.comohoy.model.Day;
@@ -38,8 +40,13 @@ public class BaseCommercesService implements CommercesService {
 
     private static final String REQUEST_COMMERCES_URL = "http://34.237.197.99:9000/api/v1/commerces";
     private static final String REQUEST_COMMERCES_WITH_LOC_FORMAT = "http://34.237.197.99:9000/api/v1/commerces?lat=%f&lng=%f";
+    private Context mContext;
 
     private Map<Integer, Commerce> mCommerces;
+
+    public BaseCommercesService(Context context){
+        mContext = context;
+    }
 
     @Override
     public void updateCommercesData(Activity activity, final UpdateCommercesCallback callback) {
@@ -72,6 +79,12 @@ public class BaseCommercesService implements CommercesService {
                 Collections.sort(commerces, new CommerceLocationComparator(context));
         }
         return commerces;
+    }
+
+    @Override
+    public List<Category> getUsedCategories() {
+        CategoriesList categorias = new CategoriesList(mContext);
+        return categorias.getListCategories();
     }
 
     @Override

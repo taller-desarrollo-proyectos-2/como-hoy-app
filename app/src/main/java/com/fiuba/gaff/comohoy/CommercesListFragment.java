@@ -16,6 +16,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.Toast;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 import com.fiuba.gaff.comohoy.adapters.CommerceListAdapter;
 import com.fiuba.gaff.comohoy.filters.RatingFilter;
 import com.fiuba.gaff.comohoy.filters.SearchFilter;
+import com.fiuba.gaff.comohoy.model.Categorie;
 import com.fiuba.gaff.comohoy.model.Commerce;
 import com.fiuba.gaff.comohoy.model.Location;
 import com.fiuba.gaff.comohoy.services.PurchasesService.PurchasesService;
@@ -40,6 +42,7 @@ public class CommercesListFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private ProgressBar mProgressBar;
     private View mFiltersButton;
+    private View mCategoriesButton;
     private SearchView mSearchView;
 
     private CommerceListListener mCommerceListListener;
@@ -69,6 +72,7 @@ public class CommercesListFragment extends Fragment {
         mRecyclerView = view.findViewById(R.id.recyclerview_commerces_list);
         mProgressBar = view.findViewById(R.id.progress_bar_commerces_list);
         mFiltersButton = view.findViewById(R.id.action_button_filter);
+        mCategoriesButton = view.findViewById(R.id.action_button_categories);
         mSearchView = view.findViewById(R.id.searchView);
 
         showProgress(true);
@@ -79,7 +83,7 @@ public class CommercesListFragment extends Fragment {
 
         setUpSearchView();
         setUpFilterButton(view);
-
+        setUpCategoriButton(view);
         return view;
     }
 
@@ -145,6 +149,7 @@ public class CommercesListFragment extends Fragment {
         mProgressBar.setVisibility(show ? View.VISIBLE : View.GONE);
         mRecyclerView.setVisibility(show ? View.GONE : View.VISIBLE);
         mFiltersButton.setVisibility(show ? View.GONE : View.VISIBLE);
+        mCategoriesButton.setVisibility(show ? View.GONE : View.VISIBLE);
     }
 
     private UpdateCommercesCallback createOnUpdatedCommercesCallback() {
@@ -210,4 +215,28 @@ public class CommercesListFragment extends Fragment {
             }
         });
     }
+    private void setUpCategoriButton(View fragmentView){
+        FloatingActionButton filterButton =  fragmentView.findViewById(R.id.action_button_categories);
+        filterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Dialog dialog = new Dialog(getContext());
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(R.layout.dialog_comidas);
+                WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                Window window = dialog.getWindow();
+                lp.copyFrom(window.getAttributes());
+                lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+                lp.height = WindowManager.LayoutParams.MATCH_PARENT;
+                window.setAttributes(lp);
+
+
+                //LinearLayout linearLayout = new LinearLayout();
+
+
+                dialog.show();
+            }
+        });
+    }
+
 }

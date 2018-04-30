@@ -20,8 +20,6 @@ import com.fiuba.gaff.comohoy.services.MockCommerceSuggestion;
 
 public class MainActivity extends AppCompatActivity implements
         SearchView.OnQueryTextListener,
-        //android.support.v7.widget.SearchView.OnQueryTextListener,
-        //SearchView.OnQueryTextListener,
         CommercesListFragment.CommerceListListener{
 
     private MockCommerceSuggestion suggestion;
@@ -43,27 +41,6 @@ public class MainActivity extends AppCompatActivity implements
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.navigation, menu);
-        MenuItem searchItem = menu.findItem(R.id.search_comercio);
-/*        SearchView searchView = (SearchView) searchItem.getActionView();
-        //SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        if (searchView != null){
-            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                @Override
-                public boolean onQueryTextSubmit(String query) {
-                    return false;
-                }
-
-                @Override
-                public boolean onQueryTextChange(String newText) {
-                    return false;
-                }
-            });
-            //searchView.setOnQueryTextListener(this);
-            SearchManager searchManager = (SearchManager) getSystemService(this.SEARCH_SERVICE);
-            searchView.setSearchableInfo(searchManager.getSearchableInfo( new ComponentName(this, MainActivity.class)));
-            searchView.setIconifiedByDefault(false);
-        }*/
         return true;
     }
 

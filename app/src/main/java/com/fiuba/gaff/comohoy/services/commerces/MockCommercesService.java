@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.content.Context;
 
 import com.fiuba.gaff.comohoy.comparators.CommerceLocationComparator;
+import com.fiuba.gaff.comohoy.model.CategoriesList;
 import com.fiuba.gaff.comohoy.model.Category;
 import com.fiuba.gaff.comohoy.model.Commerce;
 import com.fiuba.gaff.comohoy.R;
@@ -48,6 +49,12 @@ public class MockCommercesService implements CommercesService {
                 Collections.sort(mCommerces, new CommerceLocationComparator(context));
         }
         return mCommerces;
+    }
+
+    @Override
+    public List<Category> getUsedCategories() {
+        CategoriesList categorias = new CategoriesList(mContext);
+        return categorias.getListCategories();
     }
 
     private Commerce createCommerce(int id) {
