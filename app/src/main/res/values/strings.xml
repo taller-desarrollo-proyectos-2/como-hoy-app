@@ -41,4 +41,6 @@
 
     <string name="intent_data_plate_and_commerce_id">extraCommerceAndPlateIds</string>
     <string name="intent_data_plate_id">extraPlateId</string>
+
+    <string name="nombre_categoria">nombreCategoria</string>
 </resources>

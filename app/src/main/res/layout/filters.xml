@@ -7,7 +7,7 @@
 
     <TextView
         android:layout_marginLeft="20dp"
-        android:text="ORDENAMIENTOS"
+        android:text="ORDENAR POR..."
         android:textStyle="bold"
         android:textSize="24sp"
         android:gravity="left"
@@ -37,7 +37,7 @@
             android:textSize="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="PUNTAJE" />
+            android:text="VALORIZACION" />
     </RadioGroup>
 
     <TextView
@@ -73,11 +73,14 @@
             android:hint="@string/puntajeFiltrar" />
 
     </LinearLayout>
-    <Button
+
+    <android.support.v7.widget.AppCompatButton
         android:id="@+id/button_confirm_filtrar"
         android:layout_marginTop="20dp"
+        android:textColor="@color/blanco"
+        android:backgroundTint="@color/amber"
         android:layout_gravity="center_horizontal"
-        android:text="Filtrar"
+        android:text="ACEPTAR"
         android:textSize="18sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
