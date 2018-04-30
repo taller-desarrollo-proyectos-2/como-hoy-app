@@ -3,7 +3,6 @@ package com.fiuba.gaff.comohoy.services.commerces;
 import android.app.Activity;
 import android.content.Context;
 
-import com.fiuba.gaff.comohoy.model.Categorie;
 import com.fiuba.gaff.comohoy.model.Category;
 import com.fiuba.gaff.comohoy.model.Commerce;
 import com.fiuba.gaff.comohoy.model.Location;

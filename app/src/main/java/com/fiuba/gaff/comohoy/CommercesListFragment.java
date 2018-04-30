@@ -24,7 +24,6 @@ import android.widget.Toast;
 import com.fiuba.gaff.comohoy.adapters.CommerceListAdapter;
 import com.fiuba.gaff.comohoy.filters.RatingFilter;
 import com.fiuba.gaff.comohoy.filters.SearchFilter;
-import com.fiuba.gaff.comohoy.model.Categorie;
 import com.fiuba.gaff.comohoy.model.Commerce;
 import com.fiuba.gaff.comohoy.model.Location;
 import com.fiuba.gaff.comohoy.services.PurchasesService.PurchasesService;

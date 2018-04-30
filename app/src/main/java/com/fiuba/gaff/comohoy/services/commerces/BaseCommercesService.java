@@ -7,7 +7,6 @@ import android.net.NetworkInfo;
 import android.util.Log;
 
 import com.fiuba.gaff.comohoy.comparators.CommerceLocationComparator;
-import com.fiuba.gaff.comohoy.model.Categorie;
 import com.fiuba.gaff.comohoy.model.CategoriesList;
 import com.fiuba.gaff.comohoy.model.Category;
 import com.fiuba.gaff.comohoy.model.Commerce;
