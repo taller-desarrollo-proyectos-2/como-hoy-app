@@ -17,4 +17,14 @@ public class BasePurchasesService implements PurchasesService {
     public void addPlateToCart(PlateOrder plateOrder) {
         mCart.put(plateOrder.getOrderId(), plateOrder);
     }
+
+    @Override
+    public void clearCart() {
+        mCart.clear();
+    }
+
+    @Override
+    public boolean isCartEmpty() {
+        return mCart.isEmpty();
+    }
 }

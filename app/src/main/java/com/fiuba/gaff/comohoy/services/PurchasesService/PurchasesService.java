@@ -5,5 +5,7 @@ import com.fiuba.gaff.comohoy.services.CustomService;
 
 public interface PurchasesService extends CustomService {
     void addPlateToCart(PlateOrder palteOrder);
+    void clearCart();
+    boolean isCartEmpty();
 
 }
