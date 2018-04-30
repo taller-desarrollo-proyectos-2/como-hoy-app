@@ -11,6 +11,7 @@ import android.util.Pair;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -23,6 +24,7 @@ import com.fiuba.gaff.comohoy.model.Commerce;
 import com.fiuba.gaff.comohoy.model.CommerceMenu;
 import com.fiuba.gaff.comohoy.model.CommerceMenuItem;
 import com.fiuba.gaff.comohoy.model.Plate;
+import com.fiuba.gaff.comohoy.services.PurchasesService.PurchasesService;
 import com.fiuba.gaff.comohoy.services.ServiceLocator;
 import com.fiuba.gaff.comohoy.services.commerces.CommercesService;
 import com.synnapps.carouselview.CarouselView;
@@ -38,6 +40,7 @@ public class CommerceDetailsActivity extends AppCompatActivity {
 
     private TextView mCommerceTittle;
     private LinearLayout mMenuLayout;
+    private Button mSeeMyOrderButton;
 
     private int mCommerceId = -1;
 
@@ -49,14 +52,26 @@ public class CommerceDetailsActivity extends AppCompatActivity {
         void onPlateClicked(Plate plate);
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_commerce_details);
 
-        //Desde aca carrusel
-        carouselView = (CarouselView) findViewById(R.id.carouselView);
+        obtainCommerceId(savedInstanceState);
+
+        carouselView = findViewById(R.id.carouselView);
+        mCommerceTittle = findViewById(R.id.commerceTittle);
+        mMenuLayout = findViewById(R.id.menu_layout);
+        mSeeMyOrderButton = findViewById(R.id.button_see_my_order);
+
+        setUpCarouselView();
+        setUpGoToMoreInforButton();
+        setUpSeeMyOrderButton();
+        fillCommercesValues();
+        createCommerceMenuView();
+    }
+
+    private void setUpCarouselView() {
         carouselView.setPageCount(sampleImages.length);
         ImageListener imageListener = new ImageListener() {
             @Override
@@ -65,10 +80,25 @@ public class CommerceDetailsActivity extends AppCompatActivity {
             }
         };
         carouselView.setImageListener(imageListener);
-        //Hasta aca carrusel
+    }
 
-        obtainCommerceId(savedInstanceState);
+    private void updateSeeMyOrderButtonVisibility() {
+        int visibility = getPurchaseService().isCartEmpty() ? View.GONE : View.VISIBLE;
+        mSeeMyOrderButton.setVisibility(visibility);
+    }
 
+    private void setUpSeeMyOrderButton() {
+        mSeeMyOrderButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                //Intent openMoreInfoIntent = new Intent(CommerceDetailsActivity.this, MoreInfoActivity.class);
+                //openMoreInfoIntent.putExtra(getString(R.string.intent_data_commerce_id), mCommerceId);
+                //startActivity(openMoreInfoIntent);
+            }
+        });
+    }
+
+    private void setUpGoToMoreInforButton() {
         ImageButton infoB = findViewById(R.id.info);
         infoB.setOnClickListener(new View.OnClickListener() {
 
@@ -79,12 +109,12 @@ public class CommerceDetailsActivity extends AppCompatActivity {
                 startActivity(openMoreInfoIntent);
             }
         });
+    }
 
-        mCommerceTittle = findViewById(R.id.commerceTittle);
-        mMenuLayout = findViewById(R.id.menu_layout);
-
-        fillCommercesValues();
-        createCommerceMenuView();
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateSeeMyOrderButtonVisibility();
     }
 
     @Override
@@ -96,6 +126,12 @@ public class CommerceDetailsActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        getPurchaseService().clearCart();
     }
 
     @Override
@@ -264,5 +300,9 @@ public class CommerceDetailsActivity extends AppCompatActivity {
 
     private CommercesService getCommerceService() {
         return ServiceLocator.get(CommercesService.class);
+    }
+
+    private PurchasesService getPurchaseService() {
+        return ServiceLocator.get(PurchasesService.class);
     }
 }

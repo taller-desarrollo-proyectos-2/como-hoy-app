@@ -2,6 +2,7 @@ package com.fiuba.gaff.comohoy;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -23,10 +24,14 @@ import com.fiuba.gaff.comohoy.adapters.CommerceListAdapter;
 import com.fiuba.gaff.comohoy.filters.RatingFilter;
 import com.fiuba.gaff.comohoy.filters.SearchFilter;
 import com.fiuba.gaff.comohoy.model.Commerce;
+import com.fiuba.gaff.comohoy.model.Location;
+import com.fiuba.gaff.comohoy.services.PurchasesService.PurchasesService;
 import com.fiuba.gaff.comohoy.services.ServiceLocator;
 import com.fiuba.gaff.comohoy.services.commerces.CommercesService;
 import com.fiuba.gaff.comohoy.services.commerces.SortCriteria;
 import com.fiuba.gaff.comohoy.services.commerces.UpdateCommercesCallback;
+import com.fiuba.gaff.comohoy.services.location.GpsLocationService;
+import com.fiuba.gaff.comohoy.services.location.LocationService;
 
 import java.util.List;
 
@@ -68,6 +73,8 @@ public class CommercesListFragment extends Fragment {
 
         showProgress(true);
 
+        Location currentLocation = getLocationService().getLocation(getActivity());
+        //getCommercesService().updateCommercesWithLocation(getActivity(), createOnUpdatedCommercesCallback(), currentLocation);
         getCommercesService().updateCommercesData(getActivity(), createOnUpdatedCommercesCallback());
 
         setUpSearchView();
@@ -128,6 +135,10 @@ public class CommercesListFragment extends Fragment {
 
     private CommercesService getCommercesService() {
         return ServiceLocator.get(CommercesService.class);
+    }
+
+    private LocationService getLocationService() {
+        return ServiceLocator.get(LocationService.class);
     }
 
     private void showProgress(boolean show) {
