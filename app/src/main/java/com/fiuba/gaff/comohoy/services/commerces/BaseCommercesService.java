@@ -37,51 +37,23 @@ import java.util.Map;
 public class BaseCommercesService implements CommercesService {
 
     private static final String REQUEST_COMMERCES_URL = "http://34.237.197.99:9000/api/v1/commerces";
+    private static final String REQUEST_COMMERCES_WITH_LOC_FORMAT = "http://34.237.197.99:9000/api/v1/commerces?lat=%f&lng=%f";
 
     private Map<Integer, Commerce> mCommerces;
 
     @Override
     public void updateCommercesData(Activity activity, final UpdateCommercesCallback callback) {
-        mCommerces = new HashMap<>();
-        NetworkObject updateCommercesNetworkObject = createOnUpdateCommercesList();
+        NetworkObject updateCommercesNetworkObject = createUpdateCommercesNetworkObject(REQUEST_COMMERCES_URL);
         NetworkFragment networkFragment = NetworkFragment.getInstance(activity.getFragmentManager(), updateCommercesNetworkObject);
-        networkFragment.startDownload(new DownloadCallback<NetworkResult>() {
+        downloadCommerces(networkFragment, callback);
+    }
 
-            @Override
-            public void onResponseReceived(NetworkResult result) {
-                if (result.mException == null) {
-                    try {
-                        getCommercesFromResponse(result.mResultValue);
-                        callback.onCommercesUpdated();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-                else {
-                    Log.e("CommercesService", result.mException.getMessage());
-                    callback.onError("No se pudieron cargar comercios. Verifique su conección de internet");
-                }
-            }
-
-            @Override
-            public NetworkInfo getActiveNetworkInfo(Context context) {
-                ConnectivityManager connectivityManager =
-                        (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-                NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-                return networkInfo;
-            }
-
-            @Override
-            public void onProgressUpdate(int progressCode, int percentComplete) {
-
-            }
-
-            @Override
-            public void onFinishDownloading() {
-
-            }
-        });
-
+    @Override
+    public void updateCommercesWithLocation(Activity activity, final UpdateCommercesCallback callback, Location location) {
+        final String uri = String.format(REQUEST_COMMERCES_WITH_LOC_FORMAT, location.getLatitud(), location.getLongitud());
+        NetworkObject updateCommercesNetworkObject = createUpdateCommercesNetworkObject(uri);
+        NetworkFragment networkFragment = NetworkFragment.getInstance(activity.getFragmentManager(), updateCommercesNetworkObject);
+        downloadCommerces(networkFragment, callback);
     }
 
     @Override
@@ -111,8 +83,8 @@ public class BaseCommercesService implements CommercesService {
         return null;
     }
 
-    private NetworkObject createOnUpdateCommercesList() {
-        NetworkObject updateCommercesNetworkObject = new NetworkObject(REQUEST_COMMERCES_URL, HttpMethodType.GET);
+    private NetworkObject createUpdateCommercesNetworkObject(String url) {
+        NetworkObject updateCommercesNetworkObject = new NetworkObject(url, HttpMethodType.GET);
         String authToken = ServiceLocator.get(FacebookService.class).getAuthToken();
         updateCommercesNetworkObject.setAuthToken(authToken);
         return updateCommercesNetworkObject;
@@ -236,5 +208,45 @@ public class BaseCommercesService implements CommercesService {
             e.printStackTrace();
         }
         return openingTime;
+    }
+
+    private void downloadCommerces(final NetworkFragment networkFragment, final UpdateCommercesCallback callback) {
+        mCommerces = new HashMap<>();
+        networkFragment.startDownload(new DownloadCallback<NetworkResult>() {
+
+            @Override
+            public void onResponseReceived(NetworkResult result) {
+                if (result.mException == null) {
+                    try {
+                        getCommercesFromResponse(result.mResultValue);
+                        callback.onCommercesUpdated();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else {
+                    Log.e("CommercesService", result.mException.getMessage());
+                    callback.onError("No se pudieron cargar comercios. Verifique su conección de internet");
+                }
+            }
+
+            @Override
+            public NetworkInfo getActiveNetworkInfo(Context context) {
+                ConnectivityManager connectivityManager =
+                        (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+                return networkInfo;
+            }
+
+            @Override
+            public void onProgressUpdate(int progressCode, int percentComplete) {
+
+            }
+
+            @Override
+            public void onFinishDownloading() {
+
+            }
+        });
     }
 }

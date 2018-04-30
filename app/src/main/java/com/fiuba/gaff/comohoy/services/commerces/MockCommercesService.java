@@ -123,4 +123,16 @@ public class MockCommercesService implements CommercesService {
     public Commerce getCommerce(int id) {
         return mCommerces.get(id);
     }
+
+    @Override
+    public void updateCommercesWithLocation(Activity activity, UpdateCommercesCallback callback, Location location) {
+        final int commercesAmount = 3;
+        mCommerces = new ArrayList<>();
+        for (int i = 0; i < commercesAmount; ++i) {
+            mCommerces.add(createCommerce(i));
+            createPlatesAndCategories(mCommerces.get(i));
+        }
+
+        callback.onCommercesUpdated();
+    }
 }
