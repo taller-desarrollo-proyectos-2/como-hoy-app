@@ -5,15 +5,11 @@ import com.fiuba.gaff.comohoy.model.Commerce;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by FernandoN on 29/04/2018.
- */
-
 public class SearchFilter implements Filter {
     String nombreComercioFiltro;
 
     public SearchFilter( String nombreFiltro ) {
-        nombreComercioFiltro = nombreFiltro;
+        nombreComercioFiltro = nombreFiltro.toLowerCase();
     }
 
     @Override
@@ -21,7 +17,7 @@ public class SearchFilter implements Filter {
         List<Commerce> filteredList = new ArrayList<>();
         for (int i = 0; i < commerceList.size(); i++) {
             Commerce commerce = commerceList.get(i);
-            if (commerce.getName().contains(nombreComercioFiltro)) {
+            if (commerce.getName().toLowerCase().contains(nombreComercioFiltro)) {
                 filteredList.add(commerce);
             }
         }

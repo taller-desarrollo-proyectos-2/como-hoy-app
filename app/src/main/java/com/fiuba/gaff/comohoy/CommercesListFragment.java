@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.fiuba.gaff.comohoy.adapters.CommerceListAdapter;
@@ -33,6 +34,8 @@ public class CommercesListFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
     private ProgressBar mProgressBar;
+    private View mFiltersButton;
+    private SearchView mSearchView;
 
     private CommerceListListener mCommerceListListener;
 
@@ -60,11 +63,14 @@ public class CommercesListFragment extends Fragment {
 
         mRecyclerView = view.findViewById(R.id.recyclerview_commerces_list);
         mProgressBar = view.findViewById(R.id.progress_bar_commerces_list);
+        mFiltersButton = view.findViewById(R.id.action_button_filter);
+        mSearchView = view.findViewById(R.id.searchView);
 
         showProgress(true);
 
         getCommercesService().updateCommercesData(getActivity(), createOnUpdatedCommercesCallback());
 
+        setUpSearchView();
         setUpFilterButton(view);
 
         return view;
@@ -87,10 +93,35 @@ public class CommercesListFragment extends Fragment {
         mCommerceListListener = null;
     }
 
-    private void loadCommerces(List<Commerce> commerces) {
+    private void setUpSearchView() {
+        mSearchView.setOnQueryTextListener( new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filterCommercesByText(newText, false);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                filterCommercesByText(query, true);
+                return true;
+            }
+        });
+    }
+
+    private void filterCommercesByText(String searchText, boolean notifyNoneCommerces) {
+        List<Commerce> commerces = getCommercesService().getCommerces();
+        if (commerces != null) {
+            SearchFilter saerchFilter = new SearchFilter(searchText);
+            List<Commerce> filteredCommerces = saerchFilter.apply(commerces);
+            loadCommerces(filteredCommerces, notifyNoneCommerces);
+        }
+    }
+
+    private void loadCommerces(List<Commerce> commerces, boolean notifyNoneCommerces) {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(new CommerceListAdapter(commerces, mCommerceListListener));
-        if (commerces.size() < 1) {
+        if (notifyNoneCommerces && commerces.size() < 1) {
             Toast.makeText(getContext(), "No contamos con comercios en este momento", Toast.LENGTH_LONG).show();
         }
     }
@@ -102,13 +133,14 @@ public class CommercesListFragment extends Fragment {
     private void showProgress(boolean show) {
         mProgressBar.setVisibility(show ? View.VISIBLE : View.GONE);
         mRecyclerView.setVisibility(show ? View.GONE : View.VISIBLE);
+        mFiltersButton.setVisibility(show ? View.GONE : View.VISIBLE);
     }
 
     private UpdateCommercesCallback createOnUpdatedCommercesCallback() {
         return new UpdateCommercesCallback() {
             @Override
             public void onCommercesUpdated() {
-                loadCommerces(getCommercesService().getCommercesSortedBy(getActivity(), SortCriteria.Closeness));
+                loadCommerces(getCommercesService().getCommercesSortedBy(getActivity(), SortCriteria.Closeness), true);
                 showProgress(false);
             }
 
@@ -118,13 +150,6 @@ public class CommercesListFragment extends Fragment {
                 showProgress(false);
             }
         };
-    }
-
-    private void setSearchCommerces(String search) {
-        List<Commerce> commerces = getCommercesService().getCommerces();
-        SearchFilter searchFilter = new SearchFilter(search);
-        List<Commerce> filteredList = searchFilter.apply(commerces);
-        loadCommerces(filteredList);
     }
 
     private void setUpFilterButton(View fragmentView) {
@@ -166,7 +191,7 @@ public class CommercesListFragment extends Fragment {
                             RatingFilter ratingFilter = new RatingFilter(puntajeFiltrar);
                             List<Commerce> filteredList = ratingFilter.apply(commerces);
 
-                            loadCommerces(filteredList);
+                            loadCommerces(filteredList, true);
                         }
                         dialog.dismiss();
                     }
