@@ -16,6 +16,10 @@ public class PlateOrder {
         mExtrasId = new ArrayList<>();
     }
 
+    public Long getOrderId() {
+        return mOrderId;
+    }
+
     public int getCommerceId() {
         return mCommerceId;
     }

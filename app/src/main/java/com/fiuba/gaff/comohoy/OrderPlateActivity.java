@@ -22,6 +22,8 @@ import com.fiuba.gaff.comohoy.adapters.ExtrasListAdapter;
 import com.fiuba.gaff.comohoy.model.Commerce;
 import com.fiuba.gaff.comohoy.model.Extra;
 import com.fiuba.gaff.comohoy.model.Plate;
+import com.fiuba.gaff.comohoy.model.purchases.PlateOrder;
+import com.fiuba.gaff.comohoy.services.PurchasesService.PurchasesService;
 import com.fiuba.gaff.comohoy.services.ServiceLocator;
 import com.fiuba.gaff.comohoy.services.commerces.CommercesService;
 
@@ -39,7 +41,6 @@ public class OrderPlateActivity extends AppCompatActivity {
     private Dialog mQuantityDialog;
     private Dialog mExtrasDialog;
     private Dialog mClarificationsDialog;
-
 
     private double mOrderPrice = 0;
     private int mOrderQuantity = 1;
@@ -90,9 +91,21 @@ public class OrderPlateActivity extends AppCompatActivity {
         addPlateButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                addPlateToCart();
+                finish();
             }
         });
+    }
+
+    private void addPlateToCart() {
+        PlateOrder plateOrder = new PlateOrder(mPlateId);
+        plateOrder.setCommerceId(mCommerceId);
+        plateOrder.setQuantity(mOrderQuantity);
+        plateOrder.setExtrasId(new ArrayList<>(mExtrasAdded.keySet()));
+        plateOrder.setClarifications(mClarifications);
+
+        PurchasesService purchasesService = getPurchaseService();
+        purchasesService.addPlateToCart(plateOrder);
     }
 
     private void setUpQuantityCard() {
@@ -376,5 +389,7 @@ public class OrderPlateActivity extends AppCompatActivity {
         return ServiceLocator.get(CommercesService.class);
     }
 
-
+    private PurchasesService getPurchaseService() {
+        return ServiceLocator.get(PurchasesService.class);
+    }
 }

@@ -9,11 +9,8 @@ public class CreditCardDetails {
     private String mSecurityNumber = "";
     private Date mExpireDate;
 
-    private CreditCardValidator mValidator;
-
     public CreditCardDetails(CreditCardType type) {
         mCardType = type;
-        mValidator = getValidator(type);
         mExpireDate = new Date();
     }
 
@@ -55,13 +52,5 @@ public class CreditCardDetails {
 
     public void setExpireDate(Date expireDate) {
         mExpireDate = expireDate;
-    }
-
-    private CreditCardValidator getValidator(CreditCardType type) {
-        switch (type) {
-            case Visa: return new VisaCardValidator();
-            case AmericanExpress: return new AmericanExpressCardValidator();
-            default: return new VisaCardValidator();
-        }
     }
 }
