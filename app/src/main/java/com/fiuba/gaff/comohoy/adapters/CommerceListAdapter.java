@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.fiuba.gaff.comohoy.CommercesListFragment;
 import com.fiuba.gaff.comohoy.R;
+import com.fiuba.gaff.comohoy.model.Category;
 import com.fiuba.gaff.comohoy.model.Commerce;
 import com.fiuba.gaff.comohoy.services.ServiceLocator;
 import com.fiuba.gaff.comohoy.services.commerces.CommercesService;
@@ -91,7 +92,19 @@ public class CommerceListAdapter extends RecyclerView.Adapter<CommerceListAdapte
             picasso.load(uri).fit().transform(new CircleTransform()).placeholder(R.drawable.progress_animation).error(R.drawable.no_image).into(holder.mPicture);
         }
         holder.mName.setText(commerce.getShowableName());
-        holder.mDescription.setText(commerce.getDescription());
+
+
+        StringBuilder categoriesStringBuilder = new StringBuilder();
+        boolean isFirstWord = true;
+        for (Category category : commerce.getCategories()) {
+            if (isFirstWord) {
+                isFirstWord = false;
+            } else {
+                categoriesStringBuilder.append(", ");
+            }
+            categoriesStringBuilder.append(category.getName());
+        }
+        holder.mDescription.setText(categoriesStringBuilder.toString());
         holder.mRating.setText(String.format("%.1f", commerce.getRating()));
         holder.mOrdersAmount.setText(commerce.getOrdersAmount());
         holder.mShippingTime.setText(commerce.getShippingTime());
