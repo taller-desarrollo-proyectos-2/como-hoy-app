@@ -15,7 +15,15 @@ import android.widget.TextView;
 
 import com.fiuba.gaff.comohoy.CommerceDetailsActivity;
 import com.fiuba.gaff.comohoy.R;
+import com.fiuba.gaff.comohoy.model.Commerce;
 import com.fiuba.gaff.comohoy.model.Plate;
+import com.fiuba.gaff.comohoy.services.commerces.CommercesService;
+import com.fiuba.gaff.comohoy.services.commerces.MockCommercesService;
+import com.fiuba.gaff.comohoy.services.picasso.CircleTransform;
+import com.fiuba.gaff.comohoy.services.picasso.PicassoService;
+import com.fiuba.gaff.comohoy.services.ServiceLocator;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 import java.util.List;
 import java.util.Locale;
@@ -66,8 +74,19 @@ public class MenuItemListAdapter extends RecyclerView.Adapter<MenuItemListAdapte
     @Override
     public void onBindViewHolder(final MenuItemViewHolder holder, int position) {
         final Plate plate = mMenuItems.get(position);
-        Drawable platePictureDrawable = getPlatePictureDrawable(plate.getPicture(), holder.mView.getContext());
-        holder.mPicture.setImageDrawable(platePictureDrawable);
+
+        CommercesService commercesService = ServiceLocator.get(CommercesService.class);
+        if (commercesService instanceof MockCommercesService) {
+            // DEBUG
+            Drawable platePictureDrawable = getPlatePictureDrawable(plate.getPicture(), holder.mView.getContext());
+            holder.mPicture.setImageDrawable(platePictureDrawable);
+        } else {
+            String uriFormat = "http://34.237.197.99:9000/api/v1/plates/%d/picture";
+            String uri = String.format(uriFormat, plate.getId());
+            Picasso picasso = ServiceLocator.get(PicassoService.class).getPicasso();
+            picasso.load(uri).fit().transform(new CircleTransform()).placeholder(R.drawable.progress_animation).into(holder.mPicture);
+        }
+
         holder.mPlateName.setText(plate.getName());
         holder.mDescription.setText(plate.getDescription());
         String price = String.format(Locale.ENGLISH,"$%.2f", plate.getPrice());
