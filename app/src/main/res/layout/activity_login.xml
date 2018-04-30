@@ -17,12 +17,11 @@
         android:id="@+id/imageView2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center_vertical|center"
+        android:layout_gravity="bottom"
         android:layout_weight="1"
-        android:foregroundGravity="center"
         android:scaleType="fitCenter"
         android:visibility="visible"
-        app:srcCompat="@drawable/app_icon" />
+        app:srcCompat="@drawable/hoy_como" />
 
     <ProgressBar
         android:id="@+id/login_progress"
