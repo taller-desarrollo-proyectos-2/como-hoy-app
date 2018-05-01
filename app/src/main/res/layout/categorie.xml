@@ -13,6 +13,7 @@
     </ImageButton>
 
     <TextView
+        android:id="@+id/id_nombre_de_categoria"
         android:textColor="@color/blanco"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
