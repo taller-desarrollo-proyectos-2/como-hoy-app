@@ -16,6 +16,6 @@ public interface CommercesService extends CustomService {
     void updateCommercesWithLocation(Activity activity, UpdateCommercesCallback callback, Location location);
     List<Commerce> getCommerces();
     List<Commerce> getCommercesSortedBy(Context context, SortCriteria sortCriteria);
-    List<Category> getUsedCategories();
+    List<List<Category>> getUsedCategories();
     Commerce getCommerce(int id);
 }

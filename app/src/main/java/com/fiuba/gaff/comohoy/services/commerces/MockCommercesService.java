@@ -52,9 +52,9 @@ public class MockCommercesService implements CommercesService {
     }
 
     @Override
-    public List<Category> getUsedCategories() {
+    public List<List<Category>> getUsedCategories() {
         CategoriesList categorias = new CategoriesList(mContext);
-        return categorias.getListCategories();
+        return categorias.getListOfList();
     }
 
     private Commerce createCommerce(int id) {

@@ -2,12 +2,13 @@ package com.fiuba.gaff.comohoy;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,22 +17,27 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.GridLayout;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fiuba.gaff.comohoy.adapters.CommerceListAdapter;
 import com.fiuba.gaff.comohoy.filters.RatingFilter;
 import com.fiuba.gaff.comohoy.filters.SearchFilter;
+import com.fiuba.gaff.comohoy.model.Category;
 import com.fiuba.gaff.comohoy.model.Commerce;
 import com.fiuba.gaff.comohoy.model.Location;
-import com.fiuba.gaff.comohoy.services.PurchasesService.PurchasesService;
 import com.fiuba.gaff.comohoy.services.ServiceLocator;
 import com.fiuba.gaff.comohoy.services.commerces.CommercesService;
 import com.fiuba.gaff.comohoy.services.commerces.SortCriteria;
 import com.fiuba.gaff.comohoy.services.commerces.UpdateCommercesCallback;
-import com.fiuba.gaff.comohoy.services.location.GpsLocationService;
 import com.fiuba.gaff.comohoy.services.location.LocationService;
 
 import java.util.List;
@@ -43,6 +49,11 @@ public class CommercesListFragment extends Fragment {
     private View mFiltersButton;
     private View mCategoriesButton;
     private SearchView mSearchView;
+
+
+    private ScrollView mSVCategories;
+    private LinearLayout mCategories;
+    private FrameLayout mCategorie;
 
     private CommerceListListener mCommerceListListener;
 
@@ -73,6 +84,10 @@ public class CommercesListFragment extends Fragment {
         mFiltersButton = view.findViewById(R.id.action_button_filter);
         mCategoriesButton = view.findViewById(R.id.action_button_categories);
         mSearchView = view.findViewById(R.id.searchView);
+
+        mCategories = view.findViewById(R.id.tablaDeCategorias);
+        mCategorie = view.findViewById(R.id.categoria_fl);
+        mSVCategories = view.findViewById(R.id.sv_categories);
 
         showProgress(true);
 
@@ -221,7 +236,7 @@ public class CommercesListFragment extends Fragment {
             public void onClick(View view) {
                 final Dialog dialog = new Dialog(getContext());
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setContentView(R.layout.dialog_comidas);
+                dialog.setContentView(R.layout.dialog_categories);
                 WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
                 Window window = dialog.getWindow();
                 lp.copyFrom(window.getAttributes());
@@ -229,9 +244,70 @@ public class CommercesListFragment extends Fragment {
                 lp.height = WindowManager.LayoutParams.MATCH_PARENT;
                 window.setAttributes(lp);
 
+                mSVCategories = new ScrollView(getContext());
+                LinearLayout.LayoutParams paramsSV = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                );
+                mSVCategories.setBackgroundColor(getResources().getColor(R.color.amber));
+                mSVCategories.setLayoutParams(paramsSV);
 
-                //LinearLayout linearLayout = new LinearLayout();
+                mCategories = new LinearLayout(getContext());
+                mCategories.setOrientation(LinearLayout.VERTICAL);
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                );
+                params.weight = 1;
+                mCategories.setBackgroundColor(getResources().getColor(R.color.amber));
+                mCategories.setLayoutParams(params);
+                List<List<Category>> categorias = getCommercesService().getUsedCategories();
+                for (List<Category> listCategory : categorias) {
+                    LinearLayout ll = new LinearLayout(getContext());
+                    ll.setOrientation(LinearLayout.HORIZONTAL);
+                    ll.setLayoutParams(params);
+                    for (Category category : listCategory) {
+                        mCategorie = new FrameLayout(view.getContext());
+                        LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(
+                                LinearLayout.LayoutParams.WRAP_CONTENT,
+                                LinearLayout.LayoutParams.WRAP_CONTENT
+                        );
 
+                        ImageButton ib = new ImageButton(view.getContext());
+                        ib.setAdjustViewBounds(true);
+                        ib.setLayoutParams(buttonParams);
+                        buttonParams.weight = 1;
+                        ib.setLayoutParams(buttonParams);
+
+                        Bitmap pictureBitmap = category.getPicture();
+                        if (pictureBitmap.getWidth() > pictureBitmap.getHeight()) {
+                            pictureBitmap = Bitmap.createBitmap(pictureBitmap, 0, 0, pictureBitmap.getHeight(), pictureBitmap.getHeight());
+                        }
+
+                        ib.setImageBitmap(pictureBitmap);
+                        ib.setScaleType(ImageView.ScaleType.FIT_XY);
+
+
+                        //GridLayout.LayoutParams paramsTv = new GridLayout.LayoutParams();
+                        TextView tv = new TextView(getContext());
+                        tv.setText(category.getName());
+                        //paramsTv.setGravity(Gravity.BOTTOM | Gravity.CENTER);
+                        //params.gravity = Gravity.BOTTOM | Gravity.CENTER;
+                        params.gravity = Gravity.CENTER;
+                        tv.setTextSize(16);
+                        tv.setTextColor(getResources().getColor(R.color.amber));
+                        tv.setLayoutParams(params);
+
+                        mCategorie.setLayoutParams(buttonParams);
+                        mCategorie.addView(ib);
+                        mCategorie.addView(tv);
+
+                        ll.addView(mCategorie);
+                    }
+                    mCategories.addView(ll);
+                }
+                mSVCategories.addView(mCategories);
+                window.setContentView(mSVCategories);
 
                 dialog.show();
             }

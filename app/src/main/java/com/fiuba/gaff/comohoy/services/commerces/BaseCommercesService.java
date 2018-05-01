@@ -81,9 +81,9 @@ public class BaseCommercesService implements CommercesService {
     }
 
     @Override
-    public List<Category> getUsedCategories() {
+    public List<List<Category>> getUsedCategories() {
         CategoriesList categorias = new CategoriesList(mContext);
-        return categorias.getListCategories();
+        return categorias.getListOfList();
     }
 
     @Override
