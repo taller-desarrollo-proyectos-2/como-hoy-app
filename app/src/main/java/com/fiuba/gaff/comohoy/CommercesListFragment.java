@@ -51,6 +51,8 @@ public class CommercesListFragment extends Fragment {
     private SearchView mSearchView;
 
 
+    private Category electedCategory;
+
     private ScrollView mSVCategories;
     private LinearLayout mCategories;
     private FrameLayout mCategorie;
@@ -90,9 +92,10 @@ public class CommercesListFragment extends Fragment {
         mCategories = view.findViewById(R.id.tablaDeCategorias);
         mCategorie = view.findViewById(R.id.categoria_fl);
         mSVCategories = view.findViewById(R.id.sv_categories);
+        electedCategory = null;
 
         showProgress(true);
-
+        initialiceCategoriesStructure();
         Location currentLocation = getLocationService().getLocation(getActivity());
         //getCommercesService().updateCommercesWithLocation(getActivity(), createOnUpdatedCommercesCallback(), currentLocation);
         getCommercesService().updateCommercesData(getActivity(), createOnUpdatedCommercesCallback());
@@ -245,41 +248,62 @@ public class CommercesListFragment extends Fragment {
                 lp.width = WindowManager.LayoutParams.MATCH_PARENT;
                 lp.height = WindowManager.LayoutParams.MATCH_PARENT;
                 window.setAttributes(lp);
-                crearScrollView();
-                crearLLVertical();
 
-                LinearLayout llTitle = crearLLHorizontal();
-                ImageButton ibcerrrar = crearImageButtonCerrar();
-                ibcerrrar.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
-                llTitle.addView(ibcerrrar);
-                mCategories.addView(llTitle);
-
-                List<List<Category>> categorias = getCommercesService().getUsedCategories();
-                for (List<Category> listCategory : categorias) {
-                    LinearLayout ll = crearLLHorizontal();
-                    for (Category category : listCategory) {
-                        ImageButton ib = crearImageButton(view,category);
-                        crearTextView(category);
-                        crearFrameLayout(view,category);
-                        mCategorie.addView(ib);
-                        mCategorie.addView(mCategorieName);
-                        ll.addView(mCategorie);
-                    }
-                    mCategories.addView(ll);
-                }
-                mSVCategories.addView(mCategories);
                 window.setContentView(mSVCategories);
                 dialog.show();
             }
         });
     }
 
-    public LinearLayout crearLLHorizontal(){
+    private void initialiceCategoriesStructure(){
+        crearScrollView();
+        crearLLVertical();
+        LinearLayout llTitle = crearLLHorizontal();
+        ImageButton ibcerrrar = crearImageButtonCerrar();
+        ibcerrrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //dialog.dismiss();
+            }
+        });
+        llTitle.addView(ibcerrrar);
+        if (electedCategory != null) {
+            Button quitarElectedCategory = crearQuitarCategoria();
+            quitarElectedCategory.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    electedCategory = null;
+                    v.setVisibility(View.GONE);
+                }
+            });
+            llTitle.addView(quitarElectedCategory);
+        }
+        mCategories.addView(llTitle);
+        List<List<Category>> categorias = getCommercesService().getUsedCategories();
+        for (List<Category> listCategory : categorias) {
+            LinearLayout ll = crearLLHorizontal();
+            for (final Category category : listCategory) {
+                ImageButton ib = crearImageButton(category);
+                crearTextView(category);
+                crearFrameLayout(category);
+                ib.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        electedCategory = category;
+                        //dialog.dismiss();
+                        //v.getContext
+                    }
+                });
+                mCategorie.addView(ib);
+                mCategorie.addView(mCategorieName);
+                ll.addView(mCategorie);
+            }
+            mCategories.addView(ll);
+        }
+        mSVCategories.addView(mCategories);
+    }
+
+    private LinearLayout crearLLHorizontal(){
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
@@ -291,7 +315,7 @@ public class CommercesListFragment extends Fragment {
         return ll;
     }
 
-    public void crearLLVertical(){
+    private void crearLLVertical(){
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
@@ -302,22 +326,22 @@ public class CommercesListFragment extends Fragment {
         mCategories.setLayoutParams(params);
     }
 
-    public void crearFrameLayout(View view, Category category){
+    private void crearFrameLayout( Category category){
         LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
         );
         buttonParams.weight = 1;
-        mCategorie = new FrameLayout(view.getContext());
+        mCategorie = new FrameLayout(getContext());
         mCategorie.setLayoutParams(buttonParams);
     }
 
-    public ImageButton crearImageButton(View view, Category category){
+    private ImageButton crearImageButton(Category category){
         LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
         );
-        ImageButton ib = new ImageButton(view.getContext());
+        ImageButton ib = new ImageButton(getContext());
         ib.setAdjustViewBounds(true);
         buttonParams.weight = 1;
         ib.setLayoutParams(buttonParams);
@@ -332,12 +356,12 @@ public class CommercesListFragment extends Fragment {
 
         return ib;
     }
-    public void crearTextView(Category category){
+    private void crearTextView(Category category){
         mCategorieName = new TextView(getContext());
         mCategorieName.setText(category.getName());
         mCategorieName.setTextColor(getResources().getColor(R.color.amarillo));
     }
-    public void crearScrollView(){
+    private void crearScrollView(){
         mSVCategories = new ScrollView(getContext());
         LinearLayout.LayoutParams paramsSV = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
@@ -356,6 +380,18 @@ public class CommercesListFragment extends Fragment {
         ib.setLayoutParams(buttonParams);
         ib.setImageDrawable(getResources().getDrawable(R.drawable.close));
         ib.setScaleType(ImageView.ScaleType.FIT_XY);
+        return ib;
+    }
+
+    private Button crearQuitarCategoria(){
+        LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        Button ib = new Button(getContext());
+        ib.setVisibility(View.VISIBLE);
+        ib.setLayoutParams(buttonParams);
+        ib.setText("QUITAR CATEGORIA");
         return ib;
     }
 
