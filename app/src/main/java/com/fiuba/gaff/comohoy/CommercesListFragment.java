@@ -2,13 +2,11 @@ package com.fiuba.gaff.comohoy;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,20 +16,19 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.GridLayout;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fiuba.gaff.comohoy.adapters.CategoriesAdapter;
 import com.fiuba.gaff.comohoy.adapters.CommerceListAdapter;
 import com.fiuba.gaff.comohoy.filters.RatingFilter;
 import com.fiuba.gaff.comohoy.filters.SearchFilter;
 import com.fiuba.gaff.comohoy.model.Category;
+import com.fiuba.gaff.comohoy.model.CategoryUsageData;
 import com.fiuba.gaff.comohoy.model.Commerce;
 import com.fiuba.gaff.comohoy.model.Location;
 import com.fiuba.gaff.comohoy.services.ServiceLocator;
@@ -53,10 +50,11 @@ public class CommercesListFragment extends Fragment {
 
     private Category electedCategory;
 
-    private ScrollView mSVCategories;
-    private LinearLayout mCategories;
+    private GridView mCategoriesGridView;
     private FrameLayout mCategorie;
     private TextView mCategorieName;
+
+    private Dialog mCategoriesDialog;
 
     private CommerceListListener mCommerceListListener;
 
@@ -89,13 +87,12 @@ public class CommercesListFragment extends Fragment {
         mSearchView = view.findViewById(R.id.searchView);
 
         mCategorieName = view.findViewById(R.id.id_nombre_de_categoria);
-        mCategories = view.findViewById(R.id.tablaDeCategorias);
+        mCategoriesGridView = view.findViewById(R.id.gridCategories);
         mCategorie = view.findViewById(R.id.categoria_fl);
-        mSVCategories = view.findViewById(R.id.sv_categories);
         electedCategory = null;
 
         showProgress(true);
-        initialiceCategoriesStructure();
+
         Location currentLocation = getLocationService().getLocation(getActivity());
         //getCommercesService().updateCommercesWithLocation(getActivity(), createOnUpdatedCommercesCallback(), currentLocation);
         getCommercesService().updateCommercesData(getActivity(), createOnUpdatedCommercesCallback());
@@ -239,23 +236,33 @@ public class CommercesListFragment extends Fragment {
         filterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final Dialog dialog = new Dialog(getContext());
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setContentView(R.layout.dialog_categories);
-                WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-                Window window = dialog.getWindow();
-                lp.copyFrom(window.getAttributes());
-                lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-                lp.height = WindowManager.LayoutParams.MATCH_PARENT;
-                window.setAttributes(lp);
-
-                window.setContentView(mSVCategories);
-                dialog.show();
+                if (mCategoriesDialog == null) {
+                    createCategoriesDialog();
+                }
+                mCategoriesDialog.show();
             }
         });
     }
 
-    private void initialiceCategoriesStructure(){
+    private void createCategoriesDialog() {
+        mCategoriesDialog = new Dialog(getContext());
+        mCategoriesDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        mCategoriesDialog.setContentView(R.layout.dialog_categories);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        Window window = mCategoriesDialog.getWindow();
+        lp.copyFrom(window.getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
+        window.setAttributes(lp);
+
+        List<CategoryUsageData> categoriesUsageData = getCommercesService().getUsedCategoriesUsageData();
+        GridView gridview = mCategoriesDialog.findViewById(R.id.gridCategories);
+        gridview.setAdapter(new CategoriesAdapter(getActivity(), categoriesUsageData));
+
+        //window.setContentView(mSVCategories);
+    }
+
+    /*private void initialiceCategoriesStructure(){
         crearScrollView();
         crearLLVertical();
         LinearLayout llTitle = crearLLHorizontal();
@@ -278,8 +285,9 @@ public class CommercesListFragment extends Fragment {
             });
             llTitle.addView(quitarElectedCategory);
         }
-        mCategories.addView(llTitle);
-        List<List<Category>> categorias = getCommercesService().getUsedCategories();
+        mCategoriesGridView.addView(llTitle);
+        List<CategoryUsageData> categorias = getCommercesService().getUsedCategoriesUsageData();
+
         for (List<Category> listCategory : categorias) {
             LinearLayout ll = crearLLHorizontal();
             for (final Category category : listCategory) {
@@ -298,9 +306,9 @@ public class CommercesListFragment extends Fragment {
                 mCategorie.addView(mCategorieName);
                 ll.addView(mCategorie);
             }
-            mCategories.addView(ll);
+            mCategoriesGridView.addView(ll);
         }
-        mSVCategories.addView(mCategories);
+        mSVCategories.addView(mCategoriesGridView);
     }
 
     private LinearLayout crearLLHorizontal(){
@@ -320,10 +328,10 @@ public class CommercesListFragment extends Fragment {
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
         );
-        mCategories = new LinearLayout(getContext());
-        mCategories.setOrientation(LinearLayout.VERTICAL);
-        mCategories.setBackgroundColor(getResources().getColor(R.color.blanco));
-        mCategories.setLayoutParams(params);
+        mCategoriesGridView = new LinearLayout(getContext());
+        mCategoriesGridView.setOrientation(LinearLayout.VERTICAL);
+        mCategoriesGridView.setBackgroundColor(getResources().getColor(R.color.blanco));
+        mCategoriesGridView.setLayoutParams(params);
     }
 
     private void crearFrameLayout( Category category){
@@ -393,7 +401,7 @@ public class CommercesListFragment extends Fragment {
         ib.setLayoutParams(buttonParams);
         ib.setText("QUITAR CATEGORIA");
         return ib;
-    }
+    }*/
 
 }
 

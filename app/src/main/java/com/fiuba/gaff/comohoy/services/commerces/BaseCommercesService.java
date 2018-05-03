@@ -9,6 +9,7 @@ import android.util.Log;
 import com.fiuba.gaff.comohoy.comparators.CommerceLocationComparator;
 import com.fiuba.gaff.comohoy.model.CategoriesList;
 import com.fiuba.gaff.comohoy.model.Category;
+import com.fiuba.gaff.comohoy.model.CategoryUsageData;
 import com.fiuba.gaff.comohoy.model.Commerce;
 import com.fiuba.gaff.comohoy.model.Day;
 import com.fiuba.gaff.comohoy.model.Extra;
@@ -81,9 +82,26 @@ public class BaseCommercesService implements CommercesService {
     }
 
     @Override
-    public List<List<Category>> getUsedCategories() {
-        CategoriesList categorias = new CategoriesList(mContext);
-        return categorias.getListOfList();
+    public List<CategoryUsageData> getUsedCategoriesUsageData() {
+        HashMap<String, CategoryUsageData> categoriesUsageMap = new HashMap<>();
+        List<Commerce> commerces = getCommerces();
+        for (Commerce commerce : commerces) {
+            List<Category> categories = commerce.getCategories();
+
+            for (Category category : categories) {
+                String categoryName = category.getName();
+                // Si existe suma una a la cantidad de uso, si no lo crea e inicializa en 1
+                if (categoriesUsageMap.containsKey(categoryName)) {
+                    CategoryUsageData categoryData = categoriesUsageMap.get(categoryName);
+                    int uses = categoryData.getUsesAmount() + 1;
+                    categoryData.setUsesAmount(uses);
+                } else {
+                    CategoryUsageData categoryData = new CategoryUsageData(category, 1);
+                    categoriesUsageMap.put(category.getName(), categoryData);
+                }
+            }
+        }
+        return new ArrayList<>(categoriesUsageMap.values());
     }
 
     @Override

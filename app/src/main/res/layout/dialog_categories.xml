@@ -16,16 +16,14 @@
             android:layout_height="wrap_content"
             android:text="Quitar" />
     </LinearLayout>
-    <ScrollView
-        android:id="@+id/sv_categories"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <LinearLayout
-            android:orientation="vertical"
-            android:id="@+id/tablaDeCategorias"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        </LinearLayout>
-    </ScrollView>
+    <GridView
+        android:id="@+id/gridCategories"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:verticalSpacing="10dp"
+        android:horizontalSpacing="10dp"
+        android:stretchMode="columnWidth"
+        android:scrollbars="none"
+        android:numColumns="2"/>
 
 </LinearLayout>
