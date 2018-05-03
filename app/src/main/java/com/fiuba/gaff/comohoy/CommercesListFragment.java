@@ -51,9 +51,12 @@ public class CommercesListFragment extends Fragment {
     private SearchView mSearchView;
 
 
+    private Category electedCategory;
+
     private ScrollView mSVCategories;
     private LinearLayout mCategories;
     private FrameLayout mCategorie;
+    private TextView mCategorieName;
 
     private CommerceListListener mCommerceListListener;
 
@@ -85,12 +88,14 @@ public class CommercesListFragment extends Fragment {
         mCategoriesButton = view.findViewById(R.id.action_button_categories);
         mSearchView = view.findViewById(R.id.searchView);
 
+        mCategorieName = view.findViewById(R.id.id_nombre_de_categoria);
         mCategories = view.findViewById(R.id.tablaDeCategorias);
         mCategorie = view.findViewById(R.id.categoria_fl);
         mSVCategories = view.findViewById(R.id.sv_categories);
+        electedCategory = null;
 
         showProgress(true);
-
+        initialiceCategoriesStructure();
         Location currentLocation = getLocationService().getLocation(getActivity());
         //getCommercesService().updateCommercesWithLocation(getActivity(), createOnUpdatedCommercesCallback(), currentLocation);
         getCommercesService().updateCommercesData(getActivity(), createOnUpdatedCommercesCallback());
@@ -244,74 +249,151 @@ public class CommercesListFragment extends Fragment {
                 lp.height = WindowManager.LayoutParams.MATCH_PARENT;
                 window.setAttributes(lp);
 
-                mSVCategories = new ScrollView(getContext());
-                LinearLayout.LayoutParams paramsSV = new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT
-                );
-                mSVCategories.setBackgroundColor(getResources().getColor(R.color.amber));
-                mSVCategories.setLayoutParams(paramsSV);
-
-                mCategories = new LinearLayout(getContext());
-                mCategories.setOrientation(LinearLayout.VERTICAL);
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT
-                );
-                params.weight = 1;
-                mCategories.setBackgroundColor(getResources().getColor(R.color.amber));
-                mCategories.setLayoutParams(params);
-                List<List<Category>> categorias = getCommercesService().getUsedCategories();
-                for (List<Category> listCategory : categorias) {
-                    LinearLayout ll = new LinearLayout(getContext());
-                    ll.setOrientation(LinearLayout.HORIZONTAL);
-                    ll.setLayoutParams(params);
-                    for (Category category : listCategory) {
-                        mCategorie = new FrameLayout(view.getContext());
-                        LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(
-                                LinearLayout.LayoutParams.WRAP_CONTENT,
-                                LinearLayout.LayoutParams.WRAP_CONTENT
-                        );
-
-                        ImageButton ib = new ImageButton(view.getContext());
-                        ib.setAdjustViewBounds(true);
-                        ib.setLayoutParams(buttonParams);
-                        buttonParams.weight = 1;
-                        ib.setLayoutParams(buttonParams);
-
-                        Bitmap pictureBitmap = category.getPicture();
-                        if (pictureBitmap.getWidth() > pictureBitmap.getHeight()) {
-                            pictureBitmap = Bitmap.createBitmap(pictureBitmap, 0, 0, pictureBitmap.getHeight(), pictureBitmap.getHeight());
-                        }
-
-                        ib.setImageBitmap(pictureBitmap);
-                        ib.setScaleType(ImageView.ScaleType.FIT_XY);
-
-
-                        //GridLayout.LayoutParams paramsTv = new GridLayout.LayoutParams();
-                        TextView tv = new TextView(getContext());
-                        tv.setText(category.getName());
-                        //paramsTv.setGravity(Gravity.BOTTOM | Gravity.CENTER);
-                        //params.gravity = Gravity.BOTTOM | Gravity.CENTER;
-                        params.gravity = Gravity.CENTER;
-                        tv.setTextSize(16);
-                        tv.setTextColor(getResources().getColor(R.color.amber));
-                        tv.setLayoutParams(params);
-
-                        mCategorie.setLayoutParams(buttonParams);
-                        mCategorie.addView(ib);
-                        mCategorie.addView(tv);
-
-                        ll.addView(mCategorie);
-                    }
-                    mCategories.addView(ll);
-                }
-                mSVCategories.addView(mCategories);
                 window.setContentView(mSVCategories);
-
                 dialog.show();
             }
         });
     }
 
+    private void initialiceCategoriesStructure(){
+        crearScrollView();
+        crearLLVertical();
+        LinearLayout llTitle = crearLLHorizontal();
+        ImageButton ibcerrrar = crearImageButtonCerrar();
+        ibcerrrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //dialog.dismiss();
+            }
+        });
+        llTitle.addView(ibcerrrar);
+        if (electedCategory != null) {
+            Button quitarElectedCategory = crearQuitarCategoria();
+            quitarElectedCategory.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    electedCategory = null;
+                    v.setVisibility(View.GONE);
+                }
+            });
+            llTitle.addView(quitarElectedCategory);
+        }
+        mCategories.addView(llTitle);
+        List<List<Category>> categorias = getCommercesService().getUsedCategories();
+        for (List<Category> listCategory : categorias) {
+            LinearLayout ll = crearLLHorizontal();
+            for (final Category category : listCategory) {
+                ImageButton ib = crearImageButton(category);
+                crearTextView(category);
+                crearFrameLayout(category);
+                ib.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        electedCategory = category;
+                        //dialog.dismiss();
+                        //v.getContext
+                    }
+                });
+                mCategorie.addView(ib);
+                mCategorie.addView(mCategorieName);
+                ll.addView(mCategorie);
+            }
+            mCategories.addView(ll);
+        }
+        mSVCategories.addView(mCategories);
+    }
+
+    private LinearLayout crearLLHorizontal(){
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        params.weight = 1;
+        LinearLayout ll = new LinearLayout(getContext());
+        ll.setOrientation(LinearLayout.HORIZONTAL);
+        ll.setLayoutParams(params);
+        return ll;
+    }
+
+    private void crearLLVertical(){
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        mCategories = new LinearLayout(getContext());
+        mCategories.setOrientation(LinearLayout.VERTICAL);
+        mCategories.setBackgroundColor(getResources().getColor(R.color.blanco));
+        mCategories.setLayoutParams(params);
+    }
+
+    private void crearFrameLayout( Category category){
+        LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        buttonParams.weight = 1;
+        mCategorie = new FrameLayout(getContext());
+        mCategorie.setLayoutParams(buttonParams);
+    }
+
+    private ImageButton crearImageButton(Category category){
+        LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        ImageButton ib = new ImageButton(getContext());
+        ib.setAdjustViewBounds(true);
+        buttonParams.weight = 1;
+        ib.setLayoutParams(buttonParams);
+
+        Bitmap pictureBitmap = category.getPicture();
+        if (pictureBitmap.getWidth() > pictureBitmap.getHeight()) {
+            pictureBitmap = Bitmap.createBitmap(pictureBitmap, 0, 0, pictureBitmap.getHeight(), pictureBitmap.getHeight());
+        }
+
+        ib.setImageBitmap(pictureBitmap);
+        ib.setScaleType(ImageView.ScaleType.FIT_XY);
+
+        return ib;
+    }
+    private void crearTextView(Category category){
+        mCategorieName = new TextView(getContext());
+        mCategorieName.setText(category.getName());
+        mCategorieName.setTextColor(getResources().getColor(R.color.amarillo));
+    }
+    private void crearScrollView(){
+        mSVCategories = new ScrollView(getContext());
+        LinearLayout.LayoutParams paramsSV = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        mSVCategories.setBackgroundColor(getResources().getColor(R.color.blanco));
+        mSVCategories.setLayoutParams(paramsSV);
+    }
+
+    private ImageButton crearImageButtonCerrar(){
+        LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        ImageButton ib = new ImageButton(getContext());
+        ib.setLayoutParams(buttonParams);
+        ib.setImageDrawable(getResources().getDrawable(R.drawable.close));
+        ib.setScaleType(ImageView.ScaleType.FIT_XY);
+        return ib;
+    }
+
+    private Button crearQuitarCategoria(){
+        LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        Button ib = new Button(getContext());
+        ib.setVisibility(View.VISIBLE);
+        ib.setLayoutParams(buttonParams);
+        ib.setText("QUITAR CATEGORIA");
+        return ib;
+    }
+
 }
+
