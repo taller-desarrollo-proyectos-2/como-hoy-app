@@ -1,20 +1,17 @@
 package com.fiuba.gaff.comohoy;
 
-import android.Manifest;
 import android.app.Dialog;
-import android.content.Context;
-import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Criteria;
-import android.location.Geocoder;
-import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.view.Gravity;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.fiuba.gaff.comohoy.model.Commerce;
+import com.fiuba.gaff.comohoy.model.OpeningTime;
+import com.fiuba.gaff.comohoy.model.TimeInterval;
 import com.fiuba.gaff.comohoy.services.ServiceLocator;
 import com.fiuba.gaff.comohoy.services.commerces.CommercesService;
 import com.google.android.gms.common.ConnectionResult;
@@ -28,7 +25,8 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.io.IOException;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 public class MoreInfoActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -43,10 +41,12 @@ public class MoreInfoActivity extends AppCompatActivity implements OnMapReadyCal
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps_restaurant);
+        setContentView(R.layout.activity_more_info);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
 
         obtainCommerceId(savedInstanceState);
+
+        createOpeningTimesView();
 
         GoogleApiAvailability googleAPI = GoogleApiAvailability.getInstance();
         int resultCode = googleAPI.isGooglePlayServicesAvailable(this);
@@ -58,30 +58,6 @@ public class MoreInfoActivity extends AppCompatActivity implements OnMapReadyCal
             Dialog dialog = googleAPI.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST);
             dialog.show();
         }
-    }
-
-    public LatLng getLocationFromAddress(String strAddress) throws IOException {
-
-        Geocoder coder = new Geocoder(this);
-        List<Address> address;
-        LatLng p1 = null;
-        try {
-            address = coder.getFromLocationName(strAddress, 5);
-            if (address == null) {
-                Log.e(LOG_TAG, "Error getting location from " + strAddress);
-                return null;
-            }
-            Address location = address.get(0);
-            location.getLatitude();
-            location.getLongitude();
-            p1 = new LatLng((location.getLatitude() * 1E6),
-                    (location.getLongitude() * 1E6));
-        }
-        catch (IOException ex) {
-            Log.e(LOG_TAG, "Error getting location from " + strAddress + ": " + ex.getMessage());
-            ex.printStackTrace();
-        }
-        return p1;
     }
 
     private void obtainCommerceId(Bundle savedInstanceState) {
@@ -108,6 +84,83 @@ public class MoreInfoActivity extends AppCompatActivity implements OnMapReadyCal
         mMap.addMarker(new MarkerOptions().position(location).title(commerce.getShowableName()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
         float zoomLevel = 16;
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location,zoomLevel));
+    }
+
+    private void createOpeningTimesView() {
+        ViewGroup parentLayout = findViewById(R.id.layout_horarios);
+        Commerce commerce = getCommerceService().getCommerce(mCommerceId);
+        List<OpeningTime> openingTimes = commerce.getOpeningTimes();
+        for (OpeningTime openingTime : openingTimes) {
+            View openingTimeView = createOpeningTimeView(openingTime);
+            parentLayout.addView(openingTimeView);
+        }
+    }
+
+    private View createOpeningTimeView(OpeningTime openingTime) {
+        ViewGroup parentLayout = createOpeningTimeParentLayout();
+        View dayView = createDayView(openingTime);
+        View timesView = createTimesView(openingTime);
+        parentLayout.addView(dayView);
+        parentLayout.addView(timesView);;
+        return parentLayout;
+
+    }
+
+    private ViewGroup createOpeningTimeParentLayout() {
+        LinearLayout parentLayout = new LinearLayout(this);
+        parentLayout.setOrientation(LinearLayout.HORIZONTAL);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        );
+        lp.setMargins(8, 8, 8, 8);
+        parentLayout.setLayoutParams(lp);
+        return parentLayout;
+    }
+
+    private View createDayView(OpeningTime openingTime) {
+        TextView textView = new TextView(this);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        );
+        textView.setLayoutParams(lp);
+        textView.setText(openingTime.getDay().toString());
+        return textView;
+    }
+
+    private View createTimesView(OpeningTime openingTime) {
+        TextView textView = new TextView(this);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                0,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                1f
+        );
+        textView.setLayoutParams(lp);
+        textView.setText(timeIntervalsToString(openingTime.getOpeningTimes()));
+        textView.setGravity(Gravity.END);
+        return textView;
+    }
+
+    private String timeIntervalsToString(List<TimeInterval> timeIntervals) {
+        StringBuilder stringBuilder = new StringBuilder();
+        Calendar calendar = GregorianCalendar.getInstance();
+        for (int i = 0; i < timeIntervals.size(); i++) {
+            if (i > 0) {
+                stringBuilder.append(" y ");
+            }
+            TimeInterval timeInterval = timeIntervals.get(i);
+            calendar.setTime(timeInterval.getFromTime());
+            stringBuilder.append(String.format("%02d", calendar.get(Calendar.HOUR_OF_DAY)));
+            stringBuilder.append(":");
+            stringBuilder.append(String.format("%02d", calendar.get(Calendar.MINUTE)));
+            stringBuilder.append(" a ");
+            calendar.setTime(timeInterval.getToTime());
+            stringBuilder.append(String.format("%02d", calendar.get(Calendar.HOUR_OF_DAY)));
+            stringBuilder.append(":");
+            stringBuilder.append(String.format("%02d", calendar.get(Calendar.MINUTE)));
+        }
+        return stringBuilder.toString();
     }
 
     private CommercesService getCommerceService() {
