@@ -64,91 +64,108 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <LinearLayout
+                    android:id="@+id/layout_horarios"
                     android:layout_width="match_parent"
-                    android:orientation="vertical"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
                     <LinearLayout
-                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_marginTop="10dp">
+
                         <TextView
-                            android:text="Lunes"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:text="Lunes" />
+
                         <TextView
-                            android:text="09-20 hs"
-                            android:layout_weight="1"
-                            android:gravity="right"
                             android:layout_width="fill_parent"
-                            android:layout_height="wrap_content" />
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                        <TextView
-                            android:text="Martes"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-                        <TextView
-                            android:text="09-20 hs"
+                            android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="right"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content" />
+                            android:text="09-20 hs" />
                     </LinearLayout>
+
                     <LinearLayout
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp">
+
                         <TextView
-                            android:text="Miercoles"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:text="Martes" />
+
                         <TextView
-                            android:text="09-20 hs"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="right"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content" />
+                            android:text="09-20 hs" />
                     </LinearLayout>
+
                     <LinearLayout
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp">
+
                         <TextView
-                            android:text="Jueves"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:text="Miercoles" />
+
                         <TextView
-                            android:text="09-20 hs"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="right"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content" />
+                            android:text="09-20 hs" />
                     </LinearLayout>
+
                     <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Jueves" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="right"
+                            android:text="09-20 hs" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp">
+
                         <TextView
-                            android:text="Viernes"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:text="Viernes" />
+
                         <TextView
-                            android:text="09-20 hs"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="right"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content" />
+                            android:text="09-20 hs" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
