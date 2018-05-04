@@ -21,7 +21,7 @@ public class Commerce {
     private String mShippingCost = "";
     private String mDiscounts = "";
     private Location mLocation;
-    private HashMap<Day, OpeningTime> mOpeningTimes;
+    private List<OpeningTime> mOpeningTimes;
     private double mRating;
 
     private Bitmap mPicture;
@@ -32,6 +32,7 @@ public class Commerce {
     public Commerce(int id) {
         mId = id;
         mCategories = new ArrayList<>();
+        mOpeningTimes = new ArrayList<>();
         mPlates = new HashMap<>();
     }
 
@@ -154,11 +155,11 @@ public class Commerce {
         }
     }
 
-    public HashMap<Day, OpeningTime> getOpeningTimes() {
+    public List<OpeningTime> getOpeningTimes() {
         return mOpeningTimes;
     }
 
-    public void setOpeningTimes(HashMap<Day, OpeningTime> openingTimes) {
+    public void setOpeningTimes(List<OpeningTime> openingTimes) {
         mOpeningTimes = openingTimes;
     }
 }

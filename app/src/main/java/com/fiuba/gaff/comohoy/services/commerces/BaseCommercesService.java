@@ -7,7 +7,6 @@ import android.net.NetworkInfo;
 import android.util.Log;
 
 import com.fiuba.gaff.comohoy.comparators.CommerceLocationComparator;
-import com.fiuba.gaff.comohoy.model.CategoriesList;
 import com.fiuba.gaff.comohoy.model.Category;
 import com.fiuba.gaff.comohoy.model.CategoryUsageData;
 import com.fiuba.gaff.comohoy.model.Commerce;
@@ -209,27 +208,30 @@ public class BaseCommercesService implements CommercesService {
         return extras;
     }
 
-    private HashMap<Day, OpeningTime> getOpeningTimes(JSONObject commerceJson) throws JSONException {
-        HashMap<Day, OpeningTime> openingTimesMap = new HashMap<>();
+    private List<OpeningTime> getOpeningTimes(JSONObject commerceJson) throws JSONException {
+        HashMap<String, OpeningTime> openingTimesMap = new HashMap<>();
         JSONArray timesArray = commerceJson.getJSONArray("times");
         for(int i = 0; i < timesArray.length(); i++) {
             JSONObject openingTimeObject = timesArray.getJSONObject(i);
-            OpeningTime openingTime = getOpeningTime(openingTimeObject);
-            openingTimesMap.put(openingTime.getDay(), openingTime);
+            addOpeningTimeToMap(openingTimeObject, openingTimesMap);
         }
-        return openingTimesMap;
+        return new ArrayList<>(openingTimesMap.values());
     }
 
-    private OpeningTime getOpeningTime(JSONObject openingTimeJson) {
+    private OpeningTime addOpeningTimeToMap(JSONObject openingTimeJson, HashMap<String, OpeningTime> openingTimesMap) {
         OpeningTime openingTime = new OpeningTime();
         try {
             Day day = Day.fromString(openingTimeJson.getString("day"));
-            openingTime.setDay(day);
-
+            if (openingTimesMap.containsKey(day.toString())) {
+                openingTime = openingTimesMap.get(day.toString());
+            } else {
+                openingTime.setDay(day);
+            }
             Long fromHour = openingTimeJson.getLong("fromHour");
             Long toHour = openingTimeJson.getLong("toHour");
             TimeInterval timeInterval = new TimeInterval(new Timestamp(fromHour), new Timestamp(toHour));
-            openingTime.setOpeningTimes(timeInterval);
+            openingTime.addTimeInterval(timeInterval);
+            openingTimesMap.put(openingTime.getDay().toString(), openingTime);
 
         } catch (JSONException e) {
             e.printStackTrace();

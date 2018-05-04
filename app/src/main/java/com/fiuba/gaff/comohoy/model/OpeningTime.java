@@ -1,11 +1,15 @@
 package com.fiuba.gaff.comohoy.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class OpeningTime {
     private Day mDay;
-    private TimeInterval mOpeningTimes;
+    private List<TimeInterval> mOpeningTimes;
 
     public OpeningTime() {
         mDay = Day.Monday;
+        mOpeningTimes = new ArrayList<>();
     }
 
     public Day getDay() {
@@ -16,11 +20,15 @@ public class OpeningTime {
         mDay = day;
     }
 
-    public TimeInterval getOpeningTimes() {
+    public List<TimeInterval> getOpeningTimes() {
         return mOpeningTimes;
     }
 
-    public void setOpeningTimes(TimeInterval openingTimes) {
+    public void setOpeningTimes(List<TimeInterval> openingTimes) {
         mOpeningTimes = openingTimes;
+    }
+
+    public void addTimeInterval(TimeInterval timeInterval) {
+        mOpeningTimes.add(timeInterval);
     }
 }
