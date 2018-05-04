@@ -3,6 +3,7 @@
     android:id="@+id/categories_view"
     android:orientation="vertical"
     android:layout_width="match_parent"
+    android:elevation="24dp"
     android:layout_height="wrap_content">
     <LinearLayout
         android:orientation="horizontal"
