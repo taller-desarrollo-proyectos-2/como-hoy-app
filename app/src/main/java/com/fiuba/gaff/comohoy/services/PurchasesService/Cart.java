@@ -10,8 +10,11 @@ public class Cart {
     private int mCommerceId;
     private List<PlateOrder> mOrders;
 
+    private int mLastId;
+
     public Cart() {
         mOrders = new ArrayList<>();
+        mLastId = 0;
     }
 
     public int getCommerceId() {
@@ -23,7 +26,9 @@ public class Cart {
     }
 
     public void addPlateOrder(PlateOrder order) {
+        order.setOrderId(Long.valueOf(mLastId));
         mOrders.add(order);
+        mLastId++;
     }
     public List<PlateOrder> getOrders() {
         return mOrders;
@@ -34,6 +39,7 @@ public class Cart {
     }
 
     public void clear() {
+        mLastId = 0;
         mOrders.clear();
     }
 

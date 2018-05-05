@@ -28,8 +28,6 @@ public class BasePurchasesService implements PurchasesService {
 
     @Override
     public void addPlateOrderToCart(PlateOrder plateOrder) {
-        Long orderId = Long.valueOf(mCart.size());
-        plateOrder.setOrderId(orderId);
         mCart.addPlateOrder(plateOrder);
     }
 
