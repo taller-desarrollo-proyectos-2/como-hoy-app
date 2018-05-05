@@ -98,14 +98,16 @@ public class OrderPlateActivity extends AppCompatActivity {
     }
 
     private void addPlateToCart() {
-        PlateOrder plateOrder = new PlateOrder(mPlateId);
+        PlateOrder plateOrder = new PlateOrder();
         plateOrder.setCommerceId(mCommerceId);
         plateOrder.setQuantity(mOrderQuantity);
         plateOrder.setExtrasId(new ArrayList<>(mExtrasAdded.keySet()));
         plateOrder.setClarifications(mClarifications);
+        plateOrder.setOrderPrice(mOrderPrice);
+        plateOrder.setPlateId(mPlateId);
 
         PurchasesService purchasesService = getPurchaseService();
-        purchasesService.addPlateToCart(plateOrder);
+        purchasesService.addPlateOrderToCart(plateOrder);
     }
 
     private void setUpQuantityCard() {

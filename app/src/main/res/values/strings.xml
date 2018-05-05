@@ -28,6 +28,8 @@
     <string name="aclaraciones_plate">Opcional</string>
     <string name="puntajeFiltrar">3</string>
 
+    <string name="confirmation_format">¿Estás seguro que deseas %s?</string>
+
 
     <!-- Transitions -->
     <string name="transition_commerce_title">commerceTitleTransition</string>

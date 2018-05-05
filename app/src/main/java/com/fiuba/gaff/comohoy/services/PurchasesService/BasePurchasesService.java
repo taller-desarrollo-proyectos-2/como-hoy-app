@@ -1,21 +1,46 @@
 package com.fiuba.gaff.comohoy.services.PurchasesService;
 
+import com.fiuba.gaff.comohoy.OrderPlateActivity;
 import com.fiuba.gaff.comohoy.model.purchases.PlateOrder;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.function.Predicate;
 
 public class BasePurchasesService implements PurchasesService {
 
-    private Map<Long, PlateOrder> mCart;
+    private Cart mCart;
 
     public BasePurchasesService() {
-        mCart = new HashMap<>();
+        mCart = new Cart();
     }
 
     @Override
-    public void addPlateToCart(PlateOrder plateOrder) {
-        mCart.put(plateOrder.getOrderId(), plateOrder);
+    public Cart getCart() {
+        return mCart;
+    }
+
+    @Override
+    public void assignCommerce(int commerceId) {
+        mCart.setCommerceId(commerceId);
+    }
+
+    @Override
+    public void addPlateOrderToCart(PlateOrder plateOrder) {
+        Long orderId = Long.valueOf(mCart.size());
+        plateOrder.setOrderId(orderId);
+        mCart.addPlateOrder(plateOrder);
+    }
+
+    @Override
+    public void modifyPlateOrder(Long orderId, PlateOrder plateOrder) {
+        mCart.modifyPlateOrder(orderId, plateOrder);
+    }
+
+    @Override
+    public void removePlateOrder(Long orderId) {
+        mCart.removePlateOrder(orderId);
     }
 
     @Override
@@ -27,4 +52,5 @@ public class BasePurchasesService implements PurchasesService {
     public boolean isCartEmpty() {
         return mCart.isEmpty();
     }
+
 }

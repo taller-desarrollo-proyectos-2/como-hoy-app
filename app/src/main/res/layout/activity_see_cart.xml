@@ -17,7 +17,7 @@
         android:layout_width="1dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.77" />
+        app:layout_constraintGuide_percent="0.75" />
 
     <TextView
         android:id="@+id/commerce_title"
@@ -54,19 +54,19 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/plates_list"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        tools:context="com.fiuba.gaff.comohoy.CartActivity"
-        tools:listitem="@layout/cardview_item_plate_order"
         app:layoutManager="LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@+id/guideline_end_of_plates"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/order_plates_title"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        tools:context="com.fiuba.gaff.comohoy.CartActivity"
+        tools:listitem="@layout/cardview_item_plate_order" />
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/button_add_more_plates"
@@ -79,11 +79,11 @@
         android:backgroundTint="@color/light_grey"
         android:elevation="2dp"
         android:text="Agregar mas platos"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/button_continue_purchase"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline_end_of_plates"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/textView_costo_total" />
 
     <Button
         android:id="@+id/button_continue_purchase"
@@ -92,13 +92,29 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="48dp"
         android:layout_marginStart="48dp"
-        android:layout_marginTop="8dp"
         android:backgroundTint="@color/amber"
         android:elevation="2dp"
         android:text="continuar con la compra"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView_costo_total"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Total:"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_add_more_plates" />
+        app:layout_constraintTop_toBottomOf="@+id/plates_list"
+        app:layout_constraintVertical_bias="0.0" />
 
 </android.support.constraint.ConstraintLayout>

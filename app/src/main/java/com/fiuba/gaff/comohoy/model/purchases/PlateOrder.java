@@ -6,14 +6,18 @@ import java.util.List;
 public class PlateOrder {
     private Long mOrderId;
     private int mCommerceId;
+    private double mOrderPrice;
     private Long mPlateId;
     private List<Long> mExtrasId;
     private int mQuantity;
     private String mClarifications = "";
 
-    public PlateOrder(Long orderId) {
-        mOrderId = orderId;
+    public PlateOrder() {
         mExtrasId = new ArrayList<>();
+    }
+
+    public void setOrderId(Long orderId) {
+        mOrderId = orderId;
     }
 
     public Long getOrderId() {
@@ -58,5 +62,13 @@ public class PlateOrder {
 
     public void setClarifications(String clarifications) {
         mClarifications = clarifications;
+    }
+
+    public double getOrderPrice() {
+        return mOrderPrice;
+    }
+
+    public void setOrderPrice(double orderPrice) {
+        mOrderPrice = orderPrice;
     }
 }

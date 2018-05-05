@@ -59,6 +59,8 @@ public class CommerceDetailsActivity extends AppCompatActivity {
 
         obtainCommerceId(savedInstanceState);
 
+        getPurchaseService().assignCommerce(mCommerceId);
+
         carouselView = findViewById(R.id.carouselView);
         mCommerceTittle = findViewById(R.id.commerceTittle);
         mMenuLayout = findViewById(R.id.menu_layout);
@@ -66,7 +68,7 @@ public class CommerceDetailsActivity extends AppCompatActivity {
 
         setUpCarouselView();
         setUpGoToMoreInforButton();
-        setUpSeeMyOrderButton();
+        setupSeeCartButton();
         fillCommercesValues();
         createCommerceMenuView();
     }
@@ -87,13 +89,13 @@ public class CommerceDetailsActivity extends AppCompatActivity {
         mSeeMyOrderButton.setVisibility(visibility);
     }
 
-    private void setUpSeeMyOrderButton() {
+    private void setupSeeCartButton() {
         mSeeMyOrderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                //Intent openMoreInfoIntent = new Intent(CommerceDetailsActivity.this, MoreInfoActivity.class);
-                //openMoreInfoIntent.putExtra(getString(R.string.intent_data_commerce_id), mCommerceId);
-                //startActivity(openMoreInfoIntent);
+                Intent seeCartIntent = new Intent(CommerceDetailsActivity.this, CartActivity.class);
+                //seeCartIntent.putExtra(getString(R.string.intent_data_commerce_id), mCommerceId);
+                startActivity(seeCartIntent);
             }
         });
     }
