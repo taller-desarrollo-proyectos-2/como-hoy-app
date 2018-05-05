@@ -37,6 +37,9 @@ public class OrderPlateActivity extends AppCompatActivity {
 
     private int mCommerceId = -1;
     private Long mPlateId = -1L;
+    private Long mPlateOrderId = -1L;
+    private boolean mIsModifyingPlate = false;
+    private PlateOrder mPlateOrder;
 
     private Dialog mQuantityDialog;
     private Dialog mExtrasDialog;
@@ -58,6 +61,12 @@ public class OrderPlateActivity extends AppCompatActivity {
 
         obtainCommerceId(savedInstanceState);
         obtainPlateId(savedInstanceState);
+        obtainPlateOrderId(savedInstanceState);
+        obtainIsModifyingPlate(savedInstanceState);
+
+        if (mIsModifyingPlate) {
+            mPlateOrder = getPlateOrder();
+        }
 
         fillFieldsWithPlateData();
 
@@ -88,6 +97,8 @@ public class OrderPlateActivity extends AppCompatActivity {
 
     private void setUpAddPlateButton() {
         Button addPlateButton = findViewById(R.id.add_plate_button);
+        String buttonText = mIsModifyingPlate ? "Modificar pedido" : "Agregar a Pedido";
+        addPlateButton.setText(buttonText);
         addPlateButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -107,18 +118,26 @@ public class OrderPlateActivity extends AppCompatActivity {
         plateOrder.setPlateId(mPlateId);
 
         PurchasesService purchasesService = getPurchaseService();
-        purchasesService.addPlateOrderToCart(plateOrder);
+        if (mIsModifyingPlate) {
+            purchasesService.modifyPlateOrder(mPlateOrderId, plateOrder);
+        } else {
+            purchasesService.addPlateOrderToCart(plateOrder);
+        }
     }
 
     private void setUpQuantityCard() {
-        createQuantityDialog();
-        CardView quantityField = findViewById(R.id.cardview_cantidad);
-        quantityField.setOnClickListener(new View.OnClickListener() {
+        CardView quantityCardView = findViewById(R.id.cardview_cantidad);
+        quantityCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openQuantityDialog();
             }
         });
+
+        mOrderQuantity = mIsModifyingPlate ? mPlateOrder.getQuantity() : 1;
+        updateQuantityValue();
+
+        createQuantityDialog();
     }
 
     private void setUpExtrasCard() {
@@ -134,8 +153,21 @@ public class OrderPlateActivity extends AppCompatActivity {
                     openExtrasDialog();
                 }
             });
+            if (mIsModifyingPlate) {
+                addExtrasFromExtrasIds(mPlateOrder.getExtrasId(), plate);
+            }
+            updateExtrasValue();
         } else {
             extrasCard.setVisibility(View.GONE);
+        }
+    }
+
+    private void addExtrasFromExtrasIds(List<Long> extrasIds, Plate plate) {
+        for (Long id : extrasIds) {
+            if (plate.containsExtra(id)) {
+                Extra extraToAdd = plate.getExtraWithId(id);
+                mExtrasAdded.put(id, extraToAdd);
+            }
         }
     }
 
@@ -148,6 +180,8 @@ public class OrderPlateActivity extends AppCompatActivity {
                 openClarificationsDialog();
             }
         });
+        mClarifications = mIsModifyingPlate ? mPlateOrder.getClarifications() : "";
+        updateClarificationsValue();
     }
 
     private void createQuantityDialog() {
@@ -351,6 +385,10 @@ public class OrderPlateActivity extends AppCompatActivity {
         costTextView.setText(String.format(Locale.ENGLISH, "Total = $%.2f", mOrderPrice));
     }
 
+    private PlateOrder getPlateOrder() {
+        return getPurchaseService().getCart().getPlateOrder(mPlateOrderId);
+    }
+
     // Recovering activity state
 
     @Override
@@ -358,6 +396,8 @@ public class OrderPlateActivity extends AppCompatActivity {
         super.onSaveInstanceState(savedInstanceState);
         savedInstanceState.putInt(getString(R.string.intent_data_commerce_id), mCommerceId);
         savedInstanceState.putLong(getString(R.string.intent_data_plate_id), mPlateId);
+        savedInstanceState.putLong(getString(R.string.intent_data_plate_order_id), mPlateOrderId);
+        savedInstanceState.putBoolean(getString(R.string.intent_data_order_plate_modifying), mIsModifyingPlate);
     }
 
     @Override
@@ -365,6 +405,8 @@ public class OrderPlateActivity extends AppCompatActivity {
         super.onRestoreInstanceState(savedInstanceState);
         mCommerceId = savedInstanceState.getInt(getString(R.string.intent_data_commerce_id));
         mPlateId = savedInstanceState.getLong(getString(R.string.intent_data_plate_id));
+        mPlateOrderId = savedInstanceState.getLong(getString(R.string.intent_data_plate_order_id));
+        mIsModifyingPlate = savedInstanceState.getBoolean(getString(R.string.intent_data_order_plate_modifying));
     }
 
     private void obtainCommerceId(Bundle savedInstanceState) {
@@ -378,12 +420,33 @@ public class OrderPlateActivity extends AppCompatActivity {
     }
 
     private void obtainPlateId(Bundle savedInstanceState) {
-        if (mPlateId == -1) {
+        if (mPlateId == -1L) {
             Bundle extras = getIntent().getExtras();
-            mPlateId = extras.getLong(getString(R.string.intent_data_plate_id), -1);
+            mPlateId = extras.getLong(getString(R.string.intent_data_plate_id), -1L);
         }
-        if ((mPlateId == -1) && (savedInstanceState != null) && (savedInstanceState.containsKey(getString(R.string.intent_data_plate_id)))) {
+        if ((mPlateId == -1L) && (savedInstanceState != null) && (savedInstanceState.containsKey(getString(R.string.intent_data_plate_id)))) {
             mPlateId = savedInstanceState.getLong(getString(R.string.intent_data_plate_id));
+        }
+    }
+
+    private void obtainPlateOrderId(Bundle savedInstanceState) {
+        if (mPlateOrderId == -1L) {
+            Bundle extras = getIntent().getExtras();
+            mPlateOrderId = extras.getLong(getString(R.string.intent_data_plate_order_id), -1L);
+        }
+        if ((mPlateOrderId == -1L) && (savedInstanceState != null) && (savedInstanceState.containsKey(getString(R.string.intent_data_plate_order_id)))) {
+            mPlateOrderId = savedInstanceState.getLong(getString(R.string.intent_data_plate_order_id));
+        }
+    }
+
+    private void obtainIsModifyingPlate(Bundle savedInstanceState) {
+        Bundle extras = getIntent().getExtras();
+        if (extras.containsKey(getString(R.string.intent_data_order_plate_modifying))) {
+            mIsModifyingPlate = extras.getBoolean(getString(R.string.intent_data_order_plate_modifying));
+        } else {
+            if ((savedInstanceState != null) && (savedInstanceState.containsKey(getString(R.string.intent_data_order_plate_modifying)))) {
+                mIsModifyingPlate = savedInstanceState.getBoolean(getString(R.string.intent_data_order_plate_modifying));
+            }
         }
     }
 

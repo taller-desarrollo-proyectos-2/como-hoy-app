@@ -7,16 +7,16 @@ import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Pair;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.fiuba.gaff.comohoy.adapters.MenuItemListAdapter;
 import com.fiuba.gaff.comohoy.model.Category;
@@ -84,8 +84,12 @@ public class CommerceDetailsActivity extends AppCompatActivity {
         carouselView.setImageListener(imageListener);
     }
 
-    private void updateSeeMyOrderButtonVisibility() {
-        int visibility = getPurchaseService().isCartEmpty() ? View.GONE : View.VISIBLE;
+    private void updateGoToCartButtonVisibility() {
+        int visibility = View.GONE;
+        if (!getPurchaseService().isCartEmpty()) {
+            // TODO animation to call attention?
+            visibility = View.VISIBLE;
+        }
         mSeeMyOrderButton.setVisibility(visibility);
     }
 
@@ -116,7 +120,7 @@ public class CommerceDetailsActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        updateSeeMyOrderButtonVisibility();
+        updateGoToCartButtonVisibility();
     }
 
     @Override
@@ -297,6 +301,7 @@ public class CommerceDetailsActivity extends AppCompatActivity {
         intent.setClass(CommerceDetailsActivity.this, OrderPlateActivity.class);
         intent.putExtra(getString(R.string.intent_data_commerce_id), mCommerceId);
         intent.putExtra(getString(R.string.intent_data_plate_id), plate.getId());
+        intent.putExtra(getString(R.string.intent_data_order_plate_modifying), false);
         startActivity(intent);
     }
 

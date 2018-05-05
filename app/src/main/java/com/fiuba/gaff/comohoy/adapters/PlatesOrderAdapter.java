@@ -3,12 +3,8 @@ package com.fiuba.gaff.comohoy.adapters;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -21,17 +17,12 @@ import android.widget.TextView;
 
 import com.fiuba.gaff.comohoy.CartActivity;
 import com.fiuba.gaff.comohoy.R;
-import com.fiuba.gaff.comohoy.model.Category;
 import com.fiuba.gaff.comohoy.model.Commerce;
 import com.fiuba.gaff.comohoy.model.Plate;
 import com.fiuba.gaff.comohoy.model.purchases.PlateOrder;
 import com.fiuba.gaff.comohoy.services.PurchasesService.PurchasesService;
 import com.fiuba.gaff.comohoy.services.ServiceLocator;
 import com.fiuba.gaff.comohoy.services.commerces.CommercesService;
-import com.fiuba.gaff.comohoy.services.commerces.MockCommercesService;
-import com.fiuba.gaff.comohoy.services.picasso.CircleTransform;
-import com.fiuba.gaff.comohoy.services.picasso.PicassoService;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 import java.util.Locale;

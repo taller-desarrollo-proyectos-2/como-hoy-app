@@ -95,6 +95,7 @@
         android:backgroundTint="@color/amber"
         android:elevation="2dp"
         android:text="continuar con la compra"
+        android:textColor="@color/blanco"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

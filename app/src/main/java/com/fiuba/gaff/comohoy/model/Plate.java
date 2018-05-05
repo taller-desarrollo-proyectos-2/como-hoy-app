@@ -1,10 +1,11 @@
 package com.fiuba.gaff.comohoy.model;
 
 import android.graphics.Bitmap;
-import android.support.design.internal.BottomNavigationItemView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Plate {
     private Long mId;
@@ -12,20 +13,13 @@ public class Plate {
     private String mDescription;
     private double mPrice;
     private List<Category> mCategories;
-    private List<Extra> mExtras;
+    private Map<Long, Extra> mExtrasMap;
     private boolean mSuitableForCeliac;
     private Bitmap mPicture;
 
     public Plate(Long id) {
         mId = id;
-    }
-
-    public Plate (Long id, String name, String description, double price) {
-        mId = id;
-        mName = name;
-        mDescription = description;
-        mPrice = price;
-        mExtras = new ArrayList<>();
+        mExtrasMap = new HashMap<>();
     }
 
     public Long getId() {
@@ -77,11 +71,26 @@ public class Plate {
     }
 
     public List<Extra> getExtras() {
-        return mExtras;
+        return new ArrayList<>(mExtrasMap.values());
     }
 
+    public boolean containsExtra(Long extraId) {
+        return mExtrasMap.containsKey(extraId);
+    }
+
+    public Extra getExtraWithId (Long extraId) {
+        if (mExtrasMap.containsKey(extraId)) {
+            return mExtrasMap.get(extraId);
+        }
+        return null;
+    }
+
+
     public void setExtras(List<Extra> extras) {
-        this.mExtras = extras;
+        if (extras == null) return;
+        for (Extra extra : extras) {
+            mExtrasMap.put(extra.getId(), extra);
+        }
     }
 
     public boolean isSuitableForCeliac() {

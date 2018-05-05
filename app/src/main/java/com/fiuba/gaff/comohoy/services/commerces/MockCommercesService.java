@@ -107,14 +107,20 @@ public class MockCommercesService implements CommercesService {
         commerce.setCategories(categories);
 
         HashMap<Long, Plate> plates = new HashMap<>();
-        Plate p1 = new Plate(0L, "Papas", "Las mejores papas", 50);
+        Plate p1 = new Plate(0L);
+        p1.setName("Papas");
+        p1.setDescription("Las mejores papas");
+        p1.setPrice(50);
         p1.setPicture(BitmapFactory.decodeResource(mContext.getResources(), getRandomDrawableId()));
         List<Category> p1Cat = new ArrayList<>();
         p1Cat.add(new Category(0L, "Entradas"));
         p1.setSuitableForCeliac((RandomUtils.getIntBetween(0, 1) == 1));
         p1.setCategories(p1Cat);
 
-        Plate p2 = new Plate(0L, "Papas con Panceta", "Entrada y Cena", 500);
+        Plate p2 = new Plate(1L);
+        p2.setName("Papas con Panceta");
+        p2.setDescription("Entrada y Cena");
+        p2.setPrice(500);
         List<Category> p2Cat = new ArrayList<>();
         p2Cat.add(new Category(0L, "Entradas"));
         p2Cat.add(new Category(1L, "Plato Principal"));

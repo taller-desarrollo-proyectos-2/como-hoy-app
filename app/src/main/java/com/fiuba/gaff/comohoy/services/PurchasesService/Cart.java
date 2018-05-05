@@ -45,6 +45,16 @@ public class Cart {
         return mOrders.size();
     }
 
+    public PlateOrder getPlateOrder(Long id) {
+        for (int i = 0; i < mOrders.size(); i++) {
+            PlateOrder plateOrder = mOrders.get(i);
+            if (plateOrder.getOrderId().equals(id)) {
+                return plateOrder;
+            }
+        }
+        return null;
+    }
+
     public double getTotalPrice() {
         double total = 0;
         for (PlateOrder order : mOrders) {
@@ -70,6 +80,7 @@ public class Cart {
         {
             if (orderId.equals(itr.next().getOrderId())) {
                 itr.remove();
+                plateOrder.setOrderId(orderId);
                 mOrders.add(plateOrder);
                 break;
             }

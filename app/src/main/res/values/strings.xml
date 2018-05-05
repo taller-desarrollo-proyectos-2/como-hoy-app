@@ -41,6 +41,8 @@
     <string name="intent_data_commerce_id">extraCommerceId</string>
     <string name="intent_data_commerce_longitud_id">extraLongId</string>
     <string name="intent_data_commerce_latitud_id">extraLatId</string>
+    <string name="intent_data_order_plate_modifying">extraModifyingPlate</string>
+    <string name="intent_data_plate_order_id">extraPlateOrderId</string>
 
     <string name="intent_data_plate_and_commerce_id">extraCommerceAndPlateIds</string>
     <string name="intent_data_plate_id">extraPlateId</string>

@@ -1,5 +1,6 @@
 package com.fiuba.gaff.comohoy;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -35,13 +36,18 @@ public class CartActivity extends AppCompatActivity {
         setContentView(R.layout.activity_see_cart);
 
         mCart = getPurchaseService().getCart();
-        mCommerce = getCommerceService().getCommerce(mCart.size());
+        mCommerce = getCommerceService().getCommerce(mCart.getCommerceId());
 
         setCommerceTitleTextView();
-        setCartCost();
-        setupPlateOrdersView();
         setupAddMorePlatesButton();
         setupContinuePurchaseButton();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setCartCost();
+        setupPlateOrdersView();
     }
 
     private void setCommerceTitleTextView() {
@@ -82,7 +88,13 @@ public class CartActivity extends AppCompatActivity {
         plateOrdersRecyclerView.setAdapter(new PlatesOrderAdapter(plateOrders, new PlatesOrderListListener() {
             @Override
             public void onPlateOrderClicked(PlateOrder plateOrder) {
-                // open modify plate order activity
+                Intent intent = new Intent();
+                intent.setClass(CartActivity.this, OrderPlateActivity.class);
+                intent.putExtra(getString(R.string.intent_data_commerce_id), plateOrder.getCommerceId());
+                intent.putExtra(getString(R.string.intent_data_plate_id), plateOrder.getPlateId());
+                intent.putExtra(getString(R.string.intent_data_plate_order_id), plateOrder.getOrderId());
+                intent.putExtra(getString(R.string.intent_data_order_plate_modifying), true);
+                startActivity(intent);
             }
 
             @Override
