@@ -257,7 +257,9 @@ public class CommercesListFragment extends Fragment {
 
         List<CategoryUsageData> categoriesUsageData = getCommercesService().getUsedCategoriesUsageData();
         GridView gridview = mCategoriesDialog.findViewById(R.id.gridCategories);
-        gridview.setAdapter(new CategoriesAdapter(getActivity(), categoriesUsageData));
+        if (categoriesUsageData != null && gridview != null){
+            gridview.setAdapter(new CategoriesAdapter(getActivity(), categoriesUsageData));
+        }
 
         //window.setContentView(mSVCategories);
     }
