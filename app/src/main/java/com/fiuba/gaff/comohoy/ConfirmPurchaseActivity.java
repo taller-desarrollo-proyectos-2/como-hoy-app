@@ -27,6 +27,7 @@ import com.fiuba.gaff.comohoy.model.purchases.Address;
 import com.fiuba.gaff.comohoy.model.purchases.CreditCardDetails;
 import com.fiuba.gaff.comohoy.model.purchases.PaymentDetails;
 import com.fiuba.gaff.comohoy.model.purchases.PaymentMethod;
+import com.fiuba.gaff.comohoy.services.PurchasesService.OnSubmitPurchaseCallback;
 import com.fiuba.gaff.comohoy.services.PurchasesService.PurchasesService;
 import com.fiuba.gaff.comohoy.services.ServiceLocator;
 
@@ -78,7 +79,6 @@ public class ConfirmPurchaseActivity extends AppCompatActivity {
                 updatePaymentDetailsValues();
                 if (isFormValid()) {
                     submitPurchase();
-                    finish();
                 }
             }
         });
@@ -366,11 +366,26 @@ public class ConfirmPurchaseActivity extends AppCompatActivity {
         double amountToCharge = purchasesService.getCart().getTotalPrice();
         paymentDetails.setAmountToCharge(amountToCharge);
         paymentDetails.setPaymentMethod(mPaymentMethod);
+        paymentDetails.setShippingAddress(mShippingAddress);
         purchasesService.setPaymentDetails(paymentDetails);
     }
 
     private void submitPurchase() {
-        getPurchaseService().submitPurchase();
+        getPurchaseService().submitPurchase(this, new OnSubmitPurchaseCallback() {
+            @Override
+            public void onSuccess() {
+                finish();
+            }
+
+            @Override
+            public void onError(String reason) {
+                showAdditionalInfoDialog();
+            }
+        });
+    }
+
+    private void showOrderSubmitError(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG);
     }
 
     private PurchasesService getPurchaseService() {

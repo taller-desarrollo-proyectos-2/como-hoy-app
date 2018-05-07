@@ -1,5 +1,7 @@
 package com.fiuba.gaff.comohoy.services.PurchasesService;
 
+import android.app.Activity;
+
 import com.fiuba.gaff.comohoy.model.purchases.PaymentDetails;
 import com.fiuba.gaff.comohoy.model.purchases.PlateOrder;
 import com.fiuba.gaff.comohoy.services.CustomService;
@@ -10,7 +12,7 @@ import java.util.Map;
 public interface PurchasesService extends CustomService {
     Cart getCart();
     PaymentDetails getPaymentDetails();
-    void submitPurchase();
+    void submitPurchase(Activity activity, OnSubmitPurchaseCallback callback);
     void setPaymentDetails(PaymentDetails paymentDetails);
     void assignCommerce(int commerceId);
     void addPlateOrderToCart(PlateOrder plateOrder);

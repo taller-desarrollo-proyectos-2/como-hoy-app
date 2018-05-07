@@ -66,6 +66,9 @@ public class OrderPlateActivity extends AppCompatActivity {
 
         if (mIsModifyingPlate) {
             mPlateOrder = getPlateOrder();
+            setTitle("Modificar plato");
+        } else {
+            setTitle("Agregar plato a pedido");
         }
 
         fillFieldsWithPlateData();
