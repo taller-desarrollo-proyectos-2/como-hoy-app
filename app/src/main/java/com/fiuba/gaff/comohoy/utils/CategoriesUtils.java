@@ -12,12 +12,12 @@ public class CategoriesUtils {
     private static final Map<String, Integer> mCategoriesDrawablesIds;
     static {
         mCategoriesDrawablesIds = new HashMap<>();
-        mCategoriesDrawablesIds.put("Milanesas", R.drawable.arepas);
+        mCategoriesDrawablesIds.put("Milanesas", R.drawable.milanesas);
         mCategoriesDrawablesIds.put("Pizzas", R.drawable.cafeteria);
         mCategoriesDrawablesIds.put("Empanadas", R.drawable.calzon);
         mCategoriesDrawablesIds.put("Carnes", R.drawable.carnes);
         mCategoriesDrawablesIds.put("Celiacos", R.drawable.celiacos);
-        mCategoriesDrawablesIds.put("Arepas",R.drawable.food);
+        mCategoriesDrawablesIds.put("Arepas",R.drawable.arepas);
         mCategoriesDrawablesIds.put("Bebidas",R.drawable.food);
         mCategoriesDrawablesIds.put("Cafetería",R.drawable.food);
         mCategoriesDrawablesIds.put("Calzones",R.drawable.food);
@@ -57,7 +57,6 @@ public class CategoriesUtils {
         mCategoriesDrawablesIds.put("Viandas y Congelados",R.drawable.food);
         mCategoriesDrawablesIds.put("Waffles",R.drawable.food);
         mCategoriesDrawablesIds.put("Woks",R.drawable.food);
-
     }
 
     public static int getCategoryDrawableIdByName(String categoryName, Context context) {

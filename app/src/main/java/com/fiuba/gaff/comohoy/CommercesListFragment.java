@@ -228,6 +228,7 @@ public class CommercesListFragment extends Fragment {
                 @Override
                 public void onCategoryClicked(String categoryName) {
                     CategoryFilter categoryFilter = new CategoryFilter(categoryName);
+                    getCommercesService().clearFilters();
                     getCommercesService().addFilter(categoryFilter);
                     List<Commerce> filteredCommerces = getCommercesService().getCommerces();
                     loadCommerces(filteredCommerces, true);
@@ -236,15 +237,19 @@ public class CommercesListFragment extends Fragment {
             }));
         }
 
-        ImageView volver = window.findViewById(R.id.salirdialogo);
-        volver.setOnClickListener(new View.OnClickListener(){
+        Button removeFiltesButton = window.findViewById(R.id.button_quitar_filtros);
+        removeFiltesButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                CommercesService commercesService = getCommercesService();
+                commercesService.clearFilters();
+                List<Commerce> commerces = commercesService.getCommercesSortedBy(getActivity(), mSortCriteria);
+                loadCommerces(commerces, false);
                 mCategoriesDialog.dismiss();
             }
         });
 
-        final ImageView quitar = window.findViewById(R.id.quitardialogo);
+        /*final ImageView quitar = window.findViewById(R.id.quitardialogo);
         quitar.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -252,7 +257,7 @@ public class CommercesListFragment extends Fragment {
                 quitar.setVisibility(View.GONE);
                 mCategoriesDialog.dismiss();
             }
-        });
+        });*/
 
         //window.setContentView(mSVCategories);
     }
