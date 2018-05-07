@@ -19,7 +19,13 @@ import android.widget.TextView;
 import com.fiuba.gaff.comohoy.R;
 import com.fiuba.gaff.comohoy.model.Category;
 import com.fiuba.gaff.comohoy.model.CategoryUsageData;
+import com.fiuba.gaff.comohoy.services.ServiceLocator;
+import com.fiuba.gaff.comohoy.services.picasso.PicassoService;
+import com.fiuba.gaff.comohoy.services.picasso.RoundedCornersTransform;
 import com.fiuba.gaff.comohoy.utils.CategoriesUtils;
+import com.squareup.picasso.Picasso;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -72,15 +78,18 @@ public class CategoriesAdapter extends BaseAdapter {
 
         final CategoryUsageData categoryUsageData = mCategoriesUsageData.get(position);
         String categoryName = categoryUsageData.getCategory().getName();
-        int categoryDrawableId = CategoriesUtils.getCategoryDrawableIdByName(categoryName, mActivityContext);
-        ImageView imageView = view.findViewById(R.id.image);
+
         TextView textView = view.findViewById(R.id.nombre_categoria);
-
-
-        imageView.setImageResource(categoryDrawableId);
-        Drawable drawable =  imageView.getDrawable();
-        imageView.setImageDrawable(getCategoriesPictureDrawable(drawableToBitmap(drawable),mActivityContext));
         textView.setText(categoryName);
+
+        TextView commercesAmountTextView = view.findViewById(R.id.textView_commerces_amount);
+        String commercesAmountFormat = (categoryUsageData.getUsesAmount() > 1) ? "%d comercios" : "%d comercio";
+        commercesAmountTextView.setText(String.format(commercesAmountFormat, categoryUsageData.getUsesAmount()));
+
+        ImageView imageView = view.findViewById(R.id.image);
+        int categoryDrawableId = CategoriesUtils.getCategoryDrawableIdByName(categoryName, mActivityContext);
+        Picasso picasso = ServiceLocator.get(PicassoService.class).getPicasso();
+        picasso.load(categoryDrawableId).fit().centerCrop().transform(new RoundedCornersTransform()).error(R.drawable.no_image).into(imageView);
 
         ViewGroup parentLayout = view.findViewById(R.id.parent_layout);
         parentLayout.setOnClickListener(new View.OnClickListener() {
@@ -90,54 +99,6 @@ public class CategoriesAdapter extends BaseAdapter {
             }
         });
         return view;
-    }
-
-    public static Bitmap drawableToBitmap (Drawable drawable) {
-        Bitmap bitmap = null;
-
-        if (drawable instanceof BitmapDrawable) {
-            BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
-            if(bitmapDrawable.getBitmap() != null) {
-                return bitmapDrawable.getBitmap();
-            }
-        }
-
-        if(drawable.getIntrinsicWidth() <= 0 || drawable.getIntrinsicHeight() <= 0) {
-            bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888); // Single color bitmap will be created of 1x1 pixel
-        } else {
-            bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-        }
-
-        Canvas canvas = new Canvas(bitmap);
-        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-        drawable.draw(canvas);
-        return bitmap;
-    }
-
-    private Drawable getCategoriesPictureDrawable (Bitmap pictureBitmap, Context context) {
-        Drawable drawable = null;
-        if (pictureBitmap != null) {
-            if (pictureBitmap.getWidth() > pictureBitmap.getHeight()) {
-                pictureBitmap = Bitmap.createBitmap(pictureBitmap, 0, 0, pictureBitmap.getHeight(), pictureBitmap.getHeight());
-            } else if (pictureBitmap.getWidth() < pictureBitmap.getHeight()) {
-                pictureBitmap = Bitmap.createBitmap(pictureBitmap, 0, 0, pictureBitmap.getWidth(), pictureBitmap.getWidth());
-            }
-        }
-        return  new BitmapDrawable(context.getResources(), pictureBitmap);
-    }
-
-    private Drawable getCommercePictureDrawable (Bitmap pictureBitmap, Context context) {
-        RoundedBitmapDrawable roundedDrawable = null;
-        if (pictureBitmap != null) {
-            if (pictureBitmap.getWidth() > pictureBitmap.getHeight()) {
-                pictureBitmap = Bitmap.createBitmap(pictureBitmap, 0, 0, pictureBitmap.getHeight(), pictureBitmap.getHeight());
-            } else if (pictureBitmap.getWidth() < pictureBitmap.getHeight()) {
-                pictureBitmap = Bitmap.createBitmap(pictureBitmap, 0, 0, pictureBitmap.getWidth(), pictureBitmap.getWidth());
-            }
-            roundedDrawable = RoundedBitmapDrawableFactory.create(context.getResources(), pictureBitmap);
-            roundedDrawable.setCornerRadius(pictureBitmap.getHeight());
-        }
-        return roundedDrawable;
     }
 
 }
