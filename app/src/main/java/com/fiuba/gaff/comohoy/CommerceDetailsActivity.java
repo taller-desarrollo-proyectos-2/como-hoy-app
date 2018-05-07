@@ -1,6 +1,7 @@
 package com.fiuba.gaff.comohoy;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -72,11 +73,15 @@ public class CommerceDetailsActivity extends AppCompatActivity {
     }
 
     private void setUpCarouselView() {
-        carouselView.setPageCount(sampleImages.length);
+        final ArrayList<Bitmap> aImagesCommerce = new ArrayList<Bitmap>();
+        aImagesCommerce.add(getCommerce().getPicture());
+
+        carouselView.setPageCount(aImagesCommerce.size());
         ImageListener imageListener = new ImageListener() {
             @Override
             public void setImageForPosition(int position, ImageView imageView) {
-                imageView.setImageResource(sampleImages[position]);
+                //imageView.setImageResource(sampleImages[position]);
+                imageView.setImageBitmap(aImagesCommerce.get(0));
             }
         };
         carouselView.setImageListener(imageListener);
