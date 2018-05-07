@@ -40,40 +40,6 @@
             android:text="VALORIZACION" />
     </RadioGroup>
 
-    <TextView
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp"
-        android:text="FILTROS"
-        android:textStyle="bold"
-        android:textSize="24sp"
-        android:gravity="left"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <CheckBox
-            android:id="@+id/id_filtro_puntaje"
-            android:layout_marginLeft="20dp"
-            android:layout_weight="1"
-            android:gravity="left"
-            android:text="PUNTAJE COMIDA"
-            android:textSize="22sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <EditText
-            android:layout_marginRight="20dp"
-            android:id="@+id/edittext_puntaje_ingresado"
-            android:gravity="right"
-            android:textSize="22sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="@string/puntajeFiltrar" />
-
-    </LinearLayout>
-
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/button_confirm_filtrar"
         android:layout_marginTop="20dp"

@@ -10,16 +10,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <com.fiuba.gaff.comohoy.SquareImageView
+            android:id="@+id/salirdialogo"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginLeft="3dp"
             android:layout_marginTop="3dp"
             android:layout_marginBottom="3dp"
             android:layout_gravity="left"
-            android:onClick="closeDialog"
             android:src="@drawable/goback"/>
 
         <com.fiuba.gaff.comohoy.SquareImageView
+            android:id="@+id/quitardialogo"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginRight="3dp"
@@ -28,7 +29,6 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
             android:visibility="gone"
-            android:onClick="takeOutCategory"
             android:layout_gravity="end"
             android:src="@drawable/close" />
     </RelativeLayout>

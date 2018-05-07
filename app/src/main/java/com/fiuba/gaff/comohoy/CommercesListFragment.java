@@ -17,6 +17,8 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.GridView;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.SearchView;
@@ -198,14 +200,14 @@ public class CommercesListFragment extends Fragment {
                 Window window = dialog.getWindow();
                 lp.copyFrom(window.getAttributes());
                 lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-                lp.height = WindowManager.LayoutParams.MATCH_PARENT;
+                lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
                 window.setAttributes(lp);
 
                 Button filterButton= (Button) dialog.findViewById(R.id.button_confirm_filtrar);
                 filterButton.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View v) {
-                        if(((CheckBox) dialog.findViewById(R.id.id_filtro_puntaje)).isChecked()){
+                        /*if(((CheckBox) dialog.findViewById(R.id.id_filtro_puntaje)).isChecked()){
                             List<Commerce> commerces = getCommercesService().getCommerces();
 
                             EditText ratingFilterEditText = dialog.findViewById(R.id.edittext_puntaje_ingresado);
@@ -224,7 +226,7 @@ public class CommercesListFragment extends Fragment {
                             List<Commerce> filteredList = ratingFilter.apply(commerces);
 
                             loadCommerces(filteredList, true);
-                        }
+                        }*/
                         dialog.dismiss();
                     }
                 });
@@ -239,9 +241,6 @@ public class CommercesListFragment extends Fragment {
                 if (mCategoriesDialog == null) {
                     createCategoriesDialog();
                 }
-
-
-
                 mCategoriesDialog.show();
             }
         });
@@ -263,6 +262,24 @@ public class CommercesListFragment extends Fragment {
         if (categoriesUsageData != null && gridview != null){
             gridview.setAdapter(new CategoriesAdapter(getActivity(), categoriesUsageData));
         }
+
+        ImageView volver = window.findViewById(R.id.salirdialogo);
+        volver.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                mCategoriesDialog.dismiss();
+            }
+        });
+
+        final ImageView quitar = window.findViewById(R.id.quitardialogo);
+        quitar.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                electedCategory = null;
+                quitar.setVisibility(View.GONE);
+                mCategoriesDialog.dismiss();
+            }
+        });
 
         //window.setContentView(mSVCategories);
     }
