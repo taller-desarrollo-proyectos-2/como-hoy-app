@@ -102,8 +102,16 @@ public class MockCommercesService implements CommercesService {
     //TODO refactor
     private void createPlatesAndCategories (Commerce commerce) {
         List<Category> categories = new ArrayList<>();
-        categories.add(new Category(1L, "Entradas"));
-        categories.add(new Category(2L, "Plato Principal"));
+
+        Category entrada =  new Category(1L, "Arepas");
+        entrada.setPicture(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.food));
+        Category platoPpal =  new Category(2L, "Empanadas");
+        platoPpal.setPicture(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.food));
+        Category postre =  new Category(3L, "Postres");
+        postre.setPicture(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.food));
+
+        categories.add(entrada);
+        categories.add(platoPpal);
         commerce.setCategories(categories);
 
         HashMap<Long, Plate> plates = new HashMap<>();
@@ -113,7 +121,7 @@ public class MockCommercesService implements CommercesService {
         p1.setPrice(50);
         p1.setPicture(BitmapFactory.decodeResource(mContext.getResources(), getRandomDrawableId()));
         List<Category> p1Cat = new ArrayList<>();
-        p1Cat.add(new Category(0L, "Entradas"));
+        p1Cat.add(entrada);
         p1.setSuitableForCeliac((RandomUtils.getIntBetween(0, 1) == 1));
         p1.setCategories(p1Cat);
 
@@ -121,14 +129,25 @@ public class MockCommercesService implements CommercesService {
         p2.setName("Papas con Panceta");
         p2.setDescription("Entrada y Cena");
         p2.setPrice(500);
+        Plate p3 = new Plate(2L);
+        p3.setName("Helado");
+        p3.setDescription("Postre helado");
+        p3.setPrice(200);
+
         List<Category> p2Cat = new ArrayList<>();
-        p2Cat.add(new Category(0L, "Entradas"));
-        p2Cat.add(new Category(1L, "Plato Principal"));
+        p2Cat.add(entrada);
+        p2Cat.add(platoPpal);
+        p2Cat.add(postre);
         p2.setCategories(p2Cat);
         p2.setSuitableForCeliac((RandomUtils.getIntBetween(0, 1) == 1));
         p2.setPicture(BitmapFactory.decodeResource(mContext.getResources(), getRandomDrawableId()));
-        plates.put(p1.getId(), p1);;
+        p3.setCategories(p2Cat);
+        p3.setSuitableForCeliac((RandomUtils.getIntBetween(0, 1) == 1));
+        p3.setPicture(BitmapFactory.decodeResource(mContext.getResources(), getRandomDrawableId()));
+
+        plates.put(p1.getId(), p1);
         plates.put(p2.getId(), p2);
+        plates.put(p3.getId(), p3);
 
         commerce.setPlates(plates);
     }
