@@ -11,6 +11,7 @@ import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 
+import okhttp3.Cache;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -39,6 +40,7 @@ public class PicassoService implements CustomService {
     }
 
     private void createPicassoInstance(Context context) {
+        final int cacheSize = 50 * 1024 * 1024; // 50 MB
         final String authToken = ServiceLocator.get(FacebookService.class).getAuthToken();
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(new Interceptor() {
@@ -49,7 +51,7 @@ public class PicassoService implements CustomService {
                                 .build();
                         return chain.proceed(newRequest);
                     }
-                })
+                }).cache(new Cache(context.getCacheDir(), cacheSize))
                 .build();
 
         mPicassoInstance = new Picasso.Builder(context)

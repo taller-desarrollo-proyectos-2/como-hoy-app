@@ -2,6 +2,7 @@ package com.fiuba.gaff.comohoy.services.PurchasesService;
 
 import android.app.Activity;
 import android.content.Context;
+import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -98,12 +99,19 @@ public class BasePurchasesService implements PurchasesService {
         networkFragment.startDownload(new DownloadCallback<NetworkResult>() {
             @Override
             public void onResponseReceived(@NonNull NetworkResult result) {
-                callback.onSuccess();
+                if (result.mException == null) {
+                    callback.onSuccess();
+                } else {
+                    callback.onError("Error al realizar la orden, por favor intente nuevamente");
+                }
             }
 
             @Override
             public NetworkInfo getActiveNetworkInfo(Context context) {
-                return null;
+                ConnectivityManager connectivityManager =
+                        (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+                return networkInfo;
             }
 
             @Override
@@ -112,7 +120,6 @@ public class BasePurchasesService implements PurchasesService {
 
             @Override
             public void onFinishDownloading() {
-                callback.onError("Error al realizar la orden, por favor intente de nuevo");
             }
         });
         clearCart();

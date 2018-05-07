@@ -217,6 +217,8 @@ public class ConfirmPurchaseActivity extends AppCompatActivity {
                 }
 
                 if (validInput) {
+                    CardView creditCardCardView = findViewById(R.id.cardview_address);
+                    creditCardCardView.setBackgroundColor(getResources().getColor(R.color.blanco));
                     mShippingAddress.setStreetName(street);
                     mShippingAddress.setStreetNumber(streetNumber);
                     updateAddressValue();
@@ -242,6 +244,8 @@ public class ConfirmPurchaseActivity extends AppCompatActivity {
 
         mAdditionalInfoDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
 
+        TextView title = mAdditionalInfoDialog.findViewById(R.id.textView_title);
+        title.setText("Información Adicional");
         final EditText additionalInfoEditText = mAdditionalInfoDialog.findViewById(R.id.editText_clarifications);
 
         Button acceptButton = mAdditionalInfoDialog.findViewById(R.id.button_accept);
@@ -379,13 +383,13 @@ public class ConfirmPurchaseActivity extends AppCompatActivity {
 
             @Override
             public void onError(String reason) {
-                showAdditionalInfoDialog();
+                showOrderSubmitError(reason);
             }
         });
     }
 
     private void showOrderSubmitError(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG);
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
     private PurchasesService getPurchaseService() {

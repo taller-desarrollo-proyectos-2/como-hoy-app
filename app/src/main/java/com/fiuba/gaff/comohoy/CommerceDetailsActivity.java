@@ -82,7 +82,7 @@ public class CommerceDetailsActivity extends AppCompatActivity {
         String uriFormat = "http://34.237.197.99:9000/api/v1/commerces/%d/picture";
         String uri = String.format(uriFormat, mCommerceId);
         Picasso picasso = ServiceLocator.get(PicassoService.class).getPicasso();
-        picasso.load(uri).fit().placeholder(R.drawable.progress_animation).error(R.drawable.no_image).into(imageViewCommerce);
+        picasso.load(uri).fit().centerCrop().placeholder(R.drawable.progress_animation).error(R.drawable.no_image).into(imageViewCommerce);
 
 
  //       aImagesCommerce.add(getCommerce().getPicture());

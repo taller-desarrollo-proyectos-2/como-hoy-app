@@ -26,6 +26,9 @@ import com.fiuba.gaff.comohoy.model.purchases.PlateOrder;
 import com.fiuba.gaff.comohoy.services.PurchasesService.PurchasesService;
 import com.fiuba.gaff.comohoy.services.ServiceLocator;
 import com.fiuba.gaff.comohoy.services.commerces.CommercesService;
+import com.fiuba.gaff.comohoy.services.picasso.CircleTransform;
+import com.fiuba.gaff.comohoy.services.picasso.PicassoService;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -71,6 +74,9 @@ public class OrderPlateActivity extends AppCompatActivity {
             setTitle("Agregar plato a pedido");
         }
 
+        setPlatePicture();
+        setDescription();
+
         fillFieldsWithPlateData();
 
         setUpQuantityCard();
@@ -80,6 +86,21 @@ public class OrderPlateActivity extends AppCompatActivity {
         setUpAddPlateButton();
 
         updateOrderCost();
+    }
+
+    private void setPlatePicture() {
+        ImageView plateImageView = findViewById(R.id.plate_image);
+        String uriFormat = "http://34.237.197.99:9000/api/v1/plates/%d/picture";
+        String uri = String.format(uriFormat, mPlateId);
+        Picasso picasso = ServiceLocator.get(PicassoService.class).getPicasso();
+        picasso.load(uri).fit().centerCrop().placeholder(R.drawable.progress_animation).into(plateImageView);
+    }
+
+    private void setDescription() {
+        TextView descriptionTextview = findViewById(R.id.plate_description);
+        Commerce commerce = getCommerceService().getCommerce(mCommerceId);
+        Plate plate = commerce.getPlate(mPlateId);
+        descriptionTextview.setText(plate.getDescription());
     }
 
     private void fillFieldsWithPlateData() {

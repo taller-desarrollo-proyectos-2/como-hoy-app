@@ -168,6 +168,7 @@ public class BaseCommercesService implements CommercesService {
                 plate.setName(plateJson.getString("name"));
                 plate.setPrice(plateJson.getDouble("price"));
                 plate.setSuitableForCeliac(plateJson.getBoolean("glutenFree"));
+                plate.setDescription(plateJson.getString("description"));
                 plate.setCategories(getPlateCategories(plateJson));
                 plate.setExtras(getPlateExtras(plateJson));
 
