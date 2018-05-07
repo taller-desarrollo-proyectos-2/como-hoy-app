@@ -84,7 +84,7 @@ public class MenuItemListAdapter extends RecyclerView.Adapter<MenuItemListAdapte
             String uriFormat = "http://34.237.197.99:9000/api/v1/plates/%d/picture";
             String uri = String.format(uriFormat, plate.getId());
             Picasso picasso = ServiceLocator.get(PicassoService.class).getPicasso();
-            picasso.load(uri).fit().transform(new CircleTransform()).placeholder(R.drawable.progress_animation).into(holder.mPicture);
+            picasso.load(uri).fit().transform(new CircleTransform()).error(R.drawable.no_image).placeholder(R.drawable.progress_animation).into(holder.mPicture);
         }
 
         holder.mPlateName.setText(plate.getName());
