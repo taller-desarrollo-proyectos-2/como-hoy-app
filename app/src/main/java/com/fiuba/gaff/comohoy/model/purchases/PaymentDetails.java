@@ -1,12 +1,21 @@
 package com.fiuba.gaff.comohoy.model.purchases;
 
 public class PaymentDetails {
+    private Address mShippingAddress;
     private PaymentMethod mPaymentMethod;
     private CreditCardDetails mCardDetails;
     private double mAmountToCharge;
 
     public PaymentDetails() {
         reset();
+    }
+
+    public Address getShippingAddress() {
+        return mShippingAddress;
+    }
+
+    public void setShippingAddress(Address shippingAddress) {
+        mShippingAddress = shippingAddress;
     }
 
     public PaymentMethod getPaymentMethod() {
@@ -36,5 +45,6 @@ public class PaymentDetails {
     public void reset() {
         mAmountToCharge = 0;
         mPaymentMethod = PaymentMethod.Cash;
+        mShippingAddress = new Address();
     }
 }
