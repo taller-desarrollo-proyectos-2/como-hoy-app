@@ -27,10 +27,16 @@ public class CategoriesAdapter extends BaseAdapter {
 
     private Activity mActivityContext;
     private List<CategoryUsageData> mCategoriesUsageData;
+    private CategoryClickListener mListener;
 
-    public CategoriesAdapter(Activity activityContext, List<CategoryUsageData> categoriesUsageData) {
+    public interface CategoryClickListener {
+        void onCategoryClicked(String categoryName);
+    }
+
+    public CategoriesAdapter(Activity activityContext, List<CategoryUsageData> categoriesUsageData, CategoryClickListener listener) {
         mActivityContext = activityContext;
         mCategoriesUsageData = categoriesUsageData;
+        mListener = listener;
     }
 
     @Override
@@ -54,28 +60,36 @@ public class CategoriesAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        View grid;
+        View view;
 
         if(convertView == null){
-            grid = new View(mActivityContext);
+            view = new View(mActivityContext);
             LayoutInflater inflater = mActivityContext.getLayoutInflater();
-            grid = inflater.inflate(R.layout.categories_grid_layout_item, parent, false);
+            view = inflater.inflate(R.layout.categories_grid_layout_item, parent, false);
         }else{
-            grid = convertView;
+            view = convertView;
         }
 
-        CategoryUsageData categoryUsageData = mCategoriesUsageData.get(position);
+        final CategoryUsageData categoryUsageData = mCategoriesUsageData.get(position);
         String categoryName = categoryUsageData.getCategory().getName();
         int categoryDrawableId = CategoriesUtils.getCategoryDrawableIdByName(categoryName, mActivityContext);
-        ImageView imageView = grid.findViewById(R.id.image);
-        TextView textView = grid.findViewById(R.id.nombre_categoria);
+        ImageView imageView = view.findViewById(R.id.image);
+        TextView textView = view.findViewById(R.id.nombre_categoria);
 
 
         imageView.setImageResource(categoryDrawableId);
         Drawable drawable =  imageView.getDrawable();
         imageView.setImageDrawable(getCategoriesPictureDrawable(drawableToBitmap(drawable),mActivityContext));
         textView.setText(categoryName);
-        return grid;
+
+        ViewGroup parentLayout = view.findViewById(R.id.parent_layout);
+        parentLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mListener.onCategoryClicked(categoryUsageData.getCategory().getName());
+            }
+        });
+        return view;
     }
 
     public static Bitmap drawableToBitmap (Drawable drawable) {

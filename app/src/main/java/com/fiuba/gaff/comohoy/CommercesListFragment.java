@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.fiuba.gaff.comohoy.adapters.CategoriesAdapter;
 import com.fiuba.gaff.comohoy.adapters.CommerceListAdapter;
+import com.fiuba.gaff.comohoy.filters.CategoryFilter;
 import com.fiuba.gaff.comohoy.filters.RatingFilter;
 import com.fiuba.gaff.comohoy.filters.SearchFilter;
 import com.fiuba.gaff.comohoy.model.Category;
@@ -89,7 +90,6 @@ public class CommercesListFragment extends Fragment {
         mSearchView = view.findViewById(R.id.searchView);
 
         mCategorieName = view.findViewById(R.id.id_nombre_de_categoria);
-        mCategoriesGridView = view.findViewById(R.id.gridCategories);
         mCategorie = view.findViewById(R.id.categoria_fl);
         electedCategory = null;
 
@@ -260,7 +260,15 @@ public class CommercesListFragment extends Fragment {
         List<CategoryUsageData> categoriesUsageData = getCommercesService().getUsedCategoriesUsageData();
         GridView gridview = mCategoriesDialog.findViewById(R.id.gridCategories);
         if (categoriesUsageData != null && gridview != null){
-            gridview.setAdapter(new CategoriesAdapter(getActivity(), categoriesUsageData));
+            gridview.setAdapter(new CategoriesAdapter(getActivity(), categoriesUsageData, new CategoriesAdapter.CategoryClickListener() {
+                @Override
+                public void onCategoryClicked(String categoryName) {
+                    CategoryFilter categoryFilter = new CategoryFilter(categoryName);
+                    List<Commerce> filteredCommerces = categoryFilter.apply(getCommercesService().getCommerces());
+                    loadCommerces(filteredCommerces, true);
+                    mCategoriesDialog.dismiss();
+                }
+            }));
         }
 
         ImageView volver = window.findViewById(R.id.salirdialogo);
