@@ -1,19 +1,40 @@
 package com.fiuba.gaff.comohoy.model.purchases;
 
 public class PaymentDetails {
-    private String mCustomerFullName;
     private PaymentMethod mPaymentMethod;
     private CreditCardDetails mCardDetails;
-    private int mAmountToCharge;
+    private double mAmountToCharge;
 
-    public PaymentDetails(int amountToCharge, String customerName, PaymentMethod paymentMethod) {
-        mAmountToCharge = amountToCharge;
-        mCustomerFullName = customerName;
+    public PaymentDetails() {
+        reset();
+    }
+
+    public PaymentMethod getPaymentMethod() {
+        return mPaymentMethod;
+    }
+
+    public void setPaymentMethod(PaymentMethod paymentMethod) {
         mPaymentMethod = paymentMethod;
     }
 
-    public PaymentDetails(int amountToCharge, String customerName, PaymentMethod paymentMethod, CreditCardDetails cardDetails) {
-        this(amountToCharge, customerName, paymentMethod);
+    public CreditCardDetails getCardDetails() {
+        return mCardDetails;
+    }
+
+    public void setCardDetails(CreditCardDetails cardDetails) {
         mCardDetails = cardDetails;
+    }
+
+    public double getAmountToCharge() {
+        return mAmountToCharge;
+    }
+
+    public void setAmountToCharge(double amountToCharge) {
+        mAmountToCharge = amountToCharge;
+    }
+
+    public void reset() {
+        mAmountToCharge = 0;
+        mPaymentMethod = PaymentMethod.Cash;
     }
 }

@@ -199,8 +199,7 @@ public class OrderPlateActivity extends AppCompatActivity {
         numberPicker.setWrapSelectorWheel(true);
         numberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
-            public void onValueChange(NumberPicker numberPicker, int i, int i1) {
-
+            public void onValueChange(NumberPicker numberPicker, int oldVal, int newValue) {
             }
         });
 
@@ -304,6 +303,8 @@ public class OrderPlateActivity extends AppCompatActivity {
     }
 
     private void openQuantityDialog() {
+        NumberPicker numberPicker = mQuantityDialog.findViewById(R.id.numberPicker);
+        numberPicker.setValue(mOrderQuantity);
         mQuantityDialog.show();
     }
 

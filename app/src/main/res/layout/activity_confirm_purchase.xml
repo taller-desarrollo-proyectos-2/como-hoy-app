@@ -74,7 +74,7 @@
     </android.support.v7.widget.CardView>
 
     <android.support.v7.widget.CardView
-        android:id="@+id/cardview_address_number"
+        android:id="@+id/cardview_address_additional_info"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -115,7 +115,7 @@
                 android:paddingRight="8dp" />
 
             <TextView
-                android:id="@+id/address_field_number_value"
+                android:id="@+id/address_field_additional_info_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16sp" />
@@ -134,10 +134,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardview_address_number" />
+        app:layout_constraintTop_toBottomOf="@+id/cardview_address_additional_info" />
 
     <Spinner
-        android:id="@+id/spinner"
+        android:id="@+id/spinner_payment_method"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -162,7 +162,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner">
+        app:layout_constraintTop_toBottomOf="@+id/spinner_payment_method">
 
         <LinearLayout
             android:layout_width="match_parent"

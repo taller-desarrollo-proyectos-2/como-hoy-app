@@ -55,7 +55,7 @@
             android:name=".MainActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_main"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".CommerceDetailsActivity"
             android:configChanges="keyboardHidden|orientation"
@@ -77,18 +77,32 @@
             android:name=".MoreInfoActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_more_info"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".OrderPlateActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_more_info_plate"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".CartActivity"
-            android:label="@string/title_activity_cart"
             android:configChanges="keyboardHidden|orientation"
+            android:label="@string/title_activity_cart"
             android:screenOrientation="portrait">
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
+            android:name=".ConfirmPurchaseActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/title_activity_confirm_purchase"
+            android:screenOrientation="portrait">
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
+            android:name=".CardDetailsActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/title_activity_card_details"
+            android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>

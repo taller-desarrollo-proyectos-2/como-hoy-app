@@ -17,7 +17,9 @@
         completions."
     </string>
     <string name="title_activity_main">Listado de Comercios</string>
-    <string name="title_activity_cart">Pedido</string>
+    <string name="title_activity_cart">Mi Pedido</string>
+    <string name="title_activity_card_details">Detalles de Tarjeta</string>
+    <string name="title_activity_confirm_purchase">Confirmar Compra</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
@@ -29,6 +31,8 @@
     <string name="puntajeFiltrar">3</string>
 
     <string name="confirmation_format">¿Estás seguro que deseas %s?</string>
+
+    <string name="nombre_categoria">nombreCategoria</string>
 
 
     <!-- Transitions -->
@@ -47,5 +51,9 @@
     <string name="intent_data_plate_and_commerce_id">extraCommerceAndPlateIds</string>
     <string name="intent_data_plate_id">extraPlateId</string>
 
-    <string name="nombre_categoria">nombreCategoria</string>
+    <!-- Arrays -->
+    <string-array name="payment_methods_array">
+        <item>Efectivo</item>
+        <item>Tarjeta de Crédito</item>
+    </string-array>
 </resources>

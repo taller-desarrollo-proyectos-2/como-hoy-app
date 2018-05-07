@@ -4,14 +4,11 @@ import java.util.Date;
 
 public class CreditCardDetails {
     private String mOwnerName = "";
-    private CreditCardType mCardType;
     private String mCardNumber = "";
     private String mSecurityNumber = "";
-    private Date mExpireDate;
+    private String mExpireDate = "";
 
-    public CreditCardDetails(CreditCardType type) {
-        mCardType = type;
-        mExpireDate = new Date();
+    public CreditCardDetails() {
     }
 
     public String getOwnerName() {
@@ -20,14 +17,6 @@ public class CreditCardDetails {
 
     public void setOwnerName(String ownerName) {
         mOwnerName = ownerName;
-    }
-
-    public CreditCardType getCardType() {
-        return mCardType;
-    }
-
-    public void setCardType(CreditCardType cardType) {
-        mCardType = cardType;
     }
 
     public String getCardNumber() {
@@ -46,11 +35,11 @@ public class CreditCardDetails {
         mSecurityNumber = securityNumber;
     }
 
-    public Date getExpireDate() {
+    public String getExpireDate() {
         return mExpireDate;
     }
 
-    public void setExpireDate(Date expireDate) {
+    public void setExpireDate(String expireDate) {
         mExpireDate = expireDate;
     }
 }

@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.fiuba.gaff.comohoy.adapters.PlatesOrderAdapter;
 import com.fiuba.gaff.comohoy.model.Commerce;
+import com.fiuba.gaff.comohoy.model.purchases.PaymentDetails;
 import com.fiuba.gaff.comohoy.model.purchases.PlateOrder;
 import com.fiuba.gaff.comohoy.services.PurchasesService.Cart;
 import com.fiuba.gaff.comohoy.services.PurchasesService.PurchasesService;
@@ -75,7 +76,9 @@ public class CartActivity extends AppCompatActivity {
         continuePurchaseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Continue with purchase
+                Intent intent = new Intent();
+                intent.setClass(CartActivity.this, ConfirmPurchaseActivity.class);
+                startActivity(intent);
             }
         });
     }

@@ -1,6 +1,7 @@
 package com.fiuba.gaff.comohoy.services.PurchasesService;
 
 import com.fiuba.gaff.comohoy.OrderPlateActivity;
+import com.fiuba.gaff.comohoy.model.purchases.PaymentDetails;
 import com.fiuba.gaff.comohoy.model.purchases.PlateOrder;
 
 import java.util.HashMap;
@@ -11,9 +12,11 @@ import java.util.function.Predicate;
 public class BasePurchasesService implements PurchasesService {
 
     private Cart mCart;
+    private PaymentDetails mPaymentDetails;
 
     public BasePurchasesService() {
         mCart = new Cart();
+        mPaymentDetails = new PaymentDetails();
     }
 
     @Override
@@ -24,6 +27,14 @@ public class BasePurchasesService implements PurchasesService {
     @Override
     public void assignCommerce(int commerceId) {
         mCart.setCommerceId(commerceId);
+    }
+
+    @Override
+    public void submitPurchase() {
+        // post purchase
+
+        clearCart();
+        clearPaymentDetails();
     }
 
     @Override
@@ -51,4 +62,18 @@ public class BasePurchasesService implements PurchasesService {
         return mCart.isEmpty();
     }
 
+    @Override
+    public void clearPaymentDetails() {
+        mPaymentDetails.reset();
+    }
+
+    @Override
+    public PaymentDetails getPaymentDetails() {
+        return mPaymentDetails;
+    }
+
+    @Override
+    public void setPaymentDetails(PaymentDetails paymentDetails) {
+        mPaymentDetails = paymentDetails;
+    }
 }

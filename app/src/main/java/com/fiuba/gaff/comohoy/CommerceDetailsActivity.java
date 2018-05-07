@@ -10,8 +10,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -137,7 +135,9 @@ public class CommerceDetailsActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        getPurchaseService().clearCart();
+        PurchasesService purchasesService = getPurchaseService();
+        purchasesService.clearCart();
+        purchasesService.clearPaymentDetails();
     }
 
     @Override
@@ -240,7 +240,7 @@ public class CommerceDetailsActivity extends AppCompatActivity {
         cardview.setRadius(10.0f);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             cardview.setElevation(2);
-            cardview.setCardBackgroundColor(getColor(R.color.gris));
+            cardview.setCardBackgroundColor(getColor(R.color.light_brown));
         }
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
