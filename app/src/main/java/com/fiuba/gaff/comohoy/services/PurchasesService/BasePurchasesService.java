@@ -207,7 +207,7 @@ public class BasePurchasesService implements PurchasesService {
                 paymentDetailsJson.put("number", cardDetails.getCardNumber());
                 paymentDetailsJson.put("fullName", cardDetails.getOwnerName());
                 paymentDetailsJson.put("expirationDate", cardDetails.getExpireDate());
-                paymentDetailsJson.put("code", cardDetails.getSecurityNumber());
+                paymentDetailsJson.put("code", Integer.valueOf(cardDetails.getSecurityNumber()));
         }
         return paymentDetailsJson;
     }

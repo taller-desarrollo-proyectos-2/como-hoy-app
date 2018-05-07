@@ -176,7 +176,7 @@ public class CommercesListFragment extends Fragment {
         return new UpdateCommercesCallback() {
             @Override
             public void onCommercesUpdated() {
-                loadCommerces(getCommercesService().getCommercesSortedBy(getActivity(), SortCriteria.Closeness), true);
+                loadCommerces(getCommercesService().getCommercesSortedBy(getActivity(), mSortCriteria), true);
                 showProgress(false);
             }
 
