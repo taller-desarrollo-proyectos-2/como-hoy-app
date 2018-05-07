@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.content.Context;
 
 import com.fiuba.gaff.comohoy.comparators.CommerceLocationComparator;
+import com.fiuba.gaff.comohoy.filters.Filter;
 import com.fiuba.gaff.comohoy.model.CategoriesList;
 import com.fiuba.gaff.comohoy.model.Category;
 import com.fiuba.gaff.comohoy.model.CategoryUsageData;
@@ -26,6 +27,16 @@ public class MockCommercesService implements CommercesService {
 
     public MockCommercesService(Context context){
         mContext = context;
+    }
+
+    @Override
+    public void addFilter(Filter filter) {
+
+    }
+
+    @Override
+    public void clearFilters() {
+
     }
 
     @Override

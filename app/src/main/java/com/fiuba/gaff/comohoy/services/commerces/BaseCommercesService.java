@@ -7,6 +7,7 @@ import android.net.NetworkInfo;
 import android.util.Log;
 
 import com.fiuba.gaff.comohoy.comparators.CommerceLocationComparator;
+import com.fiuba.gaff.comohoy.filters.Filter;
 import com.fiuba.gaff.comohoy.model.Category;
 import com.fiuba.gaff.comohoy.model.CategoryUsageData;
 import com.fiuba.gaff.comohoy.model.Commerce;
@@ -42,9 +43,11 @@ public class BaseCommercesService implements CommercesService {
     private Context mContext;
 
     private Map<Integer, Commerce> mCommerces;
+    private List<Filter> mFilters;
 
     public BaseCommercesService(Context context){
         mContext = context;
+        mFilters = new ArrayList<>();
     }
 
     @Override
@@ -64,7 +67,8 @@ public class BaseCommercesService implements CommercesService {
 
     @Override
     public List<Commerce> getCommerces() {
-        return new ArrayList<>(mCommerces.values());
+        List<Commerce> commerces = new ArrayList<>(mCommerces.values());
+        return filterCommerces(commerces);
     }
 
     @Override
@@ -77,7 +81,7 @@ public class BaseCommercesService implements CommercesService {
             default:
                 Collections.sort(commerces, new CommerceLocationComparator(context));
         }
-        return commerces;
+        return filterCommerces(commerces);
     }
 
     @Override
@@ -110,6 +114,24 @@ public class BaseCommercesService implements CommercesService {
         }
         Log.w("CommercesService", "There is no commerce with id " + id);
         return null;
+    }
+
+    @Override
+    public void addFilter(Filter filter) {
+        mFilters.add(filter);
+    }
+
+    @Override
+    public void clearFilters() {
+        mFilters.clear();
+    }
+
+    private List<Commerce> filterCommerces(List<Commerce> commerces) {
+        List<Commerce> filteredCommerces = commerces;
+        for (Filter filer : mFilters) {
+            filteredCommerces = filer.apply(filteredCommerces);
+        }
+        return filteredCommerces;
     }
 
     private NetworkObject createUpdateCommercesNetworkObject(String url) {

@@ -378,7 +378,7 @@ public class ConfirmPurchaseActivity extends AppCompatActivity {
         getPurchaseService().submitPurchase(this, new OnSubmitPurchaseCallback() {
             @Override
             public void onSuccess() {
-                finish();
+                goBackToCommercesActivity();
             }
 
             @Override
@@ -386,6 +386,13 @@ public class ConfirmPurchaseActivity extends AppCompatActivity {
                 showOrderSubmitError(reason);
             }
         });
+    }
+
+    private void goBackToCommercesActivity() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
     }
 
     private void showOrderSubmitError(String message) {

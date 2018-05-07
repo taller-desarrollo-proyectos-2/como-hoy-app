@@ -12,28 +12,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.GridView;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.ScrollView;
 import android.widget.SearchView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fiuba.gaff.comohoy.adapters.CategoriesAdapter;
 import com.fiuba.gaff.comohoy.adapters.CommerceListAdapter;
 import com.fiuba.gaff.comohoy.filters.CategoryFilter;
-import com.fiuba.gaff.comohoy.filters.RatingFilter;
 import com.fiuba.gaff.comohoy.filters.SearchFilter;
 import com.fiuba.gaff.comohoy.model.Category;
 import com.fiuba.gaff.comohoy.model.CategoryUsageData;
 import com.fiuba.gaff.comohoy.model.Commerce;
 import com.fiuba.gaff.comohoy.model.Location;
+import com.fiuba.gaff.comohoy.model.purchases.PaymentMethod;
 import com.fiuba.gaff.comohoy.services.ServiceLocator;
 import com.fiuba.gaff.comohoy.services.commerces.CommercesService;
 import com.fiuba.gaff.comohoy.services.commerces.SortCriteria;
@@ -57,7 +56,9 @@ public class CommercesListFragment extends Fragment {
     private FrameLayout mCategorie;
     private TextView mCategorieName;
 
+    private SortCriteria mSortCriteria = SortCriteria.Closeness;
     private Dialog mCategoriesDialog;
+    private Dialog mFiltersDialog;
 
     private CommerceListListener mCommerceListListener;
 
@@ -99,6 +100,7 @@ public class CommercesListFragment extends Fragment {
         //getCommercesService().updateCommercesWithLocation(getActivity(), createOnUpdatedCommercesCallback(), currentLocation);
         getCommercesService().updateCommercesData(getActivity(), createOnUpdatedCommercesCallback());
 
+        createFiltersDialog();
         setUpSearchView();
         setUpFilterButton(view);
         setUpCategoriButton(view);
@@ -191,45 +193,7 @@ public class CommercesListFragment extends Fragment {
         filterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final Dialog dialog = new Dialog(getContext());
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setContentView(R.layout.filters);
-                dialog.show();
-
-                WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-                Window window = dialog.getWindow();
-                lp.copyFrom(window.getAttributes());
-                lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-                lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-                window.setAttributes(lp);
-
-                Button filterButton= (Button) dialog.findViewById(R.id.button_confirm_filtrar);
-                filterButton.setOnClickListener(new View.OnClickListener(){
-                    @Override
-                    public void onClick(View v) {
-                        /*if(((CheckBox) dialog.findViewById(R.id.id_filtro_puntaje)).isChecked()){
-                            List<Commerce> commerces = getCommercesService().getCommerces();
-
-                            EditText ratingFilterEditText = dialog.findViewById(R.id.edittext_puntaje_ingresado);
-                            String enteredValue = ratingFilterEditText.getText().toString();
-                            double puntajeFiltrar = 0;
-                            if(enteredValue != null && !enteredValue.isEmpty()) {
-                                puntajeFiltrar = Double.parseDouble(ratingFilterEditText.getText().toString());
-                            } else {
-                                String hintText = ratingFilterEditText.getHint().toString();
-                                if (!hintText.isEmpty()){
-                                    puntajeFiltrar = Double.parseDouble(hintText);
-                                }
-                            }
-
-                            RatingFilter ratingFilter = new RatingFilter(puntajeFiltrar);
-                            List<Commerce> filteredList = ratingFilter.apply(commerces);
-
-                            loadCommerces(filteredList, true);
-                        }*/
-                        dialog.dismiss();
-                    }
-                });
+                mFiltersDialog.show();
             }
         });
     }
@@ -264,7 +228,8 @@ public class CommercesListFragment extends Fragment {
                 @Override
                 public void onCategoryClicked(String categoryName) {
                     CategoryFilter categoryFilter = new CategoryFilter(categoryName);
-                    List<Commerce> filteredCommerces = categoryFilter.apply(getCommercesService().getCommerces());
+                    getCommercesService().addFilter(categoryFilter);
+                    List<Commerce> filteredCommerces = getCommercesService().getCommerces();
                     loadCommerces(filteredCommerces, true);
                     mCategoriesDialog.dismiss();
                 }
@@ -292,147 +257,58 @@ public class CommercesListFragment extends Fragment {
         //window.setContentView(mSVCategories);
     }
 
+    private void createFiltersDialog() {
+        mFiltersDialog = new Dialog(getContext());
+        mFiltersDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        mFiltersDialog.setContentView(R.layout.dialog_filters);
 
-    /*private void initialiceCategoriesStructure(){
-        crearScrollView();
-        crearLLVertical();
-        LinearLayout llTitle = crearLLHorizontal();
-        ImageButton ibcerrrar = crearImageButtonCerrar();
-        ibcerrrar.setOnClickListener(new View.OnClickListener() {
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        Window window = mFiltersDialog.getWindow();
+        lp.copyFrom(window.getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        window.setAttributes(lp);
+
+        Spinner spinner = mFiltersDialog.findViewById(R.id.spinner_sort_criteria);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.sort_criteria_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onClick(View v) {
-                //dialog.dismiss();
+            public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long id) {
+                String selectedItem = adapterView.getItemAtPosition(pos).toString();
+                switch (selectedItem) {
+                    case "Cercanía":
+                        mSortCriteria = SortCriteria.Closeness;
+                        break;
+                    default: mSortCriteria = SortCriteria.Closeness;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
             }
         });
-        llTitle.addView(ibcerrrar);
-        if (electedCategory != null) {
-            Button quitarElectedCategory = crearQuitarCategoria();
-            quitarElectedCategory.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    electedCategory = null;
-                    v.setVisibility(View.GONE);
-                }
-            });
-            llTitle.addView(quitarElectedCategory);
-        }
-        mCategoriesGridView.addView(llTitle);
-        List<CategoryUsageData> categorias = getCommercesService().getUsedCategoriesUsageData();
 
-        for (List<Category> listCategory : categorias) {
-            LinearLayout ll = crearLLHorizontal();
-            for (final Category category : listCategory) {
-                ImageButton ib = crearImageButton(category);
-                crearTextView(category);
-                crearFrameLayout(category);
-                ib.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        electedCategory = category;
-                        //dialog.dismiss();
-                        //v.getContext
-                    }
-                });
-                mCategorie.addView(ib);
-                mCategorie.addView(mCategorieName);
-                ll.addView(mCategorie);
+        Button acceptButton = mFiltersDialog.findViewById(R.id.button_accept);
+        Button cancelButton = mFiltersDialog.findViewById(R.id.button_cancel);
+
+        acceptButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                List<Commerce> sortedCommerces = getCommercesService().getCommercesSortedBy(getActivity(), mSortCriteria);
+                loadCommerces(sortedCommerces, false);
+                mFiltersDialog.dismiss();
             }
-            mCategoriesGridView.addView(ll);
-        }
-        mSVCategories.addView(mCategoriesGridView);
+        });
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mFiltersDialog.dismiss();
+            }
+        });
     }
-
-    private LinearLayout crearLLHorizontal(){
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        );
-        params.weight = 1;
-        LinearLayout ll = new LinearLayout(getContext());
-        ll.setOrientation(LinearLayout.HORIZONTAL);
-        ll.setLayoutParams(params);
-        return ll;
-    }
-
-    private void crearLLVertical(){
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        );
-        mCategoriesGridView = new LinearLayout(getContext());
-        mCategoriesGridView.setOrientation(LinearLayout.VERTICAL);
-        mCategoriesGridView.setBackgroundColor(getResources().getColor(R.color.blanco));
-        mCategoriesGridView.setLayoutParams(params);
-    }
-
-    private void crearFrameLayout( Category category){
-        LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        );
-        buttonParams.weight = 1;
-        mCategorie = new FrameLayout(getContext());
-        mCategorie.setLayoutParams(buttonParams);
-    }
-
-    private ImageButton crearImageButton(Category category){
-        LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        );
-        ImageButton ib = new ImageButton(getContext());
-        ib.setAdjustViewBounds(true);
-        buttonParams.weight = 1;
-        ib.setLayoutParams(buttonParams);
-
-        Bitmap pictureBitmap = category.getPicture();
-        if (pictureBitmap.getWidth() > pictureBitmap.getHeight()) {
-            pictureBitmap = Bitmap.createBitmap(pictureBitmap, 0, 0, pictureBitmap.getHeight(), pictureBitmap.getHeight());
-        }
-
-        ib.setImageBitmap(pictureBitmap);
-        ib.setScaleType(ImageView.ScaleType.FIT_XY);
-
-        return ib;
-    }
-    private void crearTextView(Category category){
-        mCategorieName = new TextView(getContext());
-        mCategorieName.setText(category.getName());
-        mCategorieName.setTextColor(getResources().getColor(R.color.amarillo));
-    }
-    private void crearScrollView(){
-        mSVCategories = new ScrollView(getContext());
-        LinearLayout.LayoutParams paramsSV = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        );
-        mSVCategories.setBackgroundColor(getResources().getColor(R.color.blanco));
-        mSVCategories.setLayoutParams(paramsSV);
-    }
-
-    private ImageButton crearImageButtonCerrar(){
-        LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        );
-        ImageButton ib = new ImageButton(getContext());
-        ib.setLayoutParams(buttonParams);
-        ib.setImageDrawable(getResources().getDrawable(R.drawable.close));
-        ib.setScaleType(ImageView.ScaleType.FIT_XY);
-        return ib;
-    }
-
-    private Button crearQuitarCategoria(){
-        LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        );
-        Button ib = new Button(getContext());
-        ib.setVisibility(View.VISIBLE);
-        ib.setLayoutParams(buttonParams);
-        ib.setText("QUITAR CATEGORIA");
-        return ib;
-    }*/
-
 }
 
