@@ -239,6 +239,9 @@ public class CommercesListFragment extends Fragment {
                 if (mCategoriesDialog == null) {
                     createCategoriesDialog();
                 }
+
+
+
                 mCategoriesDialog.show();
             }
         });
@@ -263,6 +266,7 @@ public class CommercesListFragment extends Fragment {
 
         //window.setContentView(mSVCategories);
     }
+
 
     /*private void initialiceCategoriesStructure(){
         crearScrollView();

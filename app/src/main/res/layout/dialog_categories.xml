@@ -5,18 +5,33 @@
     android:layout_width="match_parent"
     android:elevation="24dp"
     android:layout_height="wrap_content">
-    <LinearLayout
+    <RelativeLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <com.fiuba.gaff.comohoy.SquareImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Quitar" />
-    </LinearLayout>
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:layout_gravity="left"
+            android:onClick="closeDialog"
+            android:src="@drawable/goback"/>
+
+        <com.fiuba.gaff.comohoy.SquareImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:visibility="gone"
+            android:onClick="takeOutCategory"
+            android:layout_gravity="end"
+            android:src="@drawable/close" />
+    </RelativeLayout>
     <GridView
         android:id="@+id/gridCategories"
         android:layout_width="fill_parent"
