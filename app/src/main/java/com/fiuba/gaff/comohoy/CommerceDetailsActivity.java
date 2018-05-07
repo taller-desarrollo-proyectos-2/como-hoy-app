@@ -26,6 +26,9 @@ import com.fiuba.gaff.comohoy.model.Plate;
 import com.fiuba.gaff.comohoy.services.PurchasesService.PurchasesService;
 import com.fiuba.gaff.comohoy.services.ServiceLocator;
 import com.fiuba.gaff.comohoy.services.commerces.CommercesService;
+import com.fiuba.gaff.comohoy.services.picasso.CircleTransform;
+import com.fiuba.gaff.comohoy.services.picasso.PicassoService;
+import com.squareup.picasso.Picasso;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
 
@@ -43,9 +46,8 @@ public class CommerceDetailsActivity extends AppCompatActivity {
 
     private int mCommerceId = -1;
 
-    private CarouselView carouselView;
-    private int[] sampleImages = {R.drawable.prueba1, R.drawable.prueba2, R.drawable.prueba3};
-
+    //private CarouselView carouselView;
+    private ImageView imageViewCommerce;
 
     public interface MenuListListener {
         void onPlateClicked(Plate plate);
@@ -60,7 +62,9 @@ public class CommerceDetailsActivity extends AppCompatActivity {
 
         getPurchaseService().assignCommerce(mCommerceId);
 
-        carouselView = findViewById(R.id.carouselView);
+        //carouselView = findViewById(R.id.carouselView);
+        imageViewCommerce = findViewById(R.id.imagenRestaurantFondo);
+
         mCommerceTittle = findViewById(R.id.commerceTittle);
         mMenuLayout = findViewById(R.id.menu_layout);
         mSeeMyOrderButton = findViewById(R.id.button_see_my_order);
@@ -73,18 +77,24 @@ public class CommerceDetailsActivity extends AppCompatActivity {
     }
 
     private void setUpCarouselView() {
-        final ArrayList<Bitmap> aImagesCommerce = new ArrayList<Bitmap>();
-        aImagesCommerce.add(getCommerce().getPicture());
+//        final ArrayList<Bitmap> aImagesCommerce = new ArrayList<Bitmap>();
 
-        carouselView.setPageCount(aImagesCommerce.size());
-        ImageListener imageListener = new ImageListener() {
-            @Override
-            public void setImageForPosition(int position, ImageView imageView) {
-                //imageView.setImageResource(sampleImages[position]);
-                imageView.setImageBitmap(aImagesCommerce.get(0));
-            }
-        };
-        carouselView.setImageListener(imageListener);
+        String uriFormat = "http://34.237.197.99:9000/api/v1/commerces/%d/picture";
+        String uri = String.format(uriFormat, mCommerceId);
+        Picasso picasso = ServiceLocator.get(PicassoService.class).getPicasso();
+        picasso.load(uri).fit().placeholder(R.drawable.progress_animation).error(R.drawable.no_image).into(imageViewCommerce);
+
+
+ //       aImagesCommerce.add(getCommerce().getPicture());
+
+//        carouselView.setPageCount(aImagesCommerce.size());
+//        ImageListener imageListener = new ImageListener() {
+//            @Override
+//            public void setImageForPosition(int position, ImageView imageView) {
+//                imageView.setImageBitmap(aImagesCommerce.get(0));
+//            }
+//        };
+//        carouselView.setImageListener(imageListener);
     }
 
     private void updateGoToCartButtonVisibility() {
