@@ -18,6 +18,8 @@ import com.fiuba.gaff.comohoy.networking.HttpMethodType;
 import com.fiuba.gaff.comohoy.networking.NetworkFragment;
 import com.fiuba.gaff.comohoy.networking.NetworkObject;
 import com.fiuba.gaff.comohoy.networking.NetworkResult;
+import com.fiuba.gaff.comohoy.services.ServiceLocator;
+import com.fiuba.gaff.comohoy.services.facebook.FacebookService;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -129,6 +131,7 @@ public class BasePurchasesService implements PurchasesService {
     private NetworkObject createSubmitOrderNetworkObject() {
         String requestBody = createSubmitPurchaseJson().toString();
         NetworkObject networkObject = new NetworkObject(POST_ORDER_URL, HttpMethodType.POST, requestBody);
+        networkObject.setAuthToken(ServiceLocator.get(FacebookService.class).getAuthToken());
         return networkObject;
     }
 
@@ -150,7 +153,9 @@ public class BasePurchasesService implements PurchasesService {
         for (PlateOrder plateOrder : mPlateOrders) {
             try {
                 JSONObject orderJson = new JSONObject();
-                orderJson.put("plate", plateOrder.getPlateId());
+                JSONObject plateIdJson = new JSONObject();
+                plateIdJson.put("id", plateOrder.getPlateId());
+                orderJson.put("plate", plateIdJson);
                 orderJson.put("optionals", createExtrasJson(plateOrder));
                 orderJson.put("comment", plateOrder.getClarifications());
                 orderJson.put("quantity", plateOrder.getQuantity());
