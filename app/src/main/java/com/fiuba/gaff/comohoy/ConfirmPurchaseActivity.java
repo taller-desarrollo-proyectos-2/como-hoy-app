@@ -173,11 +173,8 @@ public class ConfirmPurchaseActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 openCreditCardActivity();
-               // showCreditCardDialog();
             }
         });
-
-        //updateCreditCardValues();
     }
 
     private void openCreditCardActivity() {
@@ -318,6 +315,8 @@ public class ConfirmPurchaseActivity extends AppCompatActivity {
     private void updateCreditCardDetailsValue() {
         CreditCardDetails cardDetails = getPurchaseService().getPaymentDetails().getCardDetails();
         if (cardDetails != null) {
+            CardView creditCardCardView = findViewById(R.id.cardview_card_details);
+            creditCardCardView.setBackgroundColor(getResources().getColor(R.color.blanco));
             String cardNumber = cardDetails.getCardNumber();
             String hiddenCardNumber = "";
             if (cardNumber.length() > 4) {

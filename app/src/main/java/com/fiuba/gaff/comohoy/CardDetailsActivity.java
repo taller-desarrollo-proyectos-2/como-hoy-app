@@ -107,7 +107,7 @@ public class CardDetailsActivity extends AppCompatActivity {
         String name = nameEditText.getText().toString();
         String cardNumber = cardForm.getCardNumber();
         String cvv = cardForm.getCvv();
-        String expirationDate = String.format("%s-%s", cardForm.getExpirationMonth(), cardForm.getExpirationYear());
+        String expirationDate = String.format("%s-%s-%s", cardForm.getExpirationYear(), cardForm.getExpirationMonth(), "1");
 
         cardDetails.setOwnerName(name);
         cardDetails.setCardNumber(cardNumber);
