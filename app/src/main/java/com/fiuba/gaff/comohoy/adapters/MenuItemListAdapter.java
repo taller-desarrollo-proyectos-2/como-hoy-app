@@ -3,6 +3,8 @@ package com.fiuba.gaff.comohoy.adapters;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.Guideline;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.widget.CardView;
@@ -46,6 +48,7 @@ public class MenuItemListAdapter extends RecyclerView.Adapter<MenuItemListAdapte
         private final TextView mDescription;
         private final TextView mPrice;
         private final ImageView mCeliacPicture;
+        private final Guideline mGuideline;
 
         MenuItemViewHolder(View itemView) {
             super(itemView);
@@ -56,6 +59,7 @@ public class MenuItemListAdapter extends RecyclerView.Adapter<MenuItemListAdapte
             mDescription = (TextView) itemView.findViewById(R.id.text_view_plate_desc);
             mPrice = (TextView) itemView.findViewById(R.id.text_view_order_status);
             mCeliacPicture = itemView.findViewById(R.id.icon_celiac_plate);
+            mGuideline = itemView.findViewById(R.id.plate_guideline);
         }
     }
 
@@ -94,6 +98,10 @@ public class MenuItemListAdapter extends RecyclerView.Adapter<MenuItemListAdapte
 
         if (!plate.isSuitableForCeliac()) {
             holder.mCeliacPicture.setVisibility(View.GONE);
+            ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) holder.mGuideline.getLayoutParams();
+            params.guidePercent = 0.8f;
+            holder.mGuideline.setLayoutParams(params);
+
         }
 
         holder.mView.setOnClickListener(new View.OnClickListener() {

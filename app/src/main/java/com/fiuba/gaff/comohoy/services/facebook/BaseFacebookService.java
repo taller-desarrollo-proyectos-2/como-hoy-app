@@ -136,9 +136,9 @@ public class BaseFacebookService implements FacebookService {
                         if (mAuthToken == null) {
                             loginCallback.onError("El usuario falló al ser autenticado");
                             mAuthToken = "";
-                            return;
+                        } else {
+                            loginCallback.onSuccess();
                         }
-                        loginCallback.onSuccess();
                     } else {
                         loginCallback.onError("El usuario falló al ser autenticado");
                     }
