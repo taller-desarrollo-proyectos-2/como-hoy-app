@@ -46,9 +46,9 @@ public class MainActivity extends AppCompatActivity implements CommercesListFrag
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new CommercesListFragment(), "Commerces");
-        adapter.addFragment(new FavouritesFragment(), "Favourites");
-        adapter.addFragment(new MyOrdersFragment(), "Orders");
+        adapter.addFragment(new CommercesListFragment(), "Comercios");
+        adapter.addFragment(new FavouritesFragment(), "Favoritos");
+        adapter.addFragment(new MyOrdersFragment(), "Mis órdenes");
         viewPager.setAdapter(adapter);
     }
 
