@@ -74,6 +74,8 @@ public class NetworkObject implements Parcelable {
         switch (mHttpMethod) {
             case GET:
                 return "GET";
+            case PUT:
+                return "PUT";
             case POST:
                 return "POST";
         }

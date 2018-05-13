@@ -220,7 +220,7 @@ public class NetworkFragment extends Fragment {
                 // is carrying an input (response) body.
                 connection.setDoInput(true);
 
-                if (networkObject.getHttpMethod().equals("POST")) {
+                if ((networkObject.getHttpMethod().equals("POST")) || (networkObject.getHttpMethod().equals("PUT"))) {
                     // set the connection content-type as JSON, meaning we are sending JSON data.
                     connection.setRequestProperty("Content-Type", "application/json;charset=utf-8");
                     // Send POST data.

@@ -4,6 +4,7 @@ import android.app.Activity;
 
 import com.fiuba.gaff.comohoy.model.purchases.PaymentDetails;
 import com.fiuba.gaff.comohoy.model.purchases.PlateOrder;
+import com.fiuba.gaff.comohoy.model.purchases.RequestStatus;
 import com.fiuba.gaff.comohoy.model.purchases.backend.Request;
 import com.fiuba.gaff.comohoy.services.CustomService;
 
@@ -13,6 +14,7 @@ public interface PurchasesService extends CustomService {
     Cart getCart();
     PaymentDetails getPaymentDetails();
     List<Request> getOrdersCached();
+    void updateOrder(Long id, RequestStatus status, Activity activity, OnRequestUpdatedCallback callback);
     void getOrdersFromServer(Activity activity, OnGetOrdersCallback callback);
     void submitPurchase(Activity activity, OnSubmitPurchaseCallback callback);
     void setPaymentDetails(PaymentDetails paymentDetails);

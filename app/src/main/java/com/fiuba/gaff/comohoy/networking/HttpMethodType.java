@@ -2,7 +2,8 @@ package com.fiuba.gaff.comohoy.networking;
 
 public enum HttpMethodType {
     GET(0),
-    POST(1);
+    POST(1),
+    PUT(3);
 
     private final int value;
     private HttpMethodType(int value){
@@ -19,6 +20,8 @@ public enum HttpMethodType {
                 return HttpMethodType.GET;
             case 1:
                 return HttpMethodType.POST;
+            case 2:
+                return HttpMethodType.PUT;
         }
         return HttpMethodType.GET;
     }

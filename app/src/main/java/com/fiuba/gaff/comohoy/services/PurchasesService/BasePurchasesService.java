@@ -136,6 +136,40 @@ public class BasePurchasesService implements PurchasesService {
     }
 
     @Override
+    public void updateOrder(Long id, RequestStatus status, Activity activity, final OnRequestUpdatedCallback callback) {
+        NetworkObject updateRequestNetworkObject = createUpdateRequestNetworkObject(id, status);
+        NetworkFragment networkFragment = NetworkFragment.getInstance(activity.getFragmentManager(), updateRequestNetworkObject);
+        networkFragment.startDownload(new DownloadCallback<NetworkResult>() {
+            @Override
+            public void onResponseReceived(@NonNull NetworkResult result) {
+                if (result.mException == null) {
+                    callback.onSuccess();
+                } else {
+                    callback.onError("No se pudo actualizar su orden");
+                }
+            }
+
+            @Override
+            public NetworkInfo getActiveNetworkInfo(Context context) {
+                ConnectivityManager connectivityManager =
+                        (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+                return networkInfo;
+            }
+
+            @Override
+            public void onProgressUpdate(int progressCode, int percentComplete) {
+
+            }
+
+            @Override
+            public void onFinishDownloading() {
+
+            }
+        });
+    }
+
+    @Override
     public List<Request> getOrdersCached() {
         return mUserOrders;
     }
@@ -272,6 +306,27 @@ public class BasePurchasesService implements PurchasesService {
         }
     }
 
+    private NetworkObject createUpdateRequestNetworkObject(Long updateRequestId, RequestStatus statusToUpdate) {
+        String putBody = createUpdateRequestBody(statusToUpdate);
+        String uri = String.format("%s/%d", POST_ORDER_URL, updateRequestId);
+        NetworkObject networkObject = new NetworkObject(uri, HttpMethodType.PUT);
+        networkObject.setAuthToken(ServiceLocator.get(FacebookService.class).getAuthToken());
+        return networkObject;
+    }
+
+    private String createUpdateRequestBody(RequestStatus statusToUpdate) {
+        String requestBody = "";
+        try {
+            JSONObject statusUpdateJson = new JSONObject();
+            String statusString = getRequestStatusString(statusToUpdate);
+            statusUpdateJson.put("status", statusString);
+            requestBody = statusUpdateJson.toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return requestBody;
+    }
+
     private NetworkObject createGetRequestsNetworkObject() {
         NetworkObject networkObject = new NetworkObject(GET_ORDERS_URL, HttpMethodType.GET);
         networkObject.setAuthToken(ServiceLocator.get(FacebookService.class).getAuthToken());
@@ -348,5 +403,17 @@ public class BasePurchasesService implements PurchasesService {
             extra.setPrice(extraJson.getDouble("price"));
         }
         return extras;
+    }
+
+    private String getRequestStatusString(RequestStatus status) {
+        switch (status) {
+            case WaitingConfirmation: return "WAITING_CONFIRMATION";
+            case OnPreparation: return  "ON_PREPARATION";
+            case OnTheWay: return "ON_THE_WAY";
+            case Delivered: return "DELIVERED";
+            case CanceledByUser: return  "CANCELED_BY_USER";
+            case CanceledByCommerce: return "CANCELED_BY_COMMERCE";
+            default: return "";
+        }
     }
 }
