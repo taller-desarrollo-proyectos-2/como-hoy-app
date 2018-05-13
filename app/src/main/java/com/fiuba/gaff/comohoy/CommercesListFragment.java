@@ -3,7 +3,9 @@ package com.fiuba.gaff.comohoy;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -104,6 +106,8 @@ public class CommercesListFragment extends Fragment {
         setUpSearchView();
         setUpFilterButton(view);
         setUpCategoriButton(view);
+
+        fixedFloatingButtonsPosition();
         return view;
     }
 
@@ -313,6 +317,21 @@ public class CommercesListFragment extends Fragment {
             public void onClick(View v) {
                 mFiltersDialog.dismiss();
             }
+        });
+    }
+
+    private void fixedFloatingButtonsPosition() {
+        final TabLayout tabLayout = getActivity().findViewById(R.id.tabs);
+        final AppBarLayout appBarLayout = getActivity().findViewById(R.id.main_app_bar_layout);
+        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                int maxAbsOffset = appBarLayout.getMeasuredHeight() - tabLayout.getMeasuredHeight();
+                mFiltersButton.setTranslationY(-maxAbsOffset - verticalOffset);
+                mCategoriesButton.setTranslationY(-maxAbsOffset - verticalOffset);
+            }
+
         });
     }
 }
