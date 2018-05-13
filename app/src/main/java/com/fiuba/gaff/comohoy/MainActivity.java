@@ -40,15 +40,15 @@ public class MainActivity extends AppCompatActivity implements CommercesListFrag
         mTabLayout.setupWithViewPager(mViewPager);
 
         mTabLayout.getTabAt(0).setIcon(R.drawable.restaurant_3);
-        //mTabLayout.getTabAt(1).setIcon(R.drawable.favourites);
-        //mTabLayout.getTabAt(2).setIcon(R.drawable.orders);
+        mTabLayout.getTabAt(1).setIcon(R.drawable.favourites);
+        mTabLayout.getTabAt(2).setIcon(R.drawable.orders);
     }
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new CommercesListFragment(), "Commerces");
-       // adapter.addFragment(new CommercesListFragment(), "Favourites");
-       // adapter.addFragment(new CommercesListFragment(), "Orders");
+        adapter.addFragment(new FavouritesFragment(), "Favourites");
+        adapter.addFragment(new MyOrdersFragment(), "Orders");
         viewPager.setAdapter(adapter);
     }
 
