@@ -25,6 +25,7 @@ public class NetworkResult {
     }
 
     public NetworkResult(Exception exception) {
+        mResponseHeaders = new HashMap<>();
         mException = exception;
     }
 
