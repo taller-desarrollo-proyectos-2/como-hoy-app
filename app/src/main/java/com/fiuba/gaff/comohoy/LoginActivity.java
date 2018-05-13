@@ -93,8 +93,9 @@ public class LoginActivity extends AppCompatActivity {
         return new LoginCallback() {
             public void onSuccess() {
                 showProgress(false);
-                Intent MainIntent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(MainIntent);
+                Intent goToMainActivityIntent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(goToMainActivityIntent);
+                // finish();
             }
 
             @Override
