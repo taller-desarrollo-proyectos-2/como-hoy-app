@@ -6,7 +6,6 @@ import android.content.Context;
 
 import com.fiuba.gaff.comohoy.comparators.CommerceLocationComparator;
 import com.fiuba.gaff.comohoy.filters.Filter;
-import com.fiuba.gaff.comohoy.model.CategoriesList;
 import com.fiuba.gaff.comohoy.model.Category;
 import com.fiuba.gaff.comohoy.model.CategoryUsageData;
 import com.fiuba.gaff.comohoy.model.Commerce;
@@ -115,11 +114,8 @@ public class MockCommercesService implements CommercesService {
         List<Category> categories = new ArrayList<>();
 
         Category entrada =  new Category(1L, "Arepas");
-        entrada.setPicture(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.food));
         Category platoPpal =  new Category(2L, "Empanadas");
-        platoPpal.setPicture(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.food));
         Category postre =  new Category(3L, "Postres");
-        postre.setPicture(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.food));
 
         categories.add(entrada);
         categories.add(platoPpal);

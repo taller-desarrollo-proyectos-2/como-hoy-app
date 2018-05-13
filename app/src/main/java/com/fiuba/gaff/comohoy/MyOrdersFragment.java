@@ -7,13 +7,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.fiuba.gaff.comohoy.model.purchases.backend.Request;
+import com.fiuba.gaff.comohoy.services.PurchasesService.OnGetOrdersCallback;
+import com.fiuba.gaff.comohoy.services.PurchasesService.PurchasesService;
+import com.fiuba.gaff.comohoy.services.ServiceLocator;
+
+import java.util.List;
+
 
 public class MyOrdersFragment extends Fragment {
 
     public MyOrdersFragment() {
         // Required empty public constructor
     }
-    
+
     public static MyOrdersFragment newInstance(String param1, String param2) {
         MyOrdersFragment fragment = new MyOrdersFragment();
         //Bundle args = new Bundle();
@@ -35,7 +42,25 @@ public class MyOrdersFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_my_orders, container, false);
+        View view =  inflater.inflate(R.layout.fragment_my_orders, container, false);
+
+        getPurchaseService().getOrdersFromServer(getActivity(), new OnGetOrdersCallback() {
+            @Override
+            public void onSuccess(List<Request> orders) {
+
+            }
+
+            @Override
+            public void onError(String reason) {
+
+            }
+        });
+
+        return view;
+    }
+
+    private PurchasesService getPurchaseService() {
+        return ServiceLocator.get(PurchasesService.class);
     }
 
 }

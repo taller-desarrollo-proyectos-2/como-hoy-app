@@ -1,11 +1,13 @@
 package com.fiuba.gaff.comohoy.model.purchases;
 
 public enum RequestStatus{
-    ON_PREPARATION("En preparación"),
-    ON_THE_WAY("En camino"),
-    DELIVERED("Entregado"),
-    CANCELED_BY_USER("Cancelado"),
-    CANCELED_BY_COMMERCE("Rechazado");
+    WaitingConfirmation("Esperando confirmación"),
+    OnPreparation("En preparación"),
+    OnTheWay("En camino"),
+    Delivered("Entregado"),
+    CanceledByUser("Cancelado"),
+    CanceledByCommerce("Rechazado"),
+    Unknown("Indeterminado");
 
     private final String mText;
 
@@ -15,5 +17,17 @@ public enum RequestStatus{
 
     public String toString() {
         return mText;
+    }
+
+    public static RequestStatus fromString(String value) {
+        switch (value) {
+            case "WAITING_CONFIRMATION": return WaitingConfirmation;
+            case "ON_PREPARATION": return  OnPreparation;
+            case "ON_THE_WAY": return OnTheWay;
+            case "DELIVERED": return Delivered;
+            case "CANCELED_BY_USER": return  CanceledByUser;
+            case "CANCELED_BY_COMMERCE": return CanceledByCommerce;
+            default: return Unknown;
+        }
     }
 }

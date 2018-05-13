@@ -1,6 +1,6 @@
-package com.fiuba.gaff.comohoy.model.purchases;
+package com.fiuba.gaff.comohoy.model.purchases.backend;
 
-import com.fiuba.gaff.comohoy.model.Plate;
+import com.fiuba.gaff.comohoy.model.purchases.RequestStatus;
 
 import java.util.Date;
 import java.util.List;
@@ -8,7 +8,8 @@ import java.util.List;
 public class Request {
 
     private Long id;
-    private List<Plate> mPlates;
+    private int mCommerceId;
+    private List<SingleRequest> mSingleRequests;
     private RequestStatus mStatus;
     private Date mInitDate;
 
@@ -20,12 +21,20 @@ public class Request {
         this.id = id;
     }
 
-    public List<Plate> getPlates() {
-        return mPlates;
+    public int getCommerceId() {
+        return mCommerceId;
     }
 
-    public void setPlates(List<Plate> plates) {
-        mPlates = plates;
+    public void setCommerceId(int commerceId) {
+        mCommerceId = commerceId;
+    }
+
+    public List<SingleRequest> getSingleRequests() {
+        return mSingleRequests;
+    }
+
+    public void setSingleRequests(List<SingleRequest> singleRequests) {
+        mSingleRequests = singleRequests;
     }
 
     public RequestStatus getStatus() {

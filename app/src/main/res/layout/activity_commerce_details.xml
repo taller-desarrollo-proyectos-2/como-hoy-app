@@ -19,17 +19,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!--com.synnapps.carouselview.CarouselView
-                android:id="@+id/carouselView"
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                app:fillColor="#FFFFFFFF"
-                app:pageColor="#00000000"
-                app:radius="6dp"
-                app:slideInterval="3000"
-                app:strokeColor="#FF777777"
-                app:strokeWidth="1dp" /-->
-
             <ImageView
                 android:id="@+id/imagenRestaurantFondo"
                 android:layout_width="match_parent"
