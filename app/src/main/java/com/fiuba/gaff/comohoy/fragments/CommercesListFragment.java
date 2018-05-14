@@ -1,4 +1,4 @@
-package com.fiuba.gaff.comohoy;
+package com.fiuba.gaff.comohoy.fragments;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -19,13 +19,13 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fiuba.gaff.comohoy.R;
 import com.fiuba.gaff.comohoy.adapters.CategoriesAdapter;
 import com.fiuba.gaff.comohoy.adapters.CommerceListAdapter;
 import com.fiuba.gaff.comohoy.filters.CategoryFilter;
@@ -34,7 +34,6 @@ import com.fiuba.gaff.comohoy.model.Category;
 import com.fiuba.gaff.comohoy.model.CategoryUsageData;
 import com.fiuba.gaff.comohoy.model.Commerce;
 import com.fiuba.gaff.comohoy.model.Location;
-import com.fiuba.gaff.comohoy.model.purchases.PaymentMethod;
 import com.fiuba.gaff.comohoy.services.ServiceLocator;
 import com.fiuba.gaff.comohoy.services.commerces.CommercesService;
 import com.fiuba.gaff.comohoy.services.commerces.SortCriteria;
