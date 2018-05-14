@@ -26,7 +26,7 @@
             android:layout_width="1dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            card_view:layout_constraintGuide_percent="0.70" />
+            card_view:layout_constraintGuide_percent="0.75" />
 
         <ImageView
             android:id="@+id/imagenPlato"
