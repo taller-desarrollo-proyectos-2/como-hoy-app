@@ -3,6 +3,8 @@ package com.fiuba.gaff.comohoy.adapters;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.ConstraintSet;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.widget.CardView;
@@ -70,7 +72,7 @@ public class CommerceListAdapter extends RecyclerView.Adapter<CommerceListAdapte
 
     @Override
     public CommerceViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_item_comercio, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view_commerces_list_item, parent, false);
         CommerceViewHolder commerceViewHolder = new CommerceViewHolder(v);
         return commerceViewHolder;
     }
@@ -105,10 +107,10 @@ public class CommerceListAdapter extends RecyclerView.Adapter<CommerceListAdapte
             categoriesStringBuilder.append(category.getName());
         }
         holder.mDescription.setText(categoriesStringBuilder.toString());
-        holder.mRating.setText(String.format("%.1f", commerce.getRating()));
+        // holder.mRating.setText(String.format("%.1f", commerce.getRating()));
         holder.mOrdersAmount.setText(commerce.getOrdersAmount());
         holder.mShippingTime.setText(commerce.getShippingTime());
-        holder.mShippingCost.setText(commerce.getShippingCost());
+        //holder.mShippingCost.setText(commerce.getShippingCost());
 
         String discounts = commerce.getDiscounts();
         if (discounts.equals("")) {
