@@ -11,6 +11,7 @@ import com.fiuba.gaff.comohoy.model.CategoryUsageData;
 import com.fiuba.gaff.comohoy.model.Commerce;
 import com.fiuba.gaff.comohoy.R;
 import com.fiuba.gaff.comohoy.model.Location;
+import com.fiuba.gaff.comohoy.model.Opinion;
 import com.fiuba.gaff.comohoy.model.Plate;
 import com.fiuba.gaff.comohoy.utils.RandomUtils;
 

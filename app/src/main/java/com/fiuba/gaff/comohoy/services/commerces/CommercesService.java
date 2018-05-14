@@ -7,6 +7,7 @@ import com.fiuba.gaff.comohoy.filters.Filter;
 import com.fiuba.gaff.comohoy.model.CategoryUsageData;
 import com.fiuba.gaff.comohoy.model.Commerce;
 import com.fiuba.gaff.comohoy.model.Location;
+import com.fiuba.gaff.comohoy.model.Opinion;
 import com.fiuba.gaff.comohoy.services.CustomService;
 
 import java.util.List;

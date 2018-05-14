@@ -88,19 +88,9 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:orientation="vertical"
+                    android:id="@+id/opiniones_comercio"
                     android:layout_height="wrap_content">
-                    <include
-                        android:id="@+id/asdPrueba1"
-                        layout="@layout/opinion"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp" />
-                    <include
-                        android:id="@+id/asdPrueba3"
-                        layout="@layout/opinion"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp" />
+
                 </LinearLayout>
             </ScrollView>
         </LinearLayout>

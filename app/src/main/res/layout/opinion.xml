@@ -2,7 +2,7 @@
 <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/card_view"
+    android:id="@+id/card_view_opinion"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -18,14 +18,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
+                android:id="@+id/nombreOrigOpinion"
+                android:layout_marginLeft="5dp"
                 android:text="Fernando Nitz"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <LinearLayout
-                android:gravity="left|center_vertical"
-                android:layout_width="wrap_content"
+                android:id="@+id/puntajeOpinion"
+                android:gravity="center_vertical|right"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="2dp"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content">
                 <com.fiuba.gaff.comohoy.SquareImageView
                     android:src="@drawable/yellowstar"
@@ -50,6 +55,11 @@
             </LinearLayout>
         </LinearLayout>
         <TextView
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:id="@+id/descripcionOpinion"
+            android:layout_marginTop="5dp"
+            android:textSize="14dp"
             android:text="Muy buena comida, excelente atencion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

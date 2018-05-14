@@ -1,6 +1,7 @@
 package com.fiuba.gaff.comohoy.model;
 
 import android.graphics.Bitmap;
+import android.graphics.Path;
 
 import com.fiuba.gaff.comohoy.services.ServiceLocator;
 import com.fiuba.gaff.comohoy.services.location.LocationService;
@@ -26,6 +27,7 @@ public class Commerce {
 
     private Bitmap mPicture;
 
+    private List<Opinion> mOpiniones;
     private List<Category> mCategories;
     private HashMap<Long, Plate> mPlates;
 
@@ -137,9 +139,15 @@ public class Commerce {
         this.mCategories = categories;
     }
 
+    public void setOpiniones(List<Opinion> opiniones) {
+        this.mOpiniones = opiniones;
+    }
+
     public List<Plate> getPlates() {
         return new ArrayList<>(mPlates.values());
     }
+
+    public List<Opinion> getOpiniones() { return mOpiniones; }
 
     public Plate getPlate(Long id) {
         return mPlates.get(id);
