@@ -12,6 +12,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.fiuba.gaff.comohoy.fragments.CommercesListFragment;
+import com.fiuba.gaff.comohoy.fragments.FavouritesFragment;
+import com.fiuba.gaff.comohoy.fragments.MyOrdersFragment;
 import com.fiuba.gaff.comohoy.model.Commerce;
 
 import java.util.ArrayList;

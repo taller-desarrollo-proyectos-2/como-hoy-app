@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.fiuba.gaff.comohoy.CommercesListFragment;
+import com.fiuba.gaff.comohoy.fragments.CommercesListFragment;
 import com.fiuba.gaff.comohoy.R;
 import com.fiuba.gaff.comohoy.model.Category;
 import com.fiuba.gaff.comohoy.model.Commerce;

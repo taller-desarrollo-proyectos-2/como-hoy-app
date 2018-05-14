@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_view_order_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -15,8 +14,9 @@
     android:focusable="true"
     android:foreground="?android:selectableItemBackground"
     android:orientation="horizontal"
-    app:cardBackgroundColor="@android:color/darker_gray"
-    card_view:cardCornerRadius="5dp">
+    app:cardBackgroundColor="@color/vpi__background_holo_light"
+    app:cardCornerRadius="4dp"
+    app:cardElevation="2dp" >
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:background="@android:color/darker_gray"
             android:orientation="vertical"
-            card_view:layout_constraintGuide_percent="0.25" />
+            app:layout_constraintGuide_percent="0.25" />
 
         <android.support.constraint.Guideline
             android:id="@+id/plate_guideline2"
@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:background="@android:color/darker_gray"
             android:orientation="vertical"
-            card_view:layout_constraintGuide_percent="0.625" />
+            app:layout_constraintGuide_percent="0.625" />
 
         <TextView
             android:id="@+id/textview_order_id_title"
@@ -45,89 +45,128 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="Id"
-            android:textAlignment="center"
-            card_view:layout_constraintEnd_toStartOf="@+id/plate_guideline"
-            card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintTop_toTopOf="parent" />
+            android:text="Fecha"
+            android:textAlignment="textStart"
+            android:textColor="@color/colorAccent"
+            android:textSize="10sp"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintEnd_toStartOf="@+id/plate_guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/textview_order_id_value"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="1215"
-            android:textAlignment="center"
-            card_view:layout_constraintEnd_toStartOf="@+id/plate_guideline"
-            card_view:layout_constraintHorizontal_bias="0.0"
-            card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintTop_toBottomOf="@+id/textview_order_id_title" />
+            android:singleLine="true"
+            android:text="05-03-2018"
+            android:textAlignment="textStart"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintEnd_toStartOf="@+id/plate_guideline"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textview_order_id_title" />
 
         <TextView
             android:id="@+id/textView_order_commerce_title"
-            android:layout_width="wrap_content"
-            android:layout_height="17dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="Nombre de Comercio"
-            card_view:layout_constraintEnd_toStartOf="@+id/plate_guideline2"
-            card_view:layout_constraintStart_toStartOf="@+id/plate_guideline"
-            card_view:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/textView_order_commerce_value"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:text="Nombre de Comercio"
+            android:textAlignment="textStart"
+            android:textColor="@color/colorAccent"
+            android:textSize="10sp"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintEnd_toStartOf="@+id/plate_guideline2"
+            app:layout_constraintStart_toStartOf="@+id/plate_guideline"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView_order_commerce_value"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:singleLine="true"
             android:text="Tito Pizza"
-            android:textAlignment="center"
-            card_view:layout_constraintEnd_toStartOf="@+id/plate_guideline2"
-            card_view:layout_constraintStart_toEndOf="@+id/textview_order_id_value"
-            card_view:layout_constraintTop_toBottomOf="@+id/textView_order_commerce_title" />
+            android:textAlignment="textStart"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/plate_guideline"
+            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintEnd_toStartOf="@+id/plate_guideline2"
+            app:layout_constraintStart_toEndOf="@+id/textview_order_id_value"
+            app:layout_constraintTop_toBottomOf="@+id/textView_order_commerce_title" />
 
         <TextView
             android:id="@+id/textView_order_status_title"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="Status"
-            android:textAlignment="center"
-            card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintStart_toEndOf="@+id/textView_order_commerce_title"
-            card_view:layout_constraintTop_toTopOf="parent" />
+            android:text="Estado"
+            android:textAlignment="textStart"
+            android:textColor="@color/colorAccent"
+            android:textSize="10sp"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textView_order_commerce_title"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/textView_order_status_value"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:singleLine="true"
             android:text="En Espera"
-            android:textAlignment="center"
-            card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintStart_toEndOf="@+id/textView_order_commerce_value"
-            card_view:layout_constraintTop_toBottomOf="@+id/textView_order_status_title" />
+            android:textAlignment="textStart"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textView_order_commerce_value"
+            app:layout_constraintTop_toBottomOf="@+id/textView_order_status_title" />
 
-        <Button
-            android:id="@+id/button2"
-            android:layout_width="197dp"
-            android:layout_height="52dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:backgroundTint="@android:color/white"
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/button_status_action"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="48dp"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="4dp"
+            android:backgroundTint="@android:color/holo_green_light"
+            android:elevation="2dp"
+            android:minHeight="0dp"
             android:text="Cancelar Pedido"
-            card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintTop_toBottomOf="@+id/textView_order_commerce_value" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/blanco"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView_order_commerce_value" />
 
     </android.support.constraint.ConstraintLayout>
 

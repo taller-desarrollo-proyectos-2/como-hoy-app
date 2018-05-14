@@ -33,6 +33,7 @@ import org.json.JSONObject;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -309,7 +310,7 @@ public class BasePurchasesService implements PurchasesService {
     private NetworkObject createUpdateRequestNetworkObject(Long updateRequestId, RequestStatus statusToUpdate) {
         String putBody = createUpdateRequestBody(statusToUpdate);
         String uri = String.format("%s/%d", POST_ORDER_URL, updateRequestId);
-        NetworkObject networkObject = new NetworkObject(uri, HttpMethodType.PUT);
+        NetworkObject networkObject = new NetworkObject(uri, HttpMethodType.PUT, putBody);
         networkObject.setAuthToken(ServiceLocator.get(FacebookService.class).getAuthToken());
         return networkObject;
     }
@@ -336,7 +337,7 @@ public class BasePurchasesService implements PurchasesService {
     private void parseOrdersFromResponse(String response) throws JSONException {
         mUserOrders.clear();
         JSONArray ordersJsonArray = new JSONArray(response);
-        for (int i = 0; i < ordersJsonArray.length(); i++) {
+        for (int i = ordersJsonArray.length() - 1; i >= 0; i--) {
             JSONObject orderJson = ordersJsonArray.getJSONObject(i);
             Request request = new Request();
             request.setId(orderJson.getLong("id"));

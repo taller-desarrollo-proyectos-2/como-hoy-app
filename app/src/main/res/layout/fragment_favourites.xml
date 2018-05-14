@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.fiuba.gaff.comohoy.FavouritesFragment">
+    tools:context="com.fiuba.gaff.comohoy.fragments.FavouritesFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView

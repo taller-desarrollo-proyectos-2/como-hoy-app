@@ -42,7 +42,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/search_guideline"
-        tools:context="com.fiuba.gaff.comohoy.CommercesListFragment"
+        tools:context="com.fiuba.gaff.comohoy.fragments.CommercesListFragment"
         tools:listitem="@layout/cardview_item_comercio">
 
     </android.support.v7.widget.RecyclerView>
