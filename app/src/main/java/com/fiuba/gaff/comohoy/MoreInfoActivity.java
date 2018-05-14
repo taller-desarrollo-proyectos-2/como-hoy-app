@@ -3,6 +3,7 @@ package com.fiuba.gaff.comohoy;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -115,32 +116,55 @@ public class MoreInfoActivity extends AppCompatActivity implements OnMapReadyCal
         ViewGroup parentLayout = findViewById(R.id.opiniones_comercio);
         List<Opinion> opiniones = getCommerceService().getCommerce(mCommerceId).getOpiniones();
 
-        for (Opinion opinion : opiniones) {
-            View opinionView = createOpinionView(opinion);
+        for (final Opinion opinion : opiniones) {
+            final View opinionView = createOpinionView(opinion);
             opinionView.setClickable(true);
             opinionView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    final Dialog opinion = new Dialog(v.getContext());
-                    opinion.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                    opinion.setContentView(R.layout.dialog_opinion);
+                    v.setBackgroundColor(getResources().getColor(R.color.gris));
+                    final Dialog _opinion = new Dialog(v.getContext());
+                    _opinion.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    _opinion.setContentView(R.layout.dialog_opinion);
                     WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-                    Window window = opinion.getWindow();
+                    Window window = _opinion.getWindow();
                     lp.copyFrom(window.getAttributes());
                     lp.width = WindowManager.LayoutParams.MATCH_PARENT;
                     lp.height = WindowManager.LayoutParams.MATCH_PARENT;
                     window.setAttributes(lp);
-                    opinion.show();
+                    _opinion.show();
+                    v.setBackgroundColor(getResources().getColor(R.color.blanco));
+                    TextView nombre = window.findViewById(R.id.nombreOrigOpinion);
+                    nombre.setText(opinion.getNameOpinion());
+                    TextView description = window.findViewById(R.id.descripcionOpinion);
+                    description.setText(opinion.getDescription());
+                    TextView rta = window.findViewById(R.id.respuesta_opinion);
+                    rta.setText(opinion.getReplica());
+
+                    LinearLayout ll = window.findViewById(R.id.puntajeOpinion);
+                    int cantEstrellasAmarillas = opinion.getPuntuation();
+                    int cantEstrellasNegras = 5 - cantEstrellasAmarillas;
+
+                    for (int i = 1; i <= cantEstrellasAmarillas; i++) {
+                        ImageView iv = getEstrellaAmarilla();
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(100,100 );
+                        iv.setLayoutParams(params);
+                        ll.addView(iv);
+                    }
+                    for (int i = 1; i <= cantEstrellasNegras; i++) {
+                        ImageView iv = getEstrellaNegra();
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(100,100 );
+                        iv.setLayoutParams(params);
+                        ll.addView(iv);
+                    }
 
                     Button cerrar = window.findViewById(R.id.appCompatButtonVolver);
                     cerrar.setOnClickListener(new View.OnClickListener(){
                         @Override
-                        public void onClick(View v) {
-                            opinion.dismiss();
+                        public void onClick(View vv) {
+                            _opinion.dismiss();
                         }
                     });
-
-
                 }
             });
             parentLayout.addView(opinionView);
@@ -202,7 +226,7 @@ public class MoreInfoActivity extends AppCompatActivity implements OnMapReadyCal
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
         );
-        params.setMargins(0,3,0,0);
+        params.setMargins(0,1,0,1);
         cardview.setLayoutParams(params);
         return cardview;
     }
