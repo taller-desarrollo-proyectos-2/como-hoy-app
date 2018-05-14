@@ -17,7 +17,7 @@
         android:layout_width="1dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.85" />
+        app:layout_constraintGuide_percent="0.93" />
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/appCompatButtonVolver"
@@ -36,9 +36,9 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <ScrollView
-        android:layout_width="336dp"
-        android:layout_height="410dp"
-        android:layout_marginBottom="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="30dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -51,7 +51,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:orientation="vertical"
@@ -59,24 +58,23 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:gravity="center_horizontal"
                 android:id="@+id/nombreOrigOpinion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 android:text="Fernando Nitz"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
             <LinearLayout
-                android:layout_marginBottom="10dp"
                 android:id="@+id/puntajeOpinion"
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"
-                android:gravity="center_horizontal">
-            </LinearLayout>
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="5dp"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal"></LinearLayout>
 
             <TextView
                 android:id="@+id/descripcionOpinion"
@@ -97,20 +95,20 @@
                 android:text="___________________" />
 
             <TextView
-                android:gravity="center_horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 android:text="Respuesta:"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
             <TextView
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="30dp"
                 android:id="@+id/respuesta_opinion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
                 android:text="asd"
                 android:textSize="18dp" />
 
