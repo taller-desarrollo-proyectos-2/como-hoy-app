@@ -4,6 +4,7 @@ package com.fiuba.gaff.comohoy.fragments;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -25,6 +26,8 @@ import java.util.List;
 
 
 public class MyOrdersFragment extends Fragment {
+
+    private static final int FRAGMENT_TAB_INDEX = 2;
 
     private RecyclerView mRecyclerView;
     private ProgressBar mProgressBar;
@@ -55,6 +58,9 @@ public class MyOrdersFragment extends Fragment {
             //mParam1 = getArguments().getString(ARG_PARAM1);
             //mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        mOnRequestUpdatedCallback = getOnRequestUpdatedCallback();
+        mOrdersListListener = getOrdersListListener();
+        setUpOnPageChangeListener();
     }
 
     @Override
@@ -65,13 +71,31 @@ public class MyOrdersFragment extends Fragment {
 
         mRecyclerView = view.findViewById(R.id.recyclerview_orders_list);
         mProgressBar = view.findViewById(R.id.progress_bar);
-        mOnRequestUpdatedCallback = getOnRequestUpdatedCallback();
-        mOrdersListListener = getOrdersListListener();
-
-        showProgress(true);
-        updateOrdersList();
 
         return view;
+    }
+
+    private void setUpOnPageChangeListener() {
+        ViewPager viewPager = getActivity().findViewById(R.id.viewpager);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position == FRAGMENT_TAB_INDEX) {
+                    showProgress(true);
+                    updateOrdersList();
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     private void updateOrdersList() {

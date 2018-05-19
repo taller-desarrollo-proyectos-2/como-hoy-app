@@ -11,7 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
 import android.widget.Toast;
 
 import com.fiuba.gaff.comohoy.CommerceDetailsActivity;
@@ -57,12 +56,12 @@ public class FavouritesFragment extends Fragment {
 
         mRecyclerView = view.findViewById(R.id.recyclerview_favourites_commerces_list);
 
-        setUpTabActions();
+        setUpOnPageChangeListener();
 
         return view;
     }
 
-    public void setUpTabActions() {
+    private void setUpOnPageChangeListener() {
         ViewPager viewPager = getActivity().findViewById(R.id.viewpager);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
