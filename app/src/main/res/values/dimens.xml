@@ -10,5 +10,6 @@
 
     <dimen name="star_dimen_item_preview">19dp</dimen>
 
+    <dimen name="star_dimen">50dp</dimen>
 
 </resources>

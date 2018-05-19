@@ -2,14 +2,24 @@ package com.fiuba.gaff.comohoy.fragments;
 
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -34,6 +44,10 @@ public class MyOrdersFragment extends Fragment {
 
     private OnRequestUpdatedCallback mOnRequestUpdatedCallback;
     private OrdersListListener mOrdersListListener;
+
+    private Dialog mCalificationsDialog;
+    private int mPuntuacion = 0;
+    private String mCalificacion = "";
 
     public interface OrdersListListener {
         void onOrderClicked(Request request);
@@ -151,7 +165,98 @@ public class MyOrdersFragment extends Fragment {
 
             @Override
             public void onRateOrderClicked(Request request) {
-                // TODO abrir dialog para calificar pedido
+                mCalificationsDialog = new Dialog(getContext(), android.R.style.Theme_Holo_Light_Dialog);
+                mCalificationsDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                mCalificationsDialog.setContentView(R.layout.dialog_califications);
+                mCalificationsDialog.setCanceledOnTouchOutside(false);
+                mCalificationsDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                mCalificationsDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+                mCalificationsDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+
+                final EditText calificationEditText = mCalificationsDialog.findViewById(R.id.editText_califications);
+                calificationEditText.setText("");
+
+
+                LinearLayout ll = mCalificationsDialog.findViewById(R.id.puntuacion_comercio);
+                final ImageButton e1 = ll.findViewById(R.id.estrella1);
+                final ImageButton e2 = ll.findViewById(R.id.estrella1);
+                final ImageButton e3 = ll.findViewById(R.id.estrella1);
+                final ImageButton e4 = ll.findViewById(R.id.estrella1);
+                final ImageButton e5 = ll.findViewById(R.id.estrella1);
+
+                e1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        e1.setImageDrawable(ContextCompat.getDrawable(v.getContext(), R.drawable.yellowstar));
+                        e2.setImageDrawable(ContextCompat.getDrawable(v.getContext(), R.drawable.whitestar));
+                        e3.setImageDrawable(ContextCompat.getDrawable(v.getContext(), R.drawable.whitestar));
+                        e4.setImageDrawable(ContextCompat.getDrawable(v.getContext(), R.drawable.whitestar));
+                        e5.setImageDrawable(ContextCompat.getDrawable(v.getContext(), R.drawable.whitestar));
+                        mPuntuacion = 1;
+                    }
+                });
+                e2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        e1.setImageDrawable(ContextCompat.getDrawable(v.getContext(), R.drawable.yellowstar));
+                        e2.setImageDrawable(ContextCompat.getDrawable(v.getContext(), R.drawable.yellowstar));
+                        e3.setImageDrawable(ContextCompat.getDrawable(v.getContext(), R.drawable.whitestar));
+                        e4.setImageDrawable(ContextCompat.getDrawable(v.getContext(), R.drawable.whitestar));
+                        e5.setImageDrawable(ContextCompat.getDrawable(v.getContext(), R.drawable.whitestar));
+                        mPuntuacion = 2;
+                    }
+                });
+                e3.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        e1.setImageDrawable(ContextCompat.getDrawable(v.getContext(), R.drawable.yellowstar));
+                        e2.setImageDrawable(ContextCompat.getDrawable(v.getContext(), R.drawable.yellowstar));
+                        e3.setImageDrawable(ContextCompat.getDrawable(v.getContext(), R.drawable.yellowstar));
+                        e4.setImageDrawable(ContextCompat.getDrawable(v.getContext(), R.drawable.whitestar));
+                        e5.setImageDrawable(ContextCompat.getDrawable(v.getContext(), R.drawable.whitestar));
+                        mPuntuacion = 3;
+                    }
+                });
+                e4.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        e1.setImageDrawable(ContextCompat.getDrawable(v.getContext(), R.drawable.yellowstar));
+                        e2.setImageDrawable(ContextCompat.getDrawable(v.getContext(), R.drawable.yellowstar));
+                        e3.setImageDrawable(ContextCompat.getDrawable(v.getContext(), R.drawable.yellowstar));
+                        e4.setImageDrawable(ContextCompat.getDrawable(v.getContext(), R.drawable.yellowstar));
+                        e5.setImageDrawable(ContextCompat.getDrawable(v.getContext(), R.drawable.whitestar));
+                        mPuntuacion = 4;
+                    }
+                });
+                e5.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        e1.setImageDrawable(ContextCompat.getDrawable(v.getContext(), R.drawable.yellowstar));
+                        e2.setImageDrawable(ContextCompat.getDrawable(v.getContext(), R.drawable.yellowstar));
+                        e3.setImageDrawable(ContextCompat.getDrawable(v.getContext(), R.drawable.yellowstar));
+                        e4.setImageDrawable(ContextCompat.getDrawable(v.getContext(), R.drawable.yellowstar));
+                        e5.setImageDrawable(ContextCompat.getDrawable(v.getContext(), R.drawable.yellowstar));
+                        mPuntuacion = 5;
+                    }
+                });
+
+                Button acceptButton = mCalificationsDialog.findViewById(R.id.button_accept_calification);
+                Button cancelButton = mCalificationsDialog.findViewById(R.id.button_cancel_calification);
+                acceptButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mCalificacion = calificationEditText.getText().toString();
+                        //updateCalificationsValue();
+                        mCalificationsDialog.dismiss();
+                    }
+                });
+                cancelButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mCalificationsDialog.dismiss();
+                    }
+                });
             }
         };
         return listener;
