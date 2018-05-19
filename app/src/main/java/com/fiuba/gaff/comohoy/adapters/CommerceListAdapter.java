@@ -47,7 +47,7 @@ public class CommerceListAdapter extends RecyclerView.Adapter<CommerceListAdapte
         private final TextView mRating;
         private final TextView mOrdersAmount;
         private final TextView mShippingTime;
-        private final TextView mShippingCost;
+        private final TextView mOrderAmount;
         private final TextView mDiscounts;
 
         CommerceViewHolder(View itemView) {
@@ -60,7 +60,7 @@ public class CommerceListAdapter extends RecyclerView.Adapter<CommerceListAdapte
             mRating = (TextView) itemView.findViewById(R.id.puntajeComercio);
             mOrdersAmount = (TextView) itemView.findViewById(R.id.cantPedidosComercio);
             mShippingTime = (TextView) itemView.findViewById(R.id.tiempoEnvioComercio);
-            mShippingCost = (TextView) itemView.findViewById(R.id.costoEnvioComercio);
+            mOrderAmount = (TextView) itemView.findViewById(R.id.cantPedidosComercio);
             mDiscounts = (TextView) itemView.findViewById(R.id.descuento_comercio);
         }
     }
@@ -110,7 +110,8 @@ public class CommerceListAdapter extends RecyclerView.Adapter<CommerceListAdapte
         // holder.mRating.setText(String.format("%.1f", commerce.getRating()));
         holder.mOrdersAmount.setText(commerce.getOrdersAmount());
         holder.mShippingTime.setText(commerce.getShippingTime());
-        //holder.mShippingCost.setText(commerce.getShippingCost());
+        holder.mShippingTime.setText("45-70 min");
+        holder.mOrderAmount.setText("240 pedidos");
 
         String discounts = commerce.getDiscounts();
         if (discounts.equals("")) {
