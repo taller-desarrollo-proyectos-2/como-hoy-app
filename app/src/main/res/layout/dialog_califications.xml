@@ -56,10 +56,17 @@
         android:id="@+id/numberPicker_divider"
         android:layout_width="0dp"
         android:layout_height="1dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:background="@android:color/darker_gray"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/buttons_guideline" />
+        app:layout_constraintBottom_toTopOf="@+id/buttons_guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText_califications"
+        app:layout_constraintVertical_bias="1.0" />
 
     <LinearLayout
         android:layout_width="0dp"
@@ -101,47 +108,49 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:orientation="horizontal"
         android:gravity="center"
-        app:layout_constraintHorizontal_bias="1.0"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/puntuation_guideline"
-        app:layout_constraintTop_toTopOf="@+id/tittle_guideline"
-        tools:layout_editor_absoluteX="10dp">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tittle_guideline">
 
         <ImageView
-            android:clickable="true"
             android:id="@+id/estrella1"
             android:layout_width="@dimen/star_dimen"
             android:layout_height="@dimen/star_dimen"
+            android:clickable="true"
             android:src="@drawable/whitestar" />
 
         <ImageView
-            android:clickable="true"
             android:id="@+id/estrella2"
             android:layout_width="@dimen/star_dimen"
             android:layout_height="@dimen/star_dimen"
+            android:clickable="true"
             android:src="@drawable/whitestar" />
 
         <ImageView
-            android:clickable="true"
             android:id="@+id/estrella3"
             android:layout_width="@dimen/star_dimen"
             android:layout_height="@dimen/star_dimen"
+            android:clickable="true"
             android:src="@drawable/whitestar" />
 
         <ImageView
-            android:clickable="true"
             android:id="@+id/estrella4"
             android:layout_width="@dimen/star_dimen"
             android:layout_height="@dimen/star_dimen"
+            android:clickable="true"
             android:src="@drawable/whitestar" />
 
         <ImageView
-            android:clickable="true"
             android:id="@+id/estrella5"
             android:layout_width="@dimen/star_dimen"
             android:layout_height="@dimen/star_dimen"
+            android:clickable="true"
             android:src="@drawable/whitestar" />
 
     </LinearLayout>
