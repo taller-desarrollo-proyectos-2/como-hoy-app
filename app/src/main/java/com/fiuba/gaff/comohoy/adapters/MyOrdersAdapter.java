@@ -96,7 +96,7 @@ public class MyOrdersAdapter extends RecyclerView.Adapter<MyOrdersAdapter.OrderV
         final RequestStatus status = request.getStatus();
         switch (status) {
             case WaitingConfirmation:
-                button.setText("Cancelar pedido");
+                button.setText("CANCELAR PEDIDO");
                 ViewCompat.setBackgroundTintList(button, ColorStateList.valueOf(context.getResources().getColor(R.color.red)));
                 button.setVisibility(View.VISIBLE);
                 button.setOnClickListener(new View.OnClickListener() {
@@ -107,7 +107,7 @@ public class MyOrdersAdapter extends RecyclerView.Adapter<MyOrdersAdapter.OrderV
                 });
                 break;
             case Delivered:
-                button.setText("Calificar pedido");
+                button.setText("CALIFICAR PEDIDO");
                 ViewCompat.setBackgroundTintList(button, ColorStateList.valueOf(context.getResources().getColor(R.color.colorAccent)));
                 button.setVisibility(View.VISIBLE);
                 button.setOnClickListener(new View.OnClickListener() {
@@ -125,7 +125,7 @@ public class MyOrdersAdapter extends RecyclerView.Adapter<MyOrdersAdapter.OrderV
     private void showDeleteConfirmationDialog(Context context, final Request request) {
         final Dialog confirmationDialog = new Dialog(context, android.R.style.Theme_Holo_Light_Dialog);
         confirmationDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        confirmationDialog.setContentView(R.layout.dialog_confirmation);
+        confirmationDialog.setContentView(R.layout.dialog_confirmation_one_button);
         confirmationDialog.setCanceledOnTouchOutside(true);
         confirmationDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         confirmationDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -134,9 +134,9 @@ public class MyOrdersAdapter extends RecyclerView.Adapter<MyOrdersAdapter.OrderV
         messageTextView.setText(String.format("¿Estás seguro que desea cancelar el pedido nº %d?", request.getId()));
 
         Button cancelButton = confirmationDialog.findViewById(R.id.button_cancel);
-        Button acceptButton = confirmationDialog.findViewById(R.id.button_accept);
+        cancelButton.setText("CANCELAR PEDIDO");
 
-        acceptButton.setOnClickListener(new View.OnClickListener() {
+        cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mOrdersListListener.onCancelOrder(request.getId());
@@ -144,12 +144,6 @@ public class MyOrdersAdapter extends RecyclerView.Adapter<MyOrdersAdapter.OrderV
             }
         });
 
-        cancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                confirmationDialog.dismiss();
-            }
-        });
         confirmationDialog.show();
     }
 
@@ -158,7 +152,4 @@ public class MyOrdersAdapter extends RecyclerView.Adapter<MyOrdersAdapter.OrderV
         return mOrders.size();
     }
 
-    private CommercesService getCommerceService() {
-        return ServiceLocator.get(CommercesService.class);
-    }
 }

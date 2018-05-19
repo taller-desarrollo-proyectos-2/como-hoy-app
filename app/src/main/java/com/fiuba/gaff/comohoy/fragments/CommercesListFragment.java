@@ -228,7 +228,7 @@ public class CommercesListFragment extends Fragment {
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;
         lp.height = WindowManager.LayoutParams.MATCH_PARENT;
         window.setAttributes(lp);
-        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        window.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
 
         List<CategoryUsageData> categoriesUsageData = getCommercesService().getUsedCategoriesUsageData();
         GridView gridview = mCategoriesDialog.findViewById(R.id.gridCategories);
@@ -279,9 +279,10 @@ public class CommercesListFragment extends Fragment {
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         Window window = mFiltersDialog.getWindow();
         lp.copyFrom(window.getAttributes());
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         window.setAttributes(lp);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         Spinner spinner = mFiltersDialog.findViewById(R.id.spinner_sort_criteria);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.sort_criteria_array, android.R.layout.simple_spinner_item);
