@@ -19,6 +19,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -179,11 +180,11 @@ public class MyOrdersFragment extends Fragment {
 
 
                 LinearLayout ll = mCalificationsDialog.findViewById(R.id.puntuacion_comercio);
-                final ImageButton e1 = ll.findViewById(R.id.estrella1);
-                final ImageButton e2 = ll.findViewById(R.id.estrella1);
-                final ImageButton e3 = ll.findViewById(R.id.estrella1);
-                final ImageButton e4 = ll.findViewById(R.id.estrella1);
-                final ImageButton e5 = ll.findViewById(R.id.estrella1);
+                final ImageView e1 = ll.findViewById(R.id.estrella1);
+                final ImageView e2 = ll.findViewById(R.id.estrella1);
+                final ImageView e3 = ll.findViewById(R.id.estrella1);
+                final ImageView e4 = ll.findViewById(R.id.estrella1);
+                final ImageView e5 = ll.findViewById(R.id.estrella1);
 
                 e1.setOnClickListener(new View.OnClickListener() {
                     @Override
