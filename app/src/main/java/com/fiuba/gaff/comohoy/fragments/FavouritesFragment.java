@@ -47,6 +47,7 @@ public class FavouritesFragment extends Fragment {
             // mParam1 = getArguments().getString(ARG_PARAM1);
             // mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        setUpOnPageChangeListener();
     }
 
     @Override
@@ -55,8 +56,6 @@ public class FavouritesFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_favourites, container, false);
 
         mRecyclerView = view.findViewById(R.id.recyclerview_favourites_commerces_list);
-
-        setUpOnPageChangeListener();
 
         return view;
     }
