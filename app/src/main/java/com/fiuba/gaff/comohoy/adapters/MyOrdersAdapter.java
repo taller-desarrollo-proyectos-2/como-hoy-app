@@ -1,6 +1,8 @@
 package com.fiuba.gaff.comohoy.adapters;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -88,18 +90,18 @@ public class MyOrdersAdapter extends RecyclerView.Adapter<MyOrdersAdapter.OrderV
         switch (status) {
             case WaitingConfirmation:
                 button.setText("Cancelar pedido");
-                button.setBackgroundColor(context.getResources().getColor(R.color.red));
+                ViewCompat.setBackgroundTintList(button, ColorStateList.valueOf(context.getResources().getColor(R.color.red)));
                 button.setVisibility(View.VISIBLE);
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        mOrdersListListener.onChangeOrderStatus(request.getId(), status);
+                        mOrdersListListener.onCancelOrder(request.getId());
                     }
                 });
                 break;
             case Delivered:
                 button.setText("Calificar pedido");
-                button.setBackgroundColor(context.getResources().getColor(R.color.colorAccent));
+                ViewCompat.setBackgroundTintList(button, ColorStateList.valueOf(context.getResources().getColor(R.color.colorAccent)));
                 button.setVisibility(View.VISIBLE);
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
