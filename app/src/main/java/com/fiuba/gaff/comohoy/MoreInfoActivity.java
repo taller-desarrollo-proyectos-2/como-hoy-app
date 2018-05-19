@@ -2,7 +2,9 @@ package com.fiuba.gaff.comohoy;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
@@ -128,6 +130,7 @@ public class MoreInfoActivity extends AppCompatActivity implements OnMapReadyCal
                     _opinion.setContentView(R.layout.dialog_opinion);
                     WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
                     Window window = _opinion.getWindow();
+                    window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                     lp.copyFrom(window.getAttributes());
                     lp.width = WindowManager.LayoutParams.MATCH_PARENT;
                     lp.height = WindowManager.LayoutParams.MATCH_PARENT;

@@ -188,7 +188,7 @@ public class ConfirmPurchaseActivity extends AppCompatActivity {
         mSelectAddressDialog.setContentView(R.layout.dialog_address);
         mSelectAddressDialog.setCanceledOnTouchOutside(false);
         mSelectAddressDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        mSelectAddressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+        mSelectAddressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         final TextInputLayout streetInputLayout = mSelectAddressDialog.findViewById(R.id.textview_address_street);
         final EditText streetEditText = mSelectAddressDialog.findViewById(R.id.edittext_address_street_value);
@@ -237,7 +237,7 @@ public class ConfirmPurchaseActivity extends AppCompatActivity {
         mAdditionalInfoDialog.setContentView(R.layout.dialog_clarifications);
         mAdditionalInfoDialog.setCanceledOnTouchOutside(false);
         mAdditionalInfoDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        mAdditionalInfoDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+        mAdditionalInfoDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         mAdditionalInfoDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
 
@@ -270,7 +270,7 @@ public class ConfirmPurchaseActivity extends AppCompatActivity {
         mCreditCardDialog.setContentView(R.layout.dialog_credit_card);
         mCreditCardDialog.setCanceledOnTouchOutside(false);
         mCreditCardDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        mCreditCardDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+        mCreditCardDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         mCreditCardDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
 

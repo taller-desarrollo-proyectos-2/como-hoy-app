@@ -1,7 +1,10 @@
 package com.fiuba.gaff.comohoy.adapters;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.CardView;
@@ -9,10 +12,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.fiuba.gaff.comohoy.R;
 import com.fiuba.gaff.comohoy.fragments.MyOrdersFragment;
+import com.fiuba.gaff.comohoy.model.Plate;
+import com.fiuba.gaff.comohoy.model.purchases.PlateOrder;
 import com.fiuba.gaff.comohoy.model.purchases.RequestStatus;
 import com.fiuba.gaff.comohoy.model.purchases.backend.Request;
 import com.fiuba.gaff.comohoy.services.ServiceLocator;
@@ -70,7 +77,7 @@ public class MyOrdersAdapter extends RecyclerView.Adapter<MyOrdersAdapter.OrderV
 
         String initDateString = new SimpleDateFormat("dd-MM-yyyy").format(request.getInitDate());
         holder.mInitDateTextView.setText(initDateString);
-        holder.mCommerceName.setText("");
+        holder.mCommerceName.setText("Nombre de Comercio");
         holder.mOrderStatus.setText(request.getStatus().toString());
         setUpActionButton(holder.mView.getContext(), holder.mActionButton, request);
         setUpCardView(holder.mCardView, request);
@@ -85,7 +92,7 @@ public class MyOrdersAdapter extends RecyclerView.Adapter<MyOrdersAdapter.OrderV
         });
     }
 
-    private void setUpActionButton(Context context, AppCompatButton button, final Request request) {
+    private void setUpActionButton(final Context context, AppCompatButton button, final Request request) {
         final RequestStatus status = request.getStatus();
         switch (status) {
             case WaitingConfirmation:
@@ -95,7 +102,7 @@ public class MyOrdersAdapter extends RecyclerView.Adapter<MyOrdersAdapter.OrderV
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        mOrdersListListener.onCancelOrder(request.getId());
+                        showDeleteConfirmationDialog(context, request);
                     }
                 });
                 break;
@@ -113,6 +120,37 @@ public class MyOrdersAdapter extends RecyclerView.Adapter<MyOrdersAdapter.OrderV
             default:
                 button.setVisibility(View.GONE);
         }
+    }
+
+    private void showDeleteConfirmationDialog(Context context, final Request request) {
+        final Dialog confirmationDialog = new Dialog(context, android.R.style.Theme_Holo_Light_Dialog);
+        confirmationDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        confirmationDialog.setContentView(R.layout.dialog_confirmation);
+        confirmationDialog.setCanceledOnTouchOutside(true);
+        confirmationDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        confirmationDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        TextView messageTextView = confirmationDialog.findViewById(R.id.textView_message);
+        messageTextView.setText(String.format("¿Estás seguro que desea cancelar el pedido nº %d?", request.getId()));
+
+        Button cancelButton = confirmationDialog.findViewById(R.id.button_cancel);
+        Button acceptButton = confirmationDialog.findViewById(R.id.button_accept);
+
+        acceptButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mOrdersListListener.onCancelOrder(request.getId());
+                confirmationDialog.dismiss();
+            }
+        });
+
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                confirmationDialog.dismiss();
+            }
+        });
+        confirmationDialog.show();
     }
 
     @Override

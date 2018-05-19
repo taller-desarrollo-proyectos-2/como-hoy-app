@@ -105,9 +105,9 @@ public class PlatesOrderAdapter extends RecyclerView.Adapter<PlatesOrderAdapter.
         final Dialog confirmationDialog = new Dialog(context, android.R.style.Theme_Holo_Light_Dialog);
         confirmationDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         confirmationDialog.setContentView(R.layout.dialog_confirmation);
-        confirmationDialog.setCanceledOnTouchOutside(false);
+        confirmationDialog.setCanceledOnTouchOutside(true);
         confirmationDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        confirmationDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+        confirmationDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         TextView messageTextView = confirmationDialog.findViewById(R.id.textView_message);
         messageTextView.setText(String.format("¿Estás seguro que deseas eliminar de tu pedido: %d %s?",plateOrder.getQuantity(), plate.getName()));

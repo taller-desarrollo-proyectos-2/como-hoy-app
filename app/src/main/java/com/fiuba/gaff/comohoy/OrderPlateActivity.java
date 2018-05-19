@@ -214,7 +214,7 @@ public class OrderPlateActivity extends AppCompatActivity {
         mQuantityDialog.setContentView(R.layout.dialog_cantidad);
         mQuantityDialog.setCanceledOnTouchOutside(false);
         mQuantityDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        mQuantityDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+        mQuantityDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         final NumberPicker numberPicker = mQuantityDialog.findViewById(R.id.numberPicker);
         numberPicker.setMaxValue(100);
@@ -253,7 +253,7 @@ public class OrderPlateActivity extends AppCompatActivity {
         mExtrasDialog.setContentView(R.layout.dialog_extras);
         mExtrasDialog.setCanceledOnTouchOutside(false);
         mExtrasDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        mExtrasDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+        mExtrasDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         setExtrasListAdapter(extras);
 
@@ -300,7 +300,7 @@ public class OrderPlateActivity extends AppCompatActivity {
         mClarificationsDialog.setContentView(R.layout.dialog_clarifications);
         mClarificationsDialog.setCanceledOnTouchOutside(false);
         mClarificationsDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        mClarificationsDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+        mClarificationsDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         mClarificationsDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
 

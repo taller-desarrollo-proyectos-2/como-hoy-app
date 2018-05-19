@@ -2,6 +2,8 @@ package com.fiuba.gaff.comohoy.fragments;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -226,6 +228,7 @@ public class CommercesListFragment extends Fragment {
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;
         lp.height = WindowManager.LayoutParams.MATCH_PARENT;
         window.setAttributes(lp);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         List<CategoryUsageData> categoriesUsageData = getCommercesService().getUsedCategoriesUsageData();
         GridView gridview = mCategoriesDialog.findViewById(R.id.gridCategories);
