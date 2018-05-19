@@ -31,7 +31,7 @@
     <EditText
         android:id="@+id/editText_califications"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="83dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -41,7 +41,7 @@
         app:layout_constraintBottom_toTopOf="@+id/buttons_guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/puntuation_guideline" />
+        app:layout_constraintTop_toTopOf="@+id/textView_title_give_calification" />
 
     <View
         android:id="@+id/tittle_divider"
@@ -154,6 +154,24 @@
             android:src="@drawable/whitestar" />
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView_title_give_calification"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
+        android:text="Dejanos tu opinion"
+        android:textAlignment="center"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/editText_califications"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/puntuation_guideline" />
 
     <TextView
         android:id="@+id/textView_title_califications"
