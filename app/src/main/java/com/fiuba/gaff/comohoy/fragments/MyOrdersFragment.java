@@ -181,10 +181,16 @@ public class MyOrdersFragment extends Fragment {
 
                 LinearLayout ll = mCalificationsDialog.findViewById(R.id.puntuacion_comercio);
                 final ImageView e1 = ll.findViewById(R.id.estrella1);
-                final ImageView e2 = ll.findViewById(R.id.estrella1);
-                final ImageView e3 = ll.findViewById(R.id.estrella1);
-                final ImageView e4 = ll.findViewById(R.id.estrella1);
-                final ImageView e5 = ll.findViewById(R.id.estrella1);
+                final ImageView e2 = ll.findViewById(R.id.estrella2);
+                final ImageView e3 = ll.findViewById(R.id.estrella3);
+                final ImageView e4 = ll.findViewById(R.id.estrella4);
+                final ImageView e5 = ll.findViewById(R.id.estrella5);
+
+                e1.setClickable(true);
+                e2.setClickable(true);
+                e3.setClickable(true);
+                e4.setClickable(true);
+                e5.setClickable(true);
 
                 e1.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -258,6 +264,8 @@ public class MyOrdersFragment extends Fragment {
                         mCalificationsDialog.dismiss();
                     }
                 });
+
+                mCalificationsDialog.show();
             }
         };
         return listener;
