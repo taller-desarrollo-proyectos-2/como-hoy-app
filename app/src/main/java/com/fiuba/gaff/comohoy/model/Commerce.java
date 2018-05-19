@@ -23,6 +23,7 @@ public class Commerce {
     private String mDiscounts = "";
     private Location mLocation;
     private List<OpeningTime> mOpeningTimes;
+    private boolean mLike = false;
     private double mRating;
 
     private Bitmap mPicture;
@@ -37,6 +38,9 @@ public class Commerce {
         mOpeningTimes = new ArrayList<>();
         mPlates = new HashMap<>();
     }
+
+    public void set_like(boolean like) { mLike = like; }
+    public boolean get_like () { return mLike; }
 
     public int getId() {
         return mId;

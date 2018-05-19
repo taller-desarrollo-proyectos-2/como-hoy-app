@@ -3,6 +3,7 @@ package com.fiuba.gaff.comohoy;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -43,6 +44,7 @@ public class CommerceDetailsActivity extends AppCompatActivity {
     private TextView mCommerceTittle;
     private LinearLayout mMenuLayout;
     private Button mSeeMyOrderButton;
+    private ImageView mCommerceLike;
 
     private int mCommerceId = -1;
 
@@ -68,9 +70,11 @@ public class CommerceDetailsActivity extends AppCompatActivity {
         mCommerceTittle = findViewById(R.id.commerceTittle);
         mMenuLayout = findViewById(R.id.menu_layout);
         mSeeMyOrderButton = findViewById(R.id.button_see_my_order);
+        mCommerceLike = findViewById(R.id.commerce_like);
 
         setUpCarouselView();
         setUpGoToMoreInforButton();
+        setLikeButton();
         setupSeeCartButton();
         fillCommercesValues();
         createCommerceMenuView();
@@ -112,6 +116,24 @@ public class CommerceDetailsActivity extends AppCompatActivity {
                 Intent openMoreInfoIntent = new Intent(CommerceDetailsActivity.this, MoreInfoActivity.class);
                 openMoreInfoIntent.putExtra(getString(R.string.intent_data_commerce_id), mCommerceId);
                 startActivity(openMoreInfoIntent);
+            }
+        });
+    }
+
+    private void setLikeButton() {
+        final ImageButton likeB = findViewById(R.id.commerce_like);
+        final Commerce commerce = getCommerceService().getCommerce(mCommerceId);
+        likeB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                if(commerce.get_like()){
+                    commerce.set_like(false);
+                    likeB.setImageDrawable(ContextCompat.getDrawable(CommerceDetailsActivity.this, R.drawable.corazon));
+                }
+                else{
+                    commerce.set_like(true);
+                    likeB.setImageDrawable(ContextCompat.getDrawable(CommerceDetailsActivity.this, R.drawable.corazon_rojo));
+                }
             }
         });
     }
@@ -167,7 +189,12 @@ public class CommerceDetailsActivity extends AppCompatActivity {
         Commerce commerce = getCommerceService().getCommerce(mCommerceId);
         if (commerce != null) {
             mCommerceTittle.setText(commerce.getShowableName());
-
+            if (commerce.get_like()) {
+                mCommerceLike.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.corazon_rojo));
+            }
+            else{
+                mCommerceLike.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.corazon));
+            }
         }
     }
 
