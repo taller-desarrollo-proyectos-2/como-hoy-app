@@ -50,7 +50,6 @@ public class CommercesListFragment extends Fragment {
     private View mCategoriesButton;
     private SearchView mSearchView;
 
-
     private Category electedCategory;
 
     private GridView mCategoriesGridView;
@@ -78,6 +77,10 @@ public class CommercesListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Location currentLocation = getLocationService().getLocation(getActivity());
+        //getCommercesService().updateCommercesWithLocation(getActivity(), createOnUpdatedCommercesCallback(), currentLocation);
+        getCommercesService().updateCommercesData(getActivity(), createOnUpdatedCommercesCallback());
     }
 
     @Override
@@ -95,11 +98,11 @@ public class CommercesListFragment extends Fragment {
         mCategorie = view.findViewById(R.id.categoria_fl);
         electedCategory = null;
 
-        showProgress(true);
-
-        Location currentLocation = getLocationService().getLocation(getActivity());
-        //getCommercesService().updateCommercesWithLocation(getActivity(), createOnUpdatedCommercesCallback(), currentLocation);
-        getCommercesService().updateCommercesData(getActivity(), createOnUpdatedCommercesCallback());
+        if (getCommercesService().isDownloading()) {
+            showProgress(true);
+        } else {
+            showProgress(false);
+        }
 
         createFiltersDialog();
         setUpSearchView();

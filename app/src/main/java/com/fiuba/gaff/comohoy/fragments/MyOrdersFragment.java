@@ -34,7 +34,7 @@ public class MyOrdersFragment extends Fragment {
 
     public interface OrdersListListener {
         void onOrderClicked(Request request);
-        void onChangeOrderStatus(Long orderId, RequestStatus status);
+        void onCancelOrder(Long orderId);
         void onRateOrderClicked(Request request);
     }
 
@@ -121,8 +121,8 @@ public class MyOrdersFragment extends Fragment {
             }
 
             @Override
-            public void onChangeOrderStatus(Long orderId, RequestStatus status) {
-                getPurchaseService().updateOrder(orderId, status, getActivity(), mOnRequestUpdatedCallback);
+            public void onCancelOrder(Long orderId) {
+                getPurchaseService().updateOrder(orderId, RequestStatus.CanceledByUser, getActivity(), mOnRequestUpdatedCallback);
             }
 
             @Override

@@ -45,8 +45,10 @@ public class BaseCommercesService implements CommercesService {
 
     private Map<Integer, Commerce> mCommerces;
     private List<Filter> mFilters;
+    private boolean mDownloading;
 
     public BaseCommercesService(Context context){
+        mDownloading = false;
         mContext = context;
         mFilters = new ArrayList<>();
     }
@@ -67,9 +69,19 @@ public class BaseCommercesService implements CommercesService {
     }
 
     @Override
+    public boolean isDownloading() {
+        return mDownloading;
+    }
+
+    @Override
     public List<Commerce> getCommerces() {
         List<Commerce> commerces = new ArrayList<>(mCommerces.values());
         return filterCommerces(commerces);
+    }
+
+    @Override
+    public List<Commerce> getFavouritesCommerces() {
+        return new ArrayList<>(mCommerces.values());
     }
 
     @Override
@@ -311,6 +323,7 @@ public class BaseCommercesService implements CommercesService {
 
     private void downloadCommerces(final NetworkFragment networkFragment, final UpdateCommercesCallback callback) {
         mCommerces = new HashMap<>();
+        mDownloading = true;
         networkFragment.startDownload(new DownloadCallback<NetworkResult>() {
 
             @Override
@@ -344,7 +357,7 @@ public class BaseCommercesService implements CommercesService {
 
             @Override
             public void onFinishDownloading() {
-
+                mDownloading = false;
             }
         });
     }

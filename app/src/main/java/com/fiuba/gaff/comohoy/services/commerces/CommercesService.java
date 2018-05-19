@@ -16,10 +16,12 @@ public interface CommercesService extends CustomService {
 
     void updateCommercesData(Activity activity, UpdateCommercesCallback callback);
     void updateCommercesWithLocation(Activity activity, UpdateCommercesCallback callback, Location location);
+    List<Commerce> getFavouritesCommerces();
     List<Commerce> getCommerces();
     List<Commerce> getCommercesSortedBy(Context context, SortCriteria sortCriteria);
     List<CategoryUsageData> getUsedCategoriesUsageData();
     Commerce getCommerce(int id);
     void addFilter(Filter filter);
     void clearFilters();
+    boolean isDownloading();
 }

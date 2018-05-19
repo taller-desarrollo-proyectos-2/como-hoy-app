@@ -173,6 +173,16 @@ public class MockCommercesService implements CommercesService {
     }
 
     @Override
+    public boolean isDownloading() {
+        return false;
+    }
+
+    @Override
+    public List<Commerce> getFavouritesCommerces() {
+        return null;
+    }
+
+    @Override
     public List<Commerce> getCommerces() {
         return mCommerces;
     }
