@@ -110,30 +110,35 @@
         tools:layout_editor_absoluteX="10dp">
 
         <ImageView
+            android:clickable="true"
             android:id="@+id/estrella1"
             android:layout_width="@dimen/star_dimen"
             android:layout_height="@dimen/star_dimen"
             android:src="@drawable/whitestar" />
 
         <ImageView
+            android:clickable="true"
             android:id="@+id/estrella2"
             android:layout_width="@dimen/star_dimen"
             android:layout_height="@dimen/star_dimen"
             android:src="@drawable/whitestar" />
 
         <ImageView
+            android:clickable="true"
             android:id="@+id/estrella3"
             android:layout_width="@dimen/star_dimen"
             android:layout_height="@dimen/star_dimen"
             android:src="@drawable/whitestar" />
 
         <ImageView
+            android:clickable="true"
             android:id="@+id/estrella4"
             android:layout_width="@dimen/star_dimen"
             android:layout_height="@dimen/star_dimen"
             android:src="@drawable/whitestar" />
 
         <ImageView
+            android:clickable="true"
             android:id="@+id/estrella5"
             android:layout_width="@dimen/star_dimen"
             android:layout_height="@dimen/star_dimen"
