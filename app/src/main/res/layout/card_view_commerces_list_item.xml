@@ -73,6 +73,7 @@
             app:layout_constraintVertical_bias="0.0" />
 
         <LinearLayout
+            android:orientation="horizontal"
             android:id="@+id/puntajeOpinion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -87,30 +88,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0">
 
-            <com.fiuba.gaff.comohoy.SquareImageView
-                android:layout_width="@dimen/star_dimen_item_preview"
-                android:layout_height="@dimen/star_dimen_item_preview"
-                android:src="@drawable/yellowstar" />
-
-            <com.fiuba.gaff.comohoy.SquareImageView
-                android:layout_width="@dimen/star_dimen_item_preview"
-                android:layout_height="@dimen/star_dimen_item_preview"
-                android:src="@drawable/yellowstar" />
-
-            <com.fiuba.gaff.comohoy.SquareImageView
-                android:layout_width="@dimen/star_dimen_item_preview"
-                android:layout_height="@dimen/star_dimen_item_preview"
-                android:src="@drawable/yellowstar" />
-
-            <com.fiuba.gaff.comohoy.SquareImageView
-                android:layout_width="@dimen/star_dimen_item_preview"
-                android:layout_height="@dimen/star_dimen_item_preview"
-                android:src="@drawable/yellowstar" />
-
-            <com.fiuba.gaff.comohoy.SquareImageView
-                android:layout_width="@dimen/star_dimen_item_preview"
-                android:layout_height="@dimen/star_height"
-                android:src="@drawable/whitestar" />
         </LinearLayout>
 
         <TextView

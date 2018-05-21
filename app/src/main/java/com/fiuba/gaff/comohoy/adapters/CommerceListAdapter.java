@@ -3,8 +3,10 @@ package com.fiuba.gaff.comohoy.adapters;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.widget.CardView;
@@ -13,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.fiuba.gaff.comohoy.fragments.CommercesListFragment;
@@ -49,6 +52,9 @@ public class CommerceListAdapter extends RecyclerView.Adapter<CommerceListAdapte
         private final TextView mShippingTime;
         private final TextView mOrderAmount;
         private final TextView mDiscounts;
+        private final LinearLayout mEstrellas;
+
+        private final int cant = 3;
 
         CommerceViewHolder(View itemView) {
             super(itemView);
@@ -62,6 +68,7 @@ public class CommerceListAdapter extends RecyclerView.Adapter<CommerceListAdapte
             mShippingTime = (TextView) itemView.findViewById(R.id.tiempoEnvioComercio);
             mOrderAmount = (TextView) itemView.findViewById(R.id.cantPedidosComercio);
             mDiscounts = (TextView) itemView.findViewById(R.id.descuento_comercio);
+            mEstrellas = (LinearLayout) itemView.findViewById(R.id.puntajeOpinion);
         }
     }
 
@@ -128,6 +135,36 @@ public class CommerceListAdapter extends RecyclerView.Adapter<CommerceListAdapte
                 mCommerceListListener.onCommerceClicked(commerce, holder.mName);
             }
         });
+
+        for (int i=1; i<=holder.cant; i++){
+            holder.mEstrellas.addView(getEstrellaAmarilla(holder.mView.getContext()));
+        }
+        for (int i=1; i<=(5-holder.cant); i++){
+            holder.mEstrellas.addView(getEstrellaNegra(holder.mView.getContext()));
+        }
+
+    }
+
+    private ImageView getEstrellaAmarilla(Context context) {
+        ImageView estrella = new ImageView(context);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                50,
+                50
+        );
+        estrella.setLayoutParams(lp);
+        estrella.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.yellowstar));
+        return estrella;
+    }
+
+    private ImageView getEstrellaNegra(Context context) {
+        ImageView estrella = new ImageView(context);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                50,
+                50
+        );
+        estrella.setLayoutParams(lp);
+        estrella.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.whitestar));
+        return estrella;
     }
 
     @Override
@@ -148,4 +185,5 @@ public class CommerceListAdapter extends RecyclerView.Adapter<CommerceListAdapte
         }
         return roundedDrawable;
     }
+
 }
