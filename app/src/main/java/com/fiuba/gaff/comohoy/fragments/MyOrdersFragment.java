@@ -147,6 +147,7 @@ public class MyOrdersFragment extends Fragment {
             @Override
             public void onError(String reason) {
                 Toast.makeText(getActivity(), "No se pudo modificar su pedido. Intente mas tarde", Toast.LENGTH_LONG).show();
+                showProgress(false);
             }
         };
         return callback;
@@ -161,11 +162,13 @@ public class MyOrdersFragment extends Fragment {
 
             @Override
             public void onCancelOrder(Long orderId) {
+                showProgress(true);
                 getPurchaseService().updateOrder(orderId, RequestStatus.CanceledByUser, getActivity(), mOnRequestUpdatedCallback);
             }
 
             @Override
             public void onRateOrderClicked(Request request) {
+
                 mCalificationsDialog = new Dialog(getContext(), android.R.style.Theme_Holo_Light_Dialog);
                 mCalificationsDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 mCalificationsDialog.setContentView(R.layout.dialog_califications);

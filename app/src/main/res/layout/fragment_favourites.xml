@@ -11,7 +11,6 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerview_favourites_commerces_list"
-        android:name="com.fiuba.gaff.comohoy.FramgmentListadoComercio"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -24,9 +23,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        tools:context="com.fiuba.gaff.comohoy.fragments.FavouritesFragment"
-        tools:listitem="@layout/card_view_commerces_list_item">
+        app:layout_constraintVertical_bias="0.0">
 
     </android.support.v7.widget.RecyclerView>
 
