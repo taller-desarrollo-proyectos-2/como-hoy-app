@@ -7,4 +7,5 @@ import com.fiuba.gaff.comohoy.services.CustomService;
 
 public interface NotificationService extends CustomService {
     void sendInstanceIdToken(String token, SendInstanceIdCallback callback);
+    void scheduleSendInstanceId();
 }

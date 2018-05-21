@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.support.annotation.NonNull;
 
 import com.fiuba.gaff.comohoy.networking.DownloadCallback;
@@ -37,6 +38,11 @@ public class FirebaseNotificationService implements NotificationService {
     private static final int STREAM_MAX_SIZE = 4096;
 
     @Override
+    public void scheduleSendInstanceId() {
+
+    }
+
+    @Override
     public void sendInstanceIdToken(String token, final SendInstanceIdCallback callback) {
         SendFirebaseInstanceIdTask sendInstanceIdTask = new SendFirebaseInstanceIdTask(new DownloadCallback<NetworkResult>() {
             @Override
@@ -67,7 +73,11 @@ public class FirebaseNotificationService implements NotificationService {
             }
         });
         NetworkObject networkObject = createUpdateRequestNetworkObject(token);
-        sendInstanceIdTask.execute(networkObject);
+        if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB ) {
+            sendInstanceIdTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, networkObject);
+        } else {
+            sendInstanceIdTask.execute(networkObject);
+        }
     }
 
     private NetworkObject createUpdateRequestNetworkObject(String token) {
@@ -143,13 +153,19 @@ public class FirebaseNotificationService implements NotificationService {
             HttpURLConnection connection = null;
             NetworkResult result = null;
             try {
+                String authToken = ServiceLocator.get(FacebookService.class).getAuthToken();
+                while (authToken == null || authToken.equals("")) {
+                    Thread.sleep(1000);
+                    authToken = ServiceLocator.get(FacebookService.class).getAuthToken();
+                }
+
                 URL url = new URL(networkObject.getURL());
 
                 connection = (HttpURLConnection) url.openConnection();
 
                 AddRequestProperties(connection, networkObject);
 
-                connection.addRequestProperty("authorization", networkObject.getAuthToken());
+                connection.addRequestProperty("authorization", authToken);
 
                 // Timeout for reading InputStream
                 connection.setReadTimeout(READ_TIMEOUT_MS);

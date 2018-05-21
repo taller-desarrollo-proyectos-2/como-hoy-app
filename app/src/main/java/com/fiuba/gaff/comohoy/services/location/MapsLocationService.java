@@ -76,6 +76,7 @@ public class MapsLocationService implements LocationService,
                         }
                     }
                 }
+                android.location.Location location2;
                 // if GPS Enabled get lat/long using GPS Services
                 if (isGPSEnabled) {
                     if (location == null) {
@@ -84,8 +85,9 @@ public class MapsLocationService implements LocationService,
                         }
                         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,MIN_TIME_BW_UPDATES,MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
                         if (locationManager != null) {
-                            location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                            if (location != null) {
+                            location2 = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                            location = (location2 == null) ? location : location2;
+                            if (location2 != null) {
                                 latitude = location.getLatitude();
                                 longitude = location.getLongitude();
                             }
@@ -97,7 +99,6 @@ public class MapsLocationService implements LocationService,
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return location;
     }
 
@@ -153,6 +154,9 @@ public class MapsLocationService implements LocationService,
     @Override
     public Location getLocation(Context context) {
         android.location.Location myLocation =  getLocationS();
-        return new Location(myLocation.getLatitude(),myLocation.getLongitude());
+        if (myLocation != null) {
+            return new Location(myLocation.getLatitude(),myLocation.getLongitude());
+        }
+        return new Location(0, 0);
     }
 }

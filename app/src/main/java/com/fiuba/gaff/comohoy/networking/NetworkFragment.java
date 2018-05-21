@@ -7,6 +7,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -109,7 +110,11 @@ public class NetworkFragment extends Fragment {
         mCallback = callback;
         cancelDownload();
         mDownloadTask = new DownloadTask(mCallback);
-        mDownloadTask.execute(sNetworkObject);
+        if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB ) {
+            mDownloadTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, sNetworkObject);
+        } else {
+            mDownloadTask.execute(sNetworkObject);
+        }
     }
 
     /**
