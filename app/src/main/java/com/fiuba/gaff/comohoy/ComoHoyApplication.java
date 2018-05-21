@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 
 import com.fiuba.gaff.comohoy.services.commerces.MockCommercesService;
+import com.fiuba.gaff.comohoy.services.location.MapsLocationService;
 import com.fiuba.gaff.comohoy.services.picasso.PicassoService;
 import com.fiuba.gaff.comohoy.services.PurchasesService.BasePurchasesService;
 import com.fiuba.gaff.comohoy.services.PurchasesService.PurchasesService;
@@ -33,7 +34,7 @@ public class ComoHoyApplication extends Application {
         ServiceLocator.init(applicationContext);
         ServiceLocator.bindCustomServiceImplementation(FacebookService.class, BaseFacebookService.class);
         ServiceLocator.bindCustomServiceImplementation(CommercesService.class, BaseCommercesService.class);
-        ServiceLocator.bindCustomServiceImplementation(LocationService.class, GpsLocationService.class);
+        ServiceLocator.bindCustomServiceImplementation(LocationService.class, MapsLocationService.class);
         ServiceLocator.bindCustomServiceImplementation(PurchasesService.class, BasePurchasesService.class);
         ServiceLocator.bindCustomServiceImplementation(PicassoService.class, PicassoService.class);
     }

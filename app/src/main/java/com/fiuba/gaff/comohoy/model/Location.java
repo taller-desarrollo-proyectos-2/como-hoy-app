@@ -24,4 +24,20 @@ public class Location {
     public void setLatitud(double latitud) {
         this.mLatitud = latitud;
     }
+
+    public double getLongitude() {
+        return mLongitud;
+    }
+
+    public void setLongitude(double longitud) {
+        this.mLongitud = longitud;
+    }
+
+    public double getLatitude() {
+        return mLatitud;
+    }
+
+    public void setLatitude(double latitud) {
+        this.mLatitud = latitud;
+    }
 }
