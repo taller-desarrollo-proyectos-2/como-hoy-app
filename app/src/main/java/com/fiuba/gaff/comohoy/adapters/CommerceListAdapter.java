@@ -114,8 +114,7 @@ public class CommerceListAdapter extends RecyclerView.Adapter<CommerceListAdapte
         holder.mDescription.setText(categoriesStringBuilder.toString());
         // holder.mRating.setText(String.format("%.1f", commerce.getRating()));
         holder.mOrdersAmount.setText(commerce.getOrdersAmount());
-        holder.mShippingTime.setText(commerce.getShippingTime());
-        holder.mShippingTime.setText("45-70 min");
+        holder.mShippingTime.setText(String.format("%d min", commerce.getLeadTime()));
         holder.mOrderAmount.setText("240 pedidos");
 
         String discounts = commerce.getDiscounts();

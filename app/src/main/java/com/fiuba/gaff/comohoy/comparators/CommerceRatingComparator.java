@@ -11,9 +11,9 @@ public class CommerceRatingComparator implements Comparator<Commerce> {
         double rating1 = commerce1.getRating();
         double rating2 = commerce2.getRating();
         if (rating1 < rating2) {
-            return -1;
-        } else if (rating1 > rating2) {
             return 1;
+        } else if (rating1 > rating2) {
+            return -1;
         }
         return 0;
     }

@@ -102,6 +102,7 @@ public class BaseCommercesService implements CommercesService {
                 break;
             case Rating:
                 Collections.sort(commerces, new CommerceRatingComparator());
+                break;
             default:
                 Collections.sort(commerces, new CommerceLocationComparator(context));
         }
@@ -300,6 +301,7 @@ public class BaseCommercesService implements CommercesService {
             commerce.setLocation(getCommerceLocation(commerceJson));
             commerce.setOpeningTimes(getOpeningTimes(commerceJson));
             commerce.setRating(commerceJson.getDouble("score"));
+            commerce.setLeadTime(commerceJson.getInt("leadTime"));
             commerce.setIsFavourite(false);
 
             mCommerces.put(commerceId, commerce);

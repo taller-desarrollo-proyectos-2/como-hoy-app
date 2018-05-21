@@ -81,11 +81,11 @@ public class FavouritesFragment extends Fragment {
             }
         });
     }
-    
+
     @Override
     public void onResume() {
         super.onResume();
-        showFavouritesCommerces();
+        //showFavouritesCommerces();
     }
 
     private void showFavouritesCommerces() {

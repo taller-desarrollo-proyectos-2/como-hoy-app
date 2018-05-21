@@ -1,13 +1,8 @@
 package com.fiuba.gaff.comohoy.model;
 
 import android.graphics.Bitmap;
-import android.graphics.Path;
-
-import com.fiuba.gaff.comohoy.services.ServiceLocator;
-import com.fiuba.gaff.comohoy.services.location.LocationService;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -18,12 +13,12 @@ public class Commerce {
     private String mName = "";
     private String mDescription = "";
     private String mOrdersAmount = "";
-    private String mShippingTime = "";
     private String mShippingCost = "";
     private String mDiscounts = "";
     private Location mLocation;
     private List<OpeningTime> mOpeningTimes;
-    private boolean mLike = false;
+    private boolean mIsFavourite = false;
+    private int mLeadTime = 0;
     private double mRating;
 
     private Bitmap mPicture;
@@ -39,8 +34,8 @@ public class Commerce {
         mPlates = new HashMap<>();
     }
 
-    public void setIsFavourite(boolean like) { mLike = like; }
-    public boolean isFavourite() { return mLike; }
+    public void setIsFavourite(boolean like) { mIsFavourite = like; }
+    public boolean isFavourite() { return mIsFavourite; }
 
     public int getId() {
         return mId;
@@ -61,6 +56,14 @@ public class Commerce {
     public String getShowableName() {
         String name = (mName.isEmpty() || mName.equals("null")) ? mBusinessName : mName;
         return name;
+    }
+
+    public int getLeadTime() {
+        return mLeadTime;
+    }
+
+    public void setLeadTime(int leadTime) {
+        mLeadTime = leadTime;
     }
 
     public String getName() {
@@ -93,14 +96,6 @@ public class Commerce {
 
     public void setOrdersAmount(String ordersAmount) {
         this.mOrdersAmount = ordersAmount;
-    }
-
-    public String getShippingTime() {
-        return mShippingTime;
-    }
-
-    public void setShippingTime(String shippingTime) {
-        this.mShippingTime = shippingTime;
     }
 
     public String getShippingCost() {

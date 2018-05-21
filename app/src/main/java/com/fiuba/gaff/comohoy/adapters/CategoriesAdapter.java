@@ -89,7 +89,7 @@ public class CategoriesAdapter extends BaseAdapter {
         ImageView imageView = view.findViewById(R.id.image);
         int categoryDrawableId = CategoriesUtils.getCategoryDrawableIdByName(categoryName, mActivityContext);
         Picasso picasso = ServiceLocator.get(PicassoService.class).getPicasso();
-        picasso.load(categoryDrawableId).fit().centerCrop().transform(new RoundedCornersTransform()).error(R.drawable.no_image).into(imageView);
+        picasso.load(categoryDrawableId).fit().centerInside().transform(new RoundedCornersTransform()).error(R.drawable.no_image).into(imageView);
 
         ViewGroup parentLayout = view.findViewById(R.id.parent_layout);
         parentLayout.setOnClickListener(new View.OnClickListener() {

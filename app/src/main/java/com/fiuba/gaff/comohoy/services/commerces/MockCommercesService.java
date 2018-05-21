@@ -110,7 +110,6 @@ public class MockCommercesService implements CommercesService {
 
         int minShippingTime = RandomUtils.getIntBetween(10, 45);
         int maxShippingTime = RandomUtils.getIntBetween(minShippingTime, minShippingTime * 2);
-        commerce.setShippingTime(String.format("%d-%d min", minShippingTime, maxShippingTime));
 
         commerce.setPicture(BitmapFactory.decodeResource(mContext.getResources(), getRandomDrawableId()));
 
