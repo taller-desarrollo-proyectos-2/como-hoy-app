@@ -7,6 +7,7 @@ import android.net.NetworkInfo;
 import android.util.Log;
 
 import com.fiuba.gaff.comohoy.comparators.CommerceLocationComparator;
+import com.fiuba.gaff.comohoy.comparators.CommerceRatingComparator;
 import com.fiuba.gaff.comohoy.filters.Filter;
 import com.fiuba.gaff.comohoy.model.Category;
 import com.fiuba.gaff.comohoy.model.CategoryUsageData;
@@ -91,6 +92,8 @@ public class BaseCommercesService implements CommercesService {
             case Closeness:
                 Collections.sort(commerces, new CommerceLocationComparator(context));
                 break;
+            case Rating:
+                Collections.sort(commerces, new CommerceRatingComparator());
             default:
                 Collections.sort(commerces, new CommerceLocationComparator(context));
         }

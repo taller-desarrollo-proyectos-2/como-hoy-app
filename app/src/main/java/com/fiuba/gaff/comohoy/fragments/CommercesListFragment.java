@@ -297,6 +297,9 @@ public class CommercesListFragment extends Fragment {
                     case "Cercanía":
                         mSortCriteria = SortCriteria.Closeness;
                         break;
+                    case "Puntaje":
+                        mSortCriteria = SortCriteria.Rating;
+                        break;
                     default: mSortCriteria = SortCriteria.Closeness;
                 }
             }
