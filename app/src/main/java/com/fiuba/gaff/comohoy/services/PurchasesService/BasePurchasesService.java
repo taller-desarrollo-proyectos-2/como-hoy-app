@@ -412,8 +412,8 @@ public class BasePurchasesService implements PurchasesService {
             case OnPreparation: return  "ON_PREPARATION";
             case OnTheWay: return "ON_THE_WAY";
             case Delivered: return "DELIVERED";
-            case CanceledByUser: return  "CANCELED_BY_USER";
-            case CanceledByCommerce: return "CANCELED_BY_COMMERCE";
+            case CanceledByUser: return  "CANCELLED_BY_USER";
+            case CanceledByCommerce: return "CANCELLED_BY_COMMERCE";
             default: return "";
         }
     }
