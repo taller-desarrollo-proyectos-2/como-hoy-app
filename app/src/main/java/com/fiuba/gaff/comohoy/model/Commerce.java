@@ -39,8 +39,8 @@ public class Commerce {
         mPlates = new HashMap<>();
     }
 
-    public void setFavourite(boolean like) { mLike = like; }
-    public boolean getFavourite() { return mLike; }
+    public void setIsFavourite(boolean like) { mLike = like; }
+    public boolean isFavourite() { return mLike; }
 
     public int getId() {
         return mId;

@@ -17,7 +17,6 @@ import com.fiuba.gaff.comohoy.model.Day;
 import com.fiuba.gaff.comohoy.model.Extra;
 import com.fiuba.gaff.comohoy.model.Location;
 import com.fiuba.gaff.comohoy.model.OpeningTime;
-import com.fiuba.gaff.comohoy.model.Opinion;
 import com.fiuba.gaff.comohoy.model.Plate;
 import com.fiuba.gaff.comohoy.model.TimeInterval;
 import com.fiuba.gaff.comohoy.networking.DownloadCallback;
@@ -44,6 +43,7 @@ public class BaseCommercesService implements CommercesService {
     private static final String REQUEST_COMMERCES_URL = "http://34.237.197.99:9000/api/v1/commerces";
     private static final String REQUEST_COMMERCES_WITH_LOC_FORMAT = "http://34.237.197.99:9000/api/v1/commerces?lat=%f&lng=%f";
     private static final String REQUEST_FAVOURITES_URL_FORMAT = "http://34.237.197.99:9000/api/v1/mobile/favourite/%d";
+    private static final String USER_INFO_URL = "http://34.237.197.99:9000/api/v1/users/myinfo";
     private Context mContext;
 
     private Map<Integer, Commerce> mCommerces;
@@ -60,7 +60,7 @@ public class BaseCommercesService implements CommercesService {
     public void updateCommercesData(Activity activity, final UpdateCommercesCallback callback) {
         NetworkObject updateCommercesNetworkObject = createUpdateCommercesNetworkObject(REQUEST_COMMERCES_URL);
         NetworkFragment networkFragment = NetworkFragment.getInstance(activity.getFragmentManager(), updateCommercesNetworkObject);
-        downloadCommerces(networkFragment, callback);
+        downloadCommerces(networkFragment, activity, callback);
     }
 
     @Override
@@ -68,7 +68,7 @@ public class BaseCommercesService implements CommercesService {
         final String uri = String.format(REQUEST_COMMERCES_WITH_LOC_FORMAT, location.getLatitud(), location.getLongitud());
         NetworkObject updateCommercesNetworkObject = createUpdateCommercesNetworkObject(uri);
         NetworkFragment networkFragment = NetworkFragment.getInstance(activity.getFragmentManager(), updateCommercesNetworkObject);
-        downloadCommerces(networkFragment, callback);
+        downloadCommerces(networkFragment, activity, callback);
     }
 
     @Override
@@ -84,7 +84,13 @@ public class BaseCommercesService implements CommercesService {
 
     @Override
     public List<Commerce> getFavouritesCommerces() {
-        return new ArrayList<>(mCommerces.values());
+        List<Commerce> commerces = new ArrayList<>();
+        for (Commerce commerce : mCommerces.values()) {
+            if (commerce.isFavourite()) {
+                commerces.add(commerce);
+            }
+        }
+        return commerces;
     }
 
     @Override
@@ -158,7 +164,7 @@ public class BaseCommercesService implements CommercesService {
     }
 
     @Override
-    public void removeFromFavourites(Activity activity, int commerceId, final RemoveFromFavouritesCallback callback) {
+    public void removeFromFavourites(final Activity activity, int commerceId, final RemoveFromFavouritesCallback callback) {
         NetworkObject networkObject = createRemoveFromFavouritesNetworkObject(commerceId);
         NetworkFragment networkFragment = NetworkFragment.getInstance(activity.getFragmentManager(), networkObject);
         networkFragment.startDownload(new DownloadCallback<NetworkResult>() {
@@ -208,6 +214,43 @@ public class BaseCommercesService implements CommercesService {
         mFilters.clear();
     }
 
+    private void updateFavourites(Activity activity, final UpdateCommercesCallback callback) {
+        NetworkObject networkObject = createUpdateFavouritesNetworkObject();
+        NetworkFragment networkFragment = NetworkFragment.getInstance(activity.getFragmentManager(), networkObject);
+        networkFragment.startDownload(new DownloadCallback<NetworkResult>() {
+            @Override
+            public void onResponseReceived(@NonNull NetworkResult result) {
+                if (result.mException == null) {
+                    updateFavouritesFromResponse(result.mResultValue);
+                }
+            }
+
+            @Override
+            public NetworkInfo getActiveNetworkInfo(Context context) {
+                ConnectivityManager connectivityManager =
+                        (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+                return networkInfo;
+            }
+
+            @Override
+            public void onProgressUpdate(int progressCode, int percentComplete) {
+
+            }
+
+            @Override
+            public void onFinishDownloading() {
+                callback.onCommercesUpdated();
+            }
+        });;
+    }
+
+    private NetworkObject createUpdateFavouritesNetworkObject() {
+        NetworkObject networkObject = new NetworkObject(USER_INFO_URL, HttpMethodType.GET);
+        networkObject.setAuthToken(ServiceLocator.get(FacebookService.class).getAuthToken());
+        return networkObject;
+    }
+
     private NetworkObject createAddToFavouritesNetworkObject(int commerceId) {
         String uri = String.format(REQUEST_FAVOURITES_URL_FORMAT, commerceId);
         NetworkObject networkObject = new NetworkObject(uri, HttpMethodType.PUT);
@@ -251,6 +294,7 @@ public class BaseCommercesService implements CommercesService {
             commerce.setLocation(getCommerceLocation(commerceJson));
             commerce.setOpeningTimes(getOpeningTimes(commerceJson));
             commerce.setRating(commerceJson.getDouble("score"));
+            commerce.setIsFavourite(false);
 
             mCommerces.put(commerceId, commerce);
         }
@@ -362,7 +406,7 @@ public class BaseCommercesService implements CommercesService {
         return openingTime;
     }
 
-    private void downloadCommerces(final NetworkFragment networkFragment, final UpdateCommercesCallback callback) {
+    private void downloadCommerces(final NetworkFragment networkFragment,final Activity activity, final UpdateCommercesCallback callback) {
         mCommerces = new HashMap<>();
         mDownloading = true;
         networkFragment.startDownload(new DownloadCallback<NetworkResult>() {
@@ -372,7 +416,7 @@ public class BaseCommercesService implements CommercesService {
                 if (result.mException == null) {
                     try {
                         getCommercesFromResponse(result.mResultValue);
-                        callback.onCommercesUpdated();
+                        updateFavourites(activity, callback);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -401,5 +445,24 @@ public class BaseCommercesService implements CommercesService {
                 mDownloading = false;
             }
         });
+    }
+
+    private void updateFavouritesFromResponse(String response) {
+        try {
+            JSONObject userInfoJson = new JSONObject(response);
+            JSONArray favouritesJson = userInfoJson.getJSONArray("favourites");
+            for (int i = 0; i < favouritesJson.length(); i++) {
+                JSONObject favouriteJson = favouritesJson.getJSONObject(i);
+                int favouriteCommerceId = favouriteJson.getInt("id");
+                if (mCommerces.containsKey(favouriteCommerceId)) {
+                    Commerce commerce = mCommerces.get(favouriteCommerceId);
+                    commerce.setIsFavourite(true);
+                    mCommerces.put(favouriteCommerceId, commerce);
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 }

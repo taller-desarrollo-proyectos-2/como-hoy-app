@@ -146,8 +146,8 @@ public class CommerceListAdapter extends RecyclerView.Adapter<CommerceListAdapte
     private ImageView getEstrellaAmarilla(Context context) {
         ImageView estrella = new ImageView(context);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                50,
-                50
+                38,
+                38
         );
         estrella.setLayoutParams(lp);
         estrella.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.yellowstar));
@@ -157,8 +157,8 @@ public class CommerceListAdapter extends RecyclerView.Adapter<CommerceListAdapte
     private ImageView getEstrellaNegra(Context context) {
         ImageView estrella = new ImageView(context);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                50,
-                50
+                38,
+                38
         );
         estrella.setLayoutParams(lp);
         estrella.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.whitestar));

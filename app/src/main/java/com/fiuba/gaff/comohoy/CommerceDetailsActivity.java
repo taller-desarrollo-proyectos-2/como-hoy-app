@@ -127,17 +127,17 @@ public class CommerceDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View arg0) {
                 showProgressIcon(favouriteButton);
-                boolean isFavourite = commerce.getFavourite();
+                boolean isFavourite = commerce.isFavourite();
 
                 if(isFavourite && !mUpdatingFavourite){
                     mUpdatingFavourite = true;
-                    commerce.setFavourite(false);
+                    commerce.setIsFavourite(false);
                     removeFromFavourites();
                 }
 
                 if (!isFavourite && !mUpdatingFavourite){
                     mUpdatingFavourite = true;
-                    commerce.setFavourite(true);
+                    commerce.setIsFavourite(true);
                     addToFavourites();
                 }
             }
@@ -154,7 +154,7 @@ public class CommerceDetailsActivity extends AppCompatActivity {
             @Override
             public void onSuccess() {
                 Commerce commerce = getCommerceService().getCommerce(mCommerceId);
-                commerce.setFavourite(true);
+                commerce.setIsFavourite(true);
                 favouriteButton.setImageDrawable(ContextCompat.getDrawable(CommerceDetailsActivity.this, R.drawable.corazon_rojo));
                 mUpdatingFavourite = false;
             }
@@ -174,7 +174,7 @@ public class CommerceDetailsActivity extends AppCompatActivity {
             @Override
             public void onSuccess() {
                 Commerce commerce = getCommerceService().getCommerce(mCommerceId);
-                commerce.setFavourite(false);
+                commerce.setIsFavourite(false);
                 favouriteButton.setImageDrawable(ContextCompat.getDrawable(CommerceDetailsActivity.this, R.drawable.corazon));
                 mUpdatingFavourite = false;
             }
@@ -243,7 +243,7 @@ public class CommerceDetailsActivity extends AppCompatActivity {
         Commerce commerce = getCommerceService().getCommerce(mCommerceId);
         if (commerce != null) {
             mCommerceTittle.setText(commerce.getShowableName());
-            if (commerce.getFavourite()) {
+            if (commerce.isFavourite()) {
                 mCommerceLike.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.corazon_rojo));
             }
             else{
