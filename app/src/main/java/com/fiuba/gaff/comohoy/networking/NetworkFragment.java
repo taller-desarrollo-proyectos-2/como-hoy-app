@@ -229,10 +229,10 @@ public class NetworkFragment extends Fragment {
 
                 if ((networkObject.getHttpMethod().equals("POST")) || (networkObject.getHttpMethod().equals("PUT"))) {
                     // set the connection content-type as JSON, meaning we are sending JSON data.
-                    connection.setRequestProperty("Content-Type", "application/json;charset=utf-8");
                     // Send POST data.
                     publishProgress(DownloadCallback.Progress.DOWNLOADING);
                     if (networkObject.getPostData() != null) {
+                        connection.setRequestProperty("Content-Type", "application/json;charset=utf-8");
                         DataOutputStream printout = new DataOutputStream(connection.getOutputStream());
                         printout.write(networkObject.getPostData().getBytes("UTF-8"));
                         printout.flush();
