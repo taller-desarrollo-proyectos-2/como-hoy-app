@@ -7,6 +7,7 @@ public class Opinion {
     private String mDescription;
     private int mPuntuation;
     private String mReplica;
+    private Long mOrderId;
 
     public Opinion(Long id) {
         mId = id;
@@ -32,4 +33,11 @@ public class Opinion {
         this.mId = id;
     }
 
+    public Long getOrderId() {
+        return mOrderId;
+    }
+
+    public void setOrderId(Long orderId) {
+        mOrderId = orderId;
+    }
 }

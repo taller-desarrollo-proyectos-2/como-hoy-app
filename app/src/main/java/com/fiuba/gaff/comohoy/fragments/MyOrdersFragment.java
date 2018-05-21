@@ -26,12 +26,15 @@ import android.widget.Toast;
 
 import com.fiuba.gaff.comohoy.R;
 import com.fiuba.gaff.comohoy.adapters.MyOrdersAdapter;
+import com.fiuba.gaff.comohoy.model.Opinion;
 import com.fiuba.gaff.comohoy.model.purchases.RequestStatus;
 import com.fiuba.gaff.comohoy.model.purchases.backend.Request;
 import com.fiuba.gaff.comohoy.services.PurchasesService.OnGetOrdersCallback;
 import com.fiuba.gaff.comohoy.services.PurchasesService.OnRequestUpdatedCallback;
 import com.fiuba.gaff.comohoy.services.PurchasesService.PurchasesService;
 import com.fiuba.gaff.comohoy.services.ServiceLocator;
+import com.fiuba.gaff.comohoy.services.opinions.OpinionsService;
+import com.fiuba.gaff.comohoy.services.opinions.PublishOpinionCallback;
 
 import java.util.List;
 
@@ -167,7 +170,7 @@ public class MyOrdersFragment extends Fragment {
             }
 
             @Override
-            public void onRateOrderClicked(Request request) {
+            public void onRateOrderClicked(final Request request) {
 
                 mCalificationsDialog = new Dialog(getContext(), android.R.style.Theme_Holo_Light_Dialog);
                 mCalificationsDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -257,7 +260,11 @@ public class MyOrdersFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
                         mCalificacion = calificationEditText.getText().toString();
-                        //updateCalificationsValue();
+                        Opinion opinion = new Opinion(0L);
+                        opinion.setDescription(mCalificacion);
+                        opinion.setOrderId(request.getId());
+                        opinion.setPuntuation(mPuntuacion);
+                        sendOpinionToBackoffice(opinion);
                         mCalificationsDialog.dismiss();
                     }
                 });
@@ -272,6 +279,21 @@ public class MyOrdersFragment extends Fragment {
             }
         };
         return listener;
+    }
+
+    private void sendOpinionToBackoffice(Opinion opinion) {
+        OpinionsService opinionsService = ServiceLocator.get(OpinionsService.class);
+        opinionsService.publishOpinion(getActivity(), opinion, new PublishOpinionCallback() {
+            @Override
+            public void onSuccess() {
+                Toast.makeText(getActivity(), "Gracias por su opinión!", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(String reason) {
+                Toast.makeText(getActivity(), "No se pudo publicar su calificación. Intente más tarde", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void showProgress(boolean show) {

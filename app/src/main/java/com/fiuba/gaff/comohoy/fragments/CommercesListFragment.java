@@ -81,7 +81,7 @@ public class CommercesListFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         Location currentLocation = getLocationService().getLocation(getActivity());
-        //getCommercesService().updateCommercesWithLocation(getActivity(), createOnUpdatedCommercesCallback(), currentLocation);
+        // getCommercesService().updateCommercesWithLocation(getActivity(), createOnUpdatedCommercesCallback(), currentLocation);
         getCommercesService().updateCommercesData(getActivity(), createOnUpdatedCommercesCallback());
     }
 

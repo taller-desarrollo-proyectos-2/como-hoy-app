@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fiuba.gaff.comohoy.adapters.ExtrasListAdapter;
 import com.fiuba.gaff.comohoy.model.Commerce;
@@ -29,6 +30,8 @@ import com.fiuba.gaff.comohoy.model.Opinion;
 import com.fiuba.gaff.comohoy.model.TimeInterval;
 import com.fiuba.gaff.comohoy.services.ServiceLocator;
 import com.fiuba.gaff.comohoy.services.commerces.CommercesService;
+import com.fiuba.gaff.comohoy.services.opinions.OnGetOpinionsCallback;
+import com.fiuba.gaff.comohoy.services.opinions.OpinionsService;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -64,7 +67,8 @@ public class MoreInfoActivity extends AppCompatActivity implements OnMapReadyCal
         obtainCommerceId(savedInstanceState);
 
         createOpeningTimesView();
-        createOpinionesView();
+
+        getOpinionsFromBackoffice();
 
         GoogleApiAvailability googleAPI = GoogleApiAvailability.getInstance();
         int resultCode = googleAPI.isGooglePlayServicesAvailable(this);
@@ -114,11 +118,29 @@ public class MoreInfoActivity extends AppCompatActivity implements OnMapReadyCal
         }
     }
 
-    private void createOpinionesView() {
-        ViewGroup parentLayout = findViewById(R.id.opiniones_comercio);
-        List<Opinion> opiniones = getCommerceService().getCommerce(mCommerceId).getOpiniones();
+    private void getOpinionsFromBackoffice() {
+        OpinionsService opinionsService = ServiceLocator.get(OpinionsService.class);
+        opinionsService.getOpinions(this, mCommerceId, new OnGetOpinionsCallback() {
+            @Override
+            public void onSuccess(List<Opinion> opinions) {
+                createOpinionesView(opinions);
+            }
 
-        for (final Opinion opinion : opiniones) {
+            @Override
+            public void onError(String reason) {
+                showToast("No se pudieron cargar las opiniones del comercio. Intente más tarde");
+            }
+        });
+    }
+
+    private void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    private void createOpinionesView(List<Opinion> opinions) {
+        ViewGroup parentLayout = findViewById(R.id.opiniones_comercio);
+
+        for (final Opinion opinion : opinions) {
             final View opinionView = createOpinionView(opinion);
             opinionView.setClickable(true);
             opinionView.setOnClickListener(new View.OnClickListener() {
