@@ -132,13 +132,16 @@ public class BaseCommercesService implements CommercesService {
     }
 
     @Override
-    public void addToFavourites(Activity activity, int commerceId, final AddToFavouriteCallback callback) {
+    public void addToFavourites(Activity activity, final int commerceId, final AddToFavouriteCallback callback) {
         NetworkObject networkObject = createAddToFavouritesNetworkObject(commerceId);
         NetworkFragment networkFragment = NetworkFragment.getInstance(activity.getFragmentManager(), networkObject);
         networkFragment.startDownload(new DownloadCallback<NetworkResult>() {
             @Override
             public void onResponseReceived(@NonNull NetworkResult result) {
                 if (result.mException == null) {
+                    Commerce commerce = mCommerces.get(commerceId);
+                    commerce.setIsFavourite(true);
+                    mCommerces.put(commerceId, commerce);
                     callback.onSuccess();
                 } else {
                     callback.onError(result.mException.getMessage());
@@ -164,13 +167,16 @@ public class BaseCommercesService implements CommercesService {
     }
 
     @Override
-    public void removeFromFavourites(final Activity activity, int commerceId, final RemoveFromFavouritesCallback callback) {
+    public void removeFromFavourites(final Activity activity, final int commerceId, final RemoveFromFavouritesCallback callback) {
         NetworkObject networkObject = createRemoveFromFavouritesNetworkObject(commerceId);
         NetworkFragment networkFragment = NetworkFragment.getInstance(activity.getFragmentManager(), networkObject);
         networkFragment.startDownload(new DownloadCallback<NetworkResult>() {
             @Override
             public void onResponseReceived(@NonNull NetworkResult result) {
                 if (result.mException == null) {
+                    Commerce commerce = mCommerces.get(commerceId);
+                    commerce.setIsFavourite(false);
+                    mCommerces.put(commerceId, commerce);
                     callback.onSuccess();
                 } else {
                     callback.onError(result.mException.getMessage());

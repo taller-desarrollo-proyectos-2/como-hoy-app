@@ -131,13 +131,11 @@ public class CommerceDetailsActivity extends AppCompatActivity {
 
                 if(isFavourite && !mUpdatingFavourite){
                     mUpdatingFavourite = true;
-                    commerce.setIsFavourite(false);
                     removeFromFavourites();
                 }
 
                 if (!isFavourite && !mUpdatingFavourite){
                     mUpdatingFavourite = true;
-                    commerce.setIsFavourite(true);
                     addToFavourites();
                 }
             }
@@ -154,7 +152,6 @@ public class CommerceDetailsActivity extends AppCompatActivity {
             @Override
             public void onSuccess() {
                 Commerce commerce = getCommerceService().getCommerce(mCommerceId);
-                commerce.setIsFavourite(true);
                 favouriteButton.setImageDrawable(ContextCompat.getDrawable(CommerceDetailsActivity.this, R.drawable.corazon_rojo));
                 mUpdatingFavourite = false;
             }
@@ -174,7 +171,6 @@ public class CommerceDetailsActivity extends AppCompatActivity {
             @Override
             public void onSuccess() {
                 Commerce commerce = getCommerceService().getCommerce(mCommerceId);
-                commerce.setIsFavourite(false);
                 favouriteButton.setImageDrawable(ContextCompat.getDrawable(CommerceDetailsActivity.this, R.drawable.corazon));
                 mUpdatingFavourite = false;
             }

@@ -82,6 +82,12 @@ public class FavouritesFragment extends Fragment {
         });
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        showFavouritesCommerces();
+    }
+
     private void showFavouritesCommerces() {
         List<Commerce> favouritesCommerces = getCommercesService().getFavouritesCommerces();
         loadCommerces(favouritesCommerces, true);
