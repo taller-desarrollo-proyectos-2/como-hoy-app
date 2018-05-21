@@ -25,8 +25,8 @@ public enum RequestStatus{
             case "ON_PREPARATION": return  OnPreparation;
             case "ON_THE_WAY": return OnTheWay;
             case "DELIVERED": return Delivered;
-            case "CANCELED_BY_USER": return  CanceledByUser;
-            case "CANCELED_BY_COMMERCE": return CanceledByCommerce;
+            case "CANCELLED_BY_USER": return  CanceledByUser;
+            case "CANCELLED_BY_COMMERCE": return CanceledByCommerce;
             default: return Unknown;
         }
     }
