@@ -1,7 +1,6 @@
 package com.fiuba.gaff.comohoy;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +16,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fiuba.gaff.comohoy.adapters.MenuItemListAdapter;
 import com.fiuba.gaff.comohoy.model.Category;
@@ -26,12 +26,11 @@ import com.fiuba.gaff.comohoy.model.CommerceMenuItem;
 import com.fiuba.gaff.comohoy.model.Plate;
 import com.fiuba.gaff.comohoy.services.PurchasesService.PurchasesService;
 import com.fiuba.gaff.comohoy.services.ServiceLocator;
+import com.fiuba.gaff.comohoy.services.commerces.AddToFavouriteCallback;
 import com.fiuba.gaff.comohoy.services.commerces.CommercesService;
-import com.fiuba.gaff.comohoy.services.picasso.CircleTransform;
+import com.fiuba.gaff.comohoy.services.commerces.RemoveFromFavouritesCallback;
 import com.fiuba.gaff.comohoy.services.picasso.PicassoService;
 import com.squareup.picasso.Picasso;
-import com.synnapps.carouselview.CarouselView;
-import com.synnapps.carouselview.ImageListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,6 +46,7 @@ public class CommerceDetailsActivity extends AppCompatActivity {
     private ImageView mCommerceLike;
 
     private int mCommerceId = -1;
+    private boolean mUpdatingFavourite = false;
 
     //private CarouselView carouselView;
     private ImageView imageViewCommerce;
@@ -74,7 +74,7 @@ public class CommerceDetailsActivity extends AppCompatActivity {
 
         setUpCarouselView();
         setUpGoToMoreInforButton();
-        setLikeButton();
+        setupFavouriteButton();
         setupSeeCartButton();
         fillCommercesValues();
         createCommerceMenuView();
@@ -120,20 +120,70 @@ public class CommerceDetailsActivity extends AppCompatActivity {
         });
     }
 
-    private void setLikeButton() {
-        final ImageButton likeB = findViewById(R.id.commerce_like);
+    private void setupFavouriteButton() {
+        final ImageButton favouriteButton = findViewById(R.id.commerce_like);
         final Commerce commerce = getCommerceService().getCommerce(mCommerceId);
-        likeB.setOnClickListener(new View.OnClickListener() {
+        favouriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                if(commerce.get_like()){
-                    commerce.set_like(false);
-                    likeB.setImageDrawable(ContextCompat.getDrawable(CommerceDetailsActivity.this, R.drawable.corazon));
+                showProgressIcon(favouriteButton);
+                boolean isFavourite = commerce.getFavourite();
+
+                if(isFavourite && !mUpdatingFavourite){
+                    mUpdatingFavourite = true;
+                    commerce.setFavourite(false);
+                    removeFromFavourites();
                 }
-                else{
-                    commerce.set_like(true);
-                    likeB.setImageDrawable(ContextCompat.getDrawable(CommerceDetailsActivity.this, R.drawable.corazon_rojo));
+
+                if (!isFavourite && !mUpdatingFavourite){
+                    mUpdatingFavourite = true;
+                    commerce.setFavourite(true);
+                    addToFavourites();
                 }
+            }
+        });
+    }
+
+    private void showProgressIcon(ImageButton imageButton) {
+        imageButton.setImageDrawable(ContextCompat.getDrawable(CommerceDetailsActivity.this, R.drawable.progress_animation));
+    }
+
+    private void addToFavourites() {
+        final ImageButton favouriteButton = findViewById(R.id.commerce_like);
+        getCommerceService().addToFavourites(this, mCommerceId, new AddToFavouriteCallback() {
+            @Override
+            public void onSuccess() {
+                Commerce commerce = getCommerceService().getCommerce(mCommerceId);
+                commerce.setFavourite(true);
+                favouriteButton.setImageDrawable(ContextCompat.getDrawable(CommerceDetailsActivity.this, R.drawable.corazon_rojo));
+                mUpdatingFavourite = false;
+            }
+
+            @Override
+            public void onError(String reason) {
+                showToast("No se pudo agregar el comercio a favoritos. Intente más tarde");
+                favouriteButton.setImageDrawable(ContextCompat.getDrawable(CommerceDetailsActivity.this, R.drawable.corazon));
+                mUpdatingFavourite = false;
+            }
+        });
+    }
+
+    private void removeFromFavourites() {
+        final ImageButton favouriteButton = findViewById(R.id.commerce_like);
+        getCommerceService().removeFromFavourites(this, mCommerceId, new RemoveFromFavouritesCallback() {
+            @Override
+            public void onSuccess() {
+                Commerce commerce = getCommerceService().getCommerce(mCommerceId);
+                commerce.setFavourite(false);
+                favouriteButton.setImageDrawable(ContextCompat.getDrawable(CommerceDetailsActivity.this, R.drawable.corazon));
+                mUpdatingFavourite = false;
+            }
+
+            @Override
+            public void onError(String reason) {
+                showToast("No se pudo quitar el comercio de favoritos. Intente más tarde");
+                favouriteButton.setImageDrawable(ContextCompat.getDrawable(CommerceDetailsActivity.this, R.drawable.corazon_rojo));
+                mUpdatingFavourite = false;
             }
         });
     }
@@ -175,6 +225,10 @@ public class CommerceDetailsActivity extends AppCompatActivity {
         mCommerceId = savedInstanceState.getInt(getString(R.string.intent_data_commerce_id));
     }
 
+    private void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
     private void obtainCommerceId(Bundle savedInstanceState) {
         if (mCommerceId == -1) {
             Bundle extras = getIntent().getExtras();
@@ -189,7 +243,7 @@ public class CommerceDetailsActivity extends AppCompatActivity {
         Commerce commerce = getCommerceService().getCommerce(mCommerceId);
         if (commerce != null) {
             mCommerceTittle.setText(commerce.getShowableName());
-            if (commerce.get_like()) {
+            if (commerce.getFavourite()) {
                 mCommerceLike.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.corazon_rojo));
             }
             else{

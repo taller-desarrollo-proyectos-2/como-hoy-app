@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.fiuba.gaff.comohoy.comparators.CommerceLocationComparator;
@@ -42,6 +43,7 @@ public class BaseCommercesService implements CommercesService {
 
     private static final String REQUEST_COMMERCES_URL = "http://34.237.197.99:9000/api/v1/commerces";
     private static final String REQUEST_COMMERCES_WITH_LOC_FORMAT = "http://34.237.197.99:9000/api/v1/commerces?lat=%f&lng=%f";
+    private static final String REQUEST_FAVOURITES_URL_FORMAT = "http://34.237.197.99:9000/api/v1/mobile/favourite/%d";
     private Context mContext;
 
     private Map<Integer, Commerce> mCommerces;
@@ -124,6 +126,70 @@ public class BaseCommercesService implements CommercesService {
     }
 
     @Override
+    public void addToFavourites(Activity activity, int commerceId, final AddToFavouriteCallback callback) {
+        NetworkObject networkObject = createAddToFavouritesNetworkObject(commerceId);
+        NetworkFragment networkFragment = NetworkFragment.getInstance(activity.getFragmentManager(), networkObject);
+        networkFragment.startDownload(new DownloadCallback<NetworkResult>() {
+            @Override
+            public void onResponseReceived(@NonNull NetworkResult result) {
+                if (result.mException == null) {
+                    callback.onSuccess();
+                } else {
+                    callback.onError(result.mException.getMessage());
+                }
+            }
+
+            @Override
+            public NetworkInfo getActiveNetworkInfo(Context context) {
+                ConnectivityManager connectivityManager =
+                        (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+                return networkInfo;
+            }
+
+            @Override
+            public void onProgressUpdate(int progressCode, int percentComplete) {
+            }
+
+            @Override
+            public void onFinishDownloading() {
+            }
+        });
+    }
+
+    @Override
+    public void removeFromFavourites(Activity activity, int commerceId, final RemoveFromFavouritesCallback callback) {
+        NetworkObject networkObject = createRemoveFromFavouritesNetworkObject(commerceId);
+        NetworkFragment networkFragment = NetworkFragment.getInstance(activity.getFragmentManager(), networkObject);
+        networkFragment.startDownload(new DownloadCallback<NetworkResult>() {
+            @Override
+            public void onResponseReceived(@NonNull NetworkResult result) {
+                if (result.mException == null) {
+                    callback.onSuccess();
+                } else {
+                    callback.onError(result.mException.getMessage());
+                }
+            }
+
+            @Override
+            public NetworkInfo getActiveNetworkInfo(Context context) {
+                ConnectivityManager connectivityManager =
+                        (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+                return networkInfo;
+            }
+
+            @Override
+            public void onProgressUpdate(int progressCode, int percentComplete) {
+            }
+
+            @Override
+            public void onFinishDownloading() {
+            }
+        });
+    }
+
+    @Override
     public Commerce getCommerce(int id) {
         if (mCommerces.containsKey(id)) {
             return mCommerces.get(id);
@@ -142,46 +208,18 @@ public class BaseCommercesService implements CommercesService {
         mFilters.clear();
     }
 
-    public List<Opinion> getOpiniones(JSONObject commerceJson) {
-        List<Opinion> opiniones = new ArrayList<Opinion>();
+    private NetworkObject createAddToFavouritesNetworkObject(int commerceId) {
+        String uri = String.format(REQUEST_FAVOURITES_URL_FORMAT, commerceId);
+        NetworkObject networkObject = new NetworkObject(uri, HttpMethodType.PUT);
+        networkObject.setAuthToken(ServiceLocator.get(FacebookService.class).getAuthToken());
+        return networkObject;
+    }
 
-        Opinion opinion1 = new Opinion((long)1);
-        opinion1.setNameOpinion("Lionel Messi");
-        opinion1.setDescription("Esta es una descripcion corta.");
-        opinion1.setPuntuation(3);
-        opinion1.setReplica("OK.");
-
-        Opinion opinion2 = new Opinion((long)2);
-        opinion2.setNameOpinion("Juan Perez");
-        opinion2.setDescription("Esta es una descripcion un poco mas larga que cuenta como le fue en la comida y si disfruto la estadia.");
-        opinion2.setPuntuation(0);
-        opinion2.setReplica("Lo sentimos mucho, pero no pudimos hacer nada mas al respecto.");
-
-        Opinion opinion3 = new Opinion((long)3);
-        opinion3.setNameOpinion("Jorge Rodriguez");
-        opinion3.setDescription("Esta es una descripcion super larga de como le fue, ademas el tipo colgo y conto la descripcion de siga la vaca. Exelentes platos de parrilla, elaborados en base a la major materia prima que tiene para ofrecer este país.Con una sala amplia que puede albergar una gran cantidad de comensales, el restaurante Siga La Vaca cuenta con una gran variedad de carnes a la parrilla. Su propuesta de tenedor libre, todo includo hace que este sea uno de los lugares privilegiados a la hora de elegir un lugar a donde ir a disfrutar de un buen asado.");
-        opinion3.setPuntuation(4);
-        opinion3.setReplica("Gracias, vuelva pronto.");
-
-        opiniones.add(opinion1);
-        opiniones.add(opinion2);
-        opiniones.add(opinion3);
-        /*try {
-            JSONArray opinionesArray = commerceJson.getJSONArray("opiniones");
-            for (int i = 0; i < opinionesArray.length(); ++i) {
-                JSONObject opinionJson = opinionesArray.getJSONObject(i);
-                Opinion opinion = new Opinion(opinionJson.getLong("id"));
-                opinion.setNameOpinion(opinionJson.getString("name"));
-                opinion.setDescription(opinionJson.getString("description"));
-                opinion.setPuntuation(opinionJson.getInt("puntuation"));
-                opinion.setReplica(opinionJson.getString("replica"));
-                opiniones.add(opinion);
-            }
-        } catch (JSONException e) {
-            Log.e("CommerceService", "Error parsing opinions: " + e.getMessage());
-            e.printStackTrace();
-        }*/
-        return opiniones;
+    private NetworkObject createRemoveFromFavouritesNetworkObject(int commerceId) {
+        String uri = String.format(REQUEST_FAVOURITES_URL_FORMAT, commerceId);
+        NetworkObject networkObject = new NetworkObject(uri, HttpMethodType.DELETE);
+        networkObject.setAuthToken(ServiceLocator.get(FacebookService.class).getAuthToken());
+        return networkObject;
     }
 
     private List<Commerce> filterCommerces(List<Commerce> commerces) {
@@ -212,7 +250,7 @@ public class BaseCommercesService implements CommercesService {
             commerce.setPlates(getCommercePlates(commerceJson));
             commerce.setLocation(getCommerceLocation(commerceJson));
             commerce.setOpeningTimes(getOpeningTimes(commerceJson));
-            commerce.setOpiniones(getOpiniones(commerceJson));
+            commerce.setRating(commerceJson.getDouble("score"));
 
             mCommerces.put(commerceId, commerce);
         }

@@ -40,6 +40,16 @@ public class MockCommercesService implements CommercesService {
     }
 
     @Override
+    public void addToFavourites(Activity activity, int commerceId, AddToFavouriteCallback callback) {
+
+    }
+
+    @Override
+    public void removeFromFavourites(Activity activity, int commerceId, RemoveFromFavouritesCallback callback) {
+
+    }
+
+    @Override
     public void updateCommercesData(Activity activity, UpdateCommercesCallback callback) {
         final int commercesAmount = 3;
         mCommerces = new ArrayList<>();

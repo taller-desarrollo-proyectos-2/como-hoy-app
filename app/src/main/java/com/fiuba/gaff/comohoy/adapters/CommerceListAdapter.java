@@ -54,8 +54,6 @@ public class CommerceListAdapter extends RecyclerView.Adapter<CommerceListAdapte
         private final TextView mDiscounts;
         private final LinearLayout mEstrellas;
 
-        private final int cant = 3;
-
         CommerceViewHolder(View itemView) {
             super(itemView);
             mView = itemView;
@@ -136,13 +134,13 @@ public class CommerceListAdapter extends RecyclerView.Adapter<CommerceListAdapte
             }
         });
 
-        for (int i=1; i<=holder.cant; i++){
+        int rating = new Double(Math.floor(commerce.getRating())).intValue();
+        for (int i = 1; i<= rating; i++){
             holder.mEstrellas.addView(getEstrellaAmarilla(holder.mView.getContext()));
         }
-        for (int i=1; i<=(5-holder.cant); i++){
+        for (int i = 1; i <= (5 - rating); i++) {
             holder.mEstrellas.addView(getEstrellaNegra(holder.mView.getContext()));
         }
-
     }
 
     private ImageView getEstrellaAmarilla(Context context) {

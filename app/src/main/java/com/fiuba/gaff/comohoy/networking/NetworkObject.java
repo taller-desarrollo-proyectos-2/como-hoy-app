@@ -78,6 +78,8 @@ public class NetworkObject implements Parcelable {
                 return "PUT";
             case POST:
                 return "POST";
+            case DELETE:
+                return "DELETE";
         }
 
         return "N/A";

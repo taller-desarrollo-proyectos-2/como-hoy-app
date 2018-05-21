@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements CommercesListFrag
     }
 
     private void setupViewPager(ViewPager viewPager) {
+        viewPager.setOffscreenPageLimit(2);
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new CommercesListFragment(), "Comercios");
         adapter.addFragment(new FavouritesFragment(), "Favoritos");
