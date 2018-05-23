@@ -337,7 +337,7 @@ public class BasePurchasesService implements PurchasesService {
     private void parseOrdersFromResponse(String response) throws JSONException {
         mUserOrders.clear();
         JSONArray ordersJsonArray = new JSONArray(response);
-        for (int i = ordersJsonArray.length() - 1; i >= 0; i--) {
+        for (int i = 0; i < ordersJsonArray.length(); i++) {
             JSONObject orderJson = ordersJsonArray.getJSONObject(i);
             Request request = new Request();
             request.setId(orderJson.getLong("id"));

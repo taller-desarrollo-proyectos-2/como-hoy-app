@@ -1,5 +1,6 @@
 package com.fiuba.gaff.comohoy.model.purchases.backend;
 
+import com.fiuba.gaff.comohoy.model.Extra;
 import com.fiuba.gaff.comohoy.model.purchases.RequestStatus;
 
 import java.util.Date;
@@ -51,5 +52,18 @@ public class Request {
 
     public void setInitDate(Date initDate) {
         mInitDate = initDate;
+    }
+
+    public double getPrice() {
+        double price = 0;
+        for (SingleRequest singleRequest : mSingleRequests) {
+            double extrasPrice = 0;
+            for (Extra extra : singleRequest.getPlate().getExtras()) {
+                extrasPrice += extra.getPrice();
+            }
+            double platePrice = singleRequest.getPlate().getPrice() + extrasPrice;
+            price = platePrice * singleRequest.getQuantity();
+        }
+        return price;
     }
 }

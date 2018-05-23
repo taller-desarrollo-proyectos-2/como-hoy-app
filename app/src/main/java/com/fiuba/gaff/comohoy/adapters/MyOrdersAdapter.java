@@ -14,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.fiuba.gaff.comohoy.R;
@@ -24,6 +26,9 @@ import com.fiuba.gaff.comohoy.model.purchases.RequestStatus;
 import com.fiuba.gaff.comohoy.model.purchases.backend.Request;
 import com.fiuba.gaff.comohoy.services.ServiceLocator;
 import com.fiuba.gaff.comohoy.services.commerces.CommercesService;
+import com.fiuba.gaff.comohoy.services.picasso.CircleTransform;
+import com.fiuba.gaff.comohoy.services.picasso.PicassoService;
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -42,17 +47,19 @@ public class MyOrdersAdapter extends RecyclerView.Adapter<MyOrdersAdapter.OrderV
         private final View mView;
         private final CardView mCardView;
         private final TextView mInitDateTextView;
-        private final TextView mCommerceName;
+        private final ImageView mCommerceImage;
         private final TextView mOrderStatus;
-        private final AppCompatButton mActionButton;
+        private final TextView mOrderPrice;
+        private final ImageButton mActionButton;
 
         OrderViewHolder(View itemView) {
             super(itemView);
             mView = itemView;
             mCardView = itemView.findViewById(R.id.card_view_order_item);
             mInitDateTextView = itemView.findViewById(R.id.textview_order_id_value);
-            mCommerceName = itemView.findViewById(R.id.textView_order_commerce_value);
+            mCommerceImage = itemView.findViewById(R.id.imageview_commerce_image);
             mOrderStatus = itemView.findViewById(R.id.textView_order_status_value);
+            mOrderPrice = itemView.findViewById(R.id.textView_order_price);
             mActionButton = itemView.findViewById(R.id.button_status_action);
         }
     }
@@ -64,7 +71,7 @@ public class MyOrdersAdapter extends RecyclerView.Adapter<MyOrdersAdapter.OrderV
 
     @Override
     public MyOrdersAdapter.OrderViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.order_history_item, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_item_order, parent, false);
         MyOrdersAdapter.OrderViewHolder ordersViewHolder = new MyOrdersAdapter.OrderViewHolder(v);
         return ordersViewHolder;
     }
@@ -77,8 +84,15 @@ public class MyOrdersAdapter extends RecyclerView.Adapter<MyOrdersAdapter.OrderV
 
         String initDateString = new SimpleDateFormat("dd-MM-yyyy").format(request.getInitDate());
         holder.mInitDateTextView.setText(initDateString);
-        holder.mCommerceName.setText("Nombre de Comercio");
         holder.mOrderStatus.setText(request.getStatus().toString());
+        holder.mOrderPrice.setText(String.format("$%.0f", request.getPrice()));
+
+        //int commerceId = request.getSingleRequests().get(0).getPlate();
+        String uriFormat = "http://34.237.197.99:9000/api/v1/commerces/%d/picture";
+        String uri = String.format(uriFormat, request.getCommerceId());
+        Picasso picasso = ServiceLocator.get(PicassoService.class).getPicasso();
+        picasso.load(uri).fit().transform(new CircleTransform()).placeholder(R.drawable.progress_animation).error(R.drawable.no_image).into(holder.mCommerceImage);
+
         setUpActionButton(holder.mView.getContext(), holder.mActionButton, request);
         setUpCardView(holder.mCardView, request);
     }
@@ -92,14 +106,15 @@ public class MyOrdersAdapter extends RecyclerView.Adapter<MyOrdersAdapter.OrderV
         });
     }
 
-    private void setUpActionButton(final Context context, AppCompatButton button, final Request request) {
+    private void setUpActionButton(final Context context, ImageButton imageButton, final Request request) {
         final RequestStatus status = request.getStatus();
         switch (status) {
             case WaitingConfirmation:
-                button.setText("CANCELAR PEDIDO");
-                ViewCompat.setBackgroundTintList(button, ColorStateList.valueOf(context.getResources().getColor(R.color.red)));
-                button.setVisibility(View.VISIBLE);
-                button.setOnClickListener(new View.OnClickListener() {
+                // imageButton.setText("CANCELAR PEDIDO");
+                //ViewCompat.setBackgroundTintList(button, ColorStateList.valueOf(context.getResources().getColor(R.color.red)));
+                imageButton.setImageResource(R.drawable.trashcan_icon);
+                imageButton.setVisibility(View.VISIBLE);
+                imageButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         showDeleteConfirmationDialog(context, request);
@@ -107,10 +122,11 @@ public class MyOrdersAdapter extends RecyclerView.Adapter<MyOrdersAdapter.OrderV
                 });
                 break;
             case Delivered:
-                button.setText("CALIFICAR PEDIDO");
-                ViewCompat.setBackgroundTintList(button, ColorStateList.valueOf(context.getResources().getColor(R.color.colorAccent)));
-                button.setVisibility(View.VISIBLE);
-                button.setOnClickListener(new View.OnClickListener() {
+                // imageButton.setText("CALIFICAR PEDIDO");
+                // ViewCompat.setBackgroundTintList(button, ColorStateList.valueOf(context.getResources().getColor(R.color.colorAccent)));
+                imageButton.setVisibility(View.VISIBLE);
+                imageButton.setImageResource(R.drawable.star);
+                imageButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         mOrdersListListener.onRateOrderClicked(request);
@@ -118,7 +134,7 @@ public class MyOrdersAdapter extends RecyclerView.Adapter<MyOrdersAdapter.OrderV
                 });
                 break;
             default:
-                button.setVisibility(View.GONE);
+                imageButton.setVisibility(View.GONE);
         }
     }
 
