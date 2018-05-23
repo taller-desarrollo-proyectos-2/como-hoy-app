@@ -176,7 +176,7 @@ public class MyOrdersFragment extends Fragment {
                 mCalificationsDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 mCalificationsDialog.setContentView(R.layout.dialog_califications);
                 mCalificationsDialog.setCanceledOnTouchOutside(false);
-                mCalificationsDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                //mCalificationsDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 mCalificationsDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
                 mCalificationsDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
