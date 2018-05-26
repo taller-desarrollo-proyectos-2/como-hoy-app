@@ -34,6 +34,8 @@
 
     <string name="confirmation_format">¿Estás seguro que deseas %s?</string>
 
+    <string name="confirmation_ok_format">Su pedido fue procesado satisfactoriamente</string>
+
     <string name="nombre_categoria">nombreCategoria</string>
 
 

@@ -377,6 +377,7 @@ public class ConfirmPurchaseActivity extends AppCompatActivity {
         getPurchaseService().submitPurchase(this, new OnSubmitPurchaseCallback() {
             @Override
             public void onSuccess() {
+                openOKMessage();
                 goBackToCommercesActivity();
             }
 
@@ -400,5 +401,23 @@ public class ConfirmPurchaseActivity extends AppCompatActivity {
 
     private PurchasesService getPurchaseService() {
         return ServiceLocator.get(PurchasesService.class);
+    }
+
+    private void openOKMessage(){
+        mCreditCardDialog = new Dialog(this, android.R.style.Theme_Holo_Light_Dialog);
+        mCreditCardDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        mCreditCardDialog.setContentView(R.layout.dialog_notificacion_purchase_ok);
+        mCreditCardDialog.setCanceledOnTouchOutside(false);
+        mCreditCardDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        mCreditCardDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        mCreditCardDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        Button okButton = mCreditCardDialog.findViewById(R.id.button_accept_ok);
+        okButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCreditCardDialog.dismiss();
+            }
+        });
+        mCreditCardDialog.show();
     }
 }
