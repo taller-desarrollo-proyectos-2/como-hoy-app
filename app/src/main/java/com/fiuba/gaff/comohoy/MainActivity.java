@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements CommercesListFrag
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //getSupportActionBar().hide();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 

@@ -60,6 +60,7 @@ public class MoreInfoActivity extends AppCompatActivity implements OnMapReadyCal
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getSupportActionBar().hide();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_more_info);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
