@@ -81,7 +81,7 @@ public class CommerceDetailsActivity extends AppCompatActivity {
         createCommerceMenuView();
 
         TextView textView = findViewById(R.id.tiempo_envio);
-        textView.setText(String.format("%d min", getCommerce().getLeadTime()));
+        textView.setText(String.format("%d min. entrega", getCommerce().getLeadTime()));
     }
 
     private void setUpCarouselView() {

@@ -57,15 +57,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="05-11-2018"
             android:textAllCaps="false"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/right_guideline"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/left_guideline"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toBottomOf="@+id/textView_order_status_value" />
 
         <TextView
             android:id="@+id/textView_order_status_value"
@@ -76,14 +78,16 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="En espera de Confirmación"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/right_guideline"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/left_guideline"
-            app:layout_constraintTop_toBottomOf="@+id/textview_order_id_value" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
 
         <ImageButton
             android:id="@+id/button_status_action"
@@ -113,10 +117,9 @@
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/right_guideline"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.6"
             app:layout_constraintStart_toEndOf="@+id/textview_order_id_value"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toBottomOf="@+id/textView_order_status_value" />
 
     </android.support.constraint.ConstraintLayout>
 </android.support.v7.widget.CardView>

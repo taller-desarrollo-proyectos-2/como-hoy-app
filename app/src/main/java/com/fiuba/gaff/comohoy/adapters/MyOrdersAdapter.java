@@ -50,7 +50,7 @@ public class MyOrdersAdapter extends RecyclerView.Adapter<MyOrdersAdapter.OrderV
         private final ImageView mCommerceImage;
         private final TextView mOrderStatus;
         private final TextView mOrderPrice;
-        //private final ImageButton mActionButton;
+        private final ImageButton mActionButton;
 
         OrderViewHolder(View itemView) {
             super(itemView);
@@ -60,7 +60,7 @@ public class MyOrdersAdapter extends RecyclerView.Adapter<MyOrdersAdapter.OrderV
             mCommerceImage = itemView.findViewById(R.id.imageview_commerce_image);
             mOrderStatus = itemView.findViewById(R.id.textView_order_status_value);
             mOrderPrice = itemView.findViewById(R.id.textView_order_price);
-            //mActionButton = itemView.findViewById(R.id.button_status_action);
+            mActionButton = itemView.findViewById(R.id.button_status_action);
         }
     }
 
@@ -71,7 +71,7 @@ public class MyOrdersAdapter extends RecyclerView.Adapter<MyOrdersAdapter.OrderV
 
     @Override
     public MyOrdersAdapter.OrderViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_item_order, parent, false);
         MyOrdersAdapter.OrderViewHolder ordersViewHolder = new MyOrdersAdapter.OrderViewHolder(v);
         return ordersViewHolder;
     }
@@ -91,9 +91,9 @@ public class MyOrdersAdapter extends RecyclerView.Adapter<MyOrdersAdapter.OrderV
         String uriFormat = "http://34.237.197.99:9000/api/v1/commerces/%d/picture";
         String uri = String.format(uriFormat, request.getCommerceId());
         Picasso picasso = ServiceLocator.get(PicassoService.class).getPicasso();
-        picasso.load(uri).fit().transform(new CircleTransform()).placeholder(R.drawable.progress_animation).error(R.drawable.no_image).into(holder.mCommerceImage);
+        picasso.load(R.drawable.milanesas).fit().transform(new CircleTransform()).placeholder(R.drawable.progress_animation).error(R.drawable.no_image).into(holder.mCommerceImage);
 
-        //setUpActionButton(holder.mView.getContext(), holder.mActionButton, request);
+        setUpActionButton(holder.mView.getContext(), holder.mActionButton, request);
         setUpCardView(holder.mCardView, request);
     }
 

@@ -25,7 +25,7 @@
                 android:layout_height="100dp"
                 android:layout_weight="2"
                 android:contentDescription="Imagen del Comercio"
-                android:scaleType="fitCenter"
+                android:scaleType="centerCrop"
                 android:src="@drawable/pizza2"
                 android:visibility="visible" />
 
@@ -73,6 +73,52 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:baselineAligned="false"
+                android:foregroundGravity="center"
+                android:gravity="center">
+
+                <LinearLayout
+                    android:id="@+id/puntajeOpinion"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="2dp"
+                    android:gravity="center_vertical|center"
+                    android:orientation="horizontal">
+
+                    <com.fiuba.gaff.comohoy.SquareImageView
+                        android:layout_width="@dimen/star_width"
+                        android:layout_height="@dimen/star_height"
+                        android:src="@drawable/yellowstar" />
+
+                    <com.fiuba.gaff.comohoy.SquareImageView
+                        android:layout_width="@dimen/star_width"
+                        android:layout_height="@dimen/star_height"
+                        android:src="@drawable/yellowstar" />
+
+                    <com.fiuba.gaff.comohoy.SquareImageView
+                        android:layout_width="@dimen/star_width"
+                        android:layout_height="@dimen/star_height"
+                        android:src="@drawable/yellowstar" />
+
+                    <com.fiuba.gaff.comohoy.SquareImageView
+                        android:layout_width="@dimen/star_width"
+                        android:layout_height="@dimen/star_height"
+                        android:src="@drawable/yellowstar" />
+
+                    <com.fiuba.gaff.comohoy.SquareImageView
+                        android:layout_width="@dimen/star_width"
+                        android:layout_height="@dimen/star_height"
+                        android:src="@drawable/whitestar" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
@@ -87,103 +133,6 @@
                     android:gravity="center"
                     android:text="30-45 min. entrega" />
 
-                <TextView
-                    android:id="@+id/costo_envio"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Envio gratis" />
-
-                <TextView
-                    android:id="@+id/pago_minimo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="$90.00 minimo" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginTop="5dp"
-                android:baselineAligned="false">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="4.5" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="velocidad" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="4.5" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="comida" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="4.5" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="servicio" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="111" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="opiniones" />
-                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
