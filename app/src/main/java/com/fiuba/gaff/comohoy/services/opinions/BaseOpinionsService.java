@@ -159,6 +159,9 @@ public class BaseOpinionsService implements OpinionsService {
         JSONObject requestJson = opinionJson.getJSONObject("request");
         opinion.setOrderId(requestJson.getLong("id"));
 
+        JSONObject userJson = opinionJson.getJSONObject("user");
+        opinion.setFullName(userJson.getString("fullName"));
+
         return opinion;
     }
 
