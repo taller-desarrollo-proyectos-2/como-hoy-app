@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.fiuba.gaff.comohoy.CommerceDetailsActivity;
@@ -28,6 +29,7 @@ public class FavouritesFragment extends Fragment {
     private static final int FRAGMENT_TAB_INDEX = 1;
 
     private RecyclerView mRecyclerView;
+    private ProgressBar mFavouritesProgressBar;
 
     public FavouritesFragment() {
         // Required empty public constructor
@@ -56,6 +58,7 @@ public class FavouritesFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_favourites, container, false);
 
         mRecyclerView = view.findViewById(R.id.recyclerview_favourites_commerces_list);
+        mFavouritesProgressBar = view.findViewById(R.id.progressBar_favourites);
 
         return view;
     }
@@ -71,7 +74,7 @@ public class FavouritesFragment extends Fragment {
             @Override
             public void onPageSelected(int position) {
                 if (position == FRAGMENT_TAB_INDEX) {
-                    showFavouritesCommerces();
+                    showFavouritesCommerces(false);
                 }
             }
 
@@ -85,25 +88,28 @@ public class FavouritesFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        //showFavouritesCommerces();
+        showFavouritesCommerces(true);
     }
 
-    private void showFavouritesCommerces() {
+    private void showFavouritesCommerces(boolean fromResume) {
+        showLoadingFavourites(true);
         List<Commerce> favouritesCommerces = getCommercesService().getFavouritesCommerces();
-        loadCommerces(favouritesCommerces, true);
+        loadCommerces(favouritesCommerces, true, fromResume);
     }
 
-    private void loadCommerces(List<Commerce> commerces, boolean notifyNoneCommerces) {
+    private void loadCommerces(List<Commerce> commerces, boolean notifyNoneCommerces, boolean fromResume) {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(new CommerceListAdapter(commerces, new CommercesListFragment.CommerceListListener() {
             @Override
             public void onCommerceClicked(Commerce commerce, View commerceTitleTextView) {
                 openCommerceDetailsScreen(commerce, commerceTitleTextView);
+                showLoadingFavourites(true);
             }
         }));
-        if (notifyNoneCommerces && commerces.size() < 1) {
+        if (!fromResume && notifyNoneCommerces && commerces.size() < 1) {
             Toast.makeText(getContext(), "No ha seleccionado ningún comercio como favorito.", Toast.LENGTH_SHORT).show();
         }
+        showLoadingFavourites(false);
     }
 
     private void openCommerceDetailsScreen(Commerce commerce, View commerceTitleTextView) {
@@ -112,10 +118,12 @@ public class FavouritesFragment extends Fragment {
         intent.putExtra(getString(R.string.intent_data_commerce_id), commerce.getId());
         intent.putExtra(getString(R.string.intent_data_commerce_longitud_id), commerce.getLocation().getLongitud());
         intent.putExtra(getString(R.string.intent_data_commerce_latitud_id), commerce.getLocation().getLatitud());
-        ActivityOptionsCompat options = ActivityOptionsCompat.
-                makeSceneTransitionAnimation(getActivity(), commerceTitleTextView, getString(R.string.transition_commerce_title));
+        startActivity(intent);
+    }
 
-        startActivity(intent, options.toBundle());
+    private void showLoadingFavourites(boolean loading) {
+        mFavouritesProgressBar.setVisibility(loading ? View.VISIBLE : View.GONE);
+        mRecyclerView.setVisibility(loading ? View.GONE : View.VISIBLE);
     }
 
     private CommercesService getCommercesService() {

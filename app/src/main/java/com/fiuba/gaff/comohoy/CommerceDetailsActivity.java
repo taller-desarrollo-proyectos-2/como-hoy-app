@@ -48,6 +48,7 @@ public class CommerceDetailsActivity extends AppCompatActivity {
 
     private int mCommerceId = -1;
     private boolean mUpdatingFavourite = false;
+    private boolean mFromFavourites = false;
 
     //private CarouselView carouselView;
     private ImageView imageViewCommerce;
@@ -63,6 +64,7 @@ public class CommerceDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_commerce_details);
 
         obtainCommerceId(savedInstanceState);
+        obtainFromFavourites(savedInstanceState);
 
         getPurchaseService().assignCommerce(mCommerceId);
 
@@ -201,7 +203,11 @@ public class CommerceDetailsActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
-                supportFinishAfterTransition();
+                if (mFromFavourites) {
+                    finish();
+                } else {
+                    supportFinishAfterTransition();
+                }
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -219,12 +225,14 @@ public class CommerceDetailsActivity extends AppCompatActivity {
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
         savedInstanceState.putInt(getString(R.string.intent_data_commerce_id), mCommerceId);
+        savedInstanceState.putBoolean(getString(R.string.intent_data_fromFavourites), mFromFavourites);
     }
 
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         mCommerceId = savedInstanceState.getInt(getString(R.string.intent_data_commerce_id));
+        mFromFavourites = savedInstanceState.getBoolean(getString(R.string.intent_data_commerce_id), false);
     }
 
     private void showToast(String message) {
@@ -238,6 +246,18 @@ public class CommerceDetailsActivity extends AppCompatActivity {
         }
         if ((mCommerceId == -1) && (savedInstanceState != null) && (savedInstanceState.containsKey(getString(R.string.intent_data_commerce_id)))) {
             mCommerceId = savedInstanceState.getInt(getString(R.string.intent_data_commerce_id));
+        }
+    }
+
+    private void obtainFromFavourites(Bundle savedInstanceState) {
+        Bundle extras = getIntent().getExtras();
+        String key = getString(R.string.intent_data_fromFavourites);
+        if (extras.containsKey(key)) {
+            mFromFavourites = extras.getBoolean(getString(R.string.intent_data_fromFavourites));
+        } else {
+            if ((savedInstanceState != null) && (savedInstanceState.containsKey(key))) {
+                mFromFavourites = savedInstanceState.getBoolean(key);
+            }
         }
     }
 

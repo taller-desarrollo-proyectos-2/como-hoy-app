@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements CommercesListFrag
         intent.putExtra(getString(R.string.intent_data_commerce_id), commerce.getId());
         intent.putExtra(getString(R.string.intent_data_commerce_longitud_id), commerce.getLocation().getLongitud());
         intent.putExtra(getString(R.string.intent_data_commerce_latitud_id), commerce.getLocation().getLatitud());
+        intent.putExtra(getString(R.string.intent_data_fromFavourites), false);
         ActivityOptionsCompat options = ActivityOptionsCompat.
                 makeSceneTransitionAnimation(this, commerceTitleTextView, getString(R.string.transition_commerce_title));
 
