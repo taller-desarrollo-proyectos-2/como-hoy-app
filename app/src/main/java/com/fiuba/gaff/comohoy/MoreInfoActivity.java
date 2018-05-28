@@ -224,7 +224,7 @@ public class MoreInfoActivity extends AppCompatActivity implements OnMapReadyCal
         ViewGroup parentLayoutMenor = createOpinionParentLayout();
         ViewGroup parentLayoutMenorMenor = createOpinionParentMenorLayout();
 
-        TextView textoNombre = getDescriptionName(opinion.getNameOpinion());
+        TextView textoNombre = getDescriptionName(opinion.getFullName());
 
         ViewGroup parentLayoutPuntaje = getPuntajeOpinion();
 
@@ -276,7 +276,7 @@ public class MoreInfoActivity extends AppCompatActivity implements OnMapReadyCal
                 ViewGroup.LayoutParams.WRAP_CONTENT
         );
         lp.setMargins(0, 2,5,0);
-        ll.setGravity(Gravity.CENTER);
+        ll.setGravity(Gravity.RIGHT);
         ll.setLayoutParams(lp);
         return ll;
     }
