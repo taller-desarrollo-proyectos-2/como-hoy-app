@@ -172,7 +172,7 @@ public class MoreInfoActivity extends AppCompatActivity implements OnMapReadyCal
                     _opinion.show();
                     v.setBackgroundColor(getResources().getColor(R.color.blanco));
                     TextView nombre = window.findViewById(R.id.nombreOrigOpinion);
-                    nombre.setText(opinion.getNameOpinion());
+                    nombre.setText(opinion.getFullName());
                     TextView description = window.findViewById(R.id.descripcionOpinion);
                     description.setText(opinion.getDescription());
                     TextView rta = window.findViewById(R.id.respuesta_opinion);
