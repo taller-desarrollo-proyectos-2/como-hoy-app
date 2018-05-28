@@ -1,8 +1,8 @@
 package com.fiuba.gaff.comohoy.fragments;
 
 
-import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -18,13 +18,13 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.fiuba.gaff.comohoy.R;
+import com.fiuba.gaff.comohoy.SeeOrderActivity;
 import com.fiuba.gaff.comohoy.adapters.MyOrdersAdapter;
 import com.fiuba.gaff.comohoy.model.Opinion;
 import com.fiuba.gaff.comohoy.model.purchases.RequestStatus;
@@ -160,7 +160,7 @@ public class MyOrdersFragment extends Fragment {
         OrdersListListener listener = new OrdersListListener() {
             @Override
             public void onOrderClicked(Request request) {
-                // TODO abrir pantalla para expandir información del pedido
+                openSeeOrderActivity(request);
             }
 
             @Override
@@ -279,6 +279,12 @@ public class MyOrdersFragment extends Fragment {
             }
         };
         return listener;
+    }
+
+    private void openSeeOrderActivity(Request request) {
+        Intent openActivityIntent = new Intent(getActivity(), SeeOrderActivity.class);
+        openActivityIntent.putExtra(getString(R.string.intent_data_request_id), request.getId());
+        startActivity(openActivityIntent);
     }
 
     private void sendOpinionToBackoffice(Opinion opinion) {

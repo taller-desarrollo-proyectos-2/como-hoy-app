@@ -1,12 +1,16 @@
 package com.fiuba.gaff.comohoy.model.purchases.backend;
 
+import com.fiuba.gaff.comohoy.model.Extra;
 import com.fiuba.gaff.comohoy.model.Plate;
+
+import java.util.List;
 
 public class SingleRequest {
 
     private Long mId;
     private Plate mPlate;
     private String mClarification;
+    private List<Extra> mExtras;
     private int mQuantity;
 
     public SingleRequest(Long id) {
@@ -26,6 +30,14 @@ public class SingleRequest {
 
     public void setPlate(Plate plate) {
         mPlate = plate;
+    }
+
+    public List<Extra> getExtras() {
+        return mExtras;
+    }
+
+    public void setExtras(List<Extra> extras) {
+        mExtras = extras;
     }
 
     public String getClarification() {

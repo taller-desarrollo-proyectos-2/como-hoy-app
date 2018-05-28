@@ -14,6 +14,7 @@ public interface PurchasesService extends CustomService {
     Cart getCart();
     PaymentDetails getPaymentDetails();
     List<Request> getOrdersCached();
+    Request getRequestWithId(Long id);
     void updateOrder(Long id, RequestStatus status, Activity activity, OnRequestUpdatedCallback callback);
     void getOrdersFromServer(Activity activity, OnGetOrdersCallback callback);
     void submitPurchase(Activity activity, OnSubmitPurchaseCallback callback);

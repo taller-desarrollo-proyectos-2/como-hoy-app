@@ -52,6 +52,7 @@
     <string name="intent_data_order_plate_modifying">extraModifyingPlate</string>
     <string name="intent_data_plate_order_id">extraPlateOrderId</string>
     <string name="intent_data_fromFavourites">fromFavourites</string>
+    <string name="intent_data_request_id">extraRequestId</string>
 
     <string name="intent_data_plate_and_commerce_id">extraCommerceAndPlateIds</string>
     <string name="intent_data_plate_id">extraPlateId</string>

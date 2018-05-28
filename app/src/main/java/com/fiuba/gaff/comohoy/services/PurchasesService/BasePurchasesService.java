@@ -176,6 +176,17 @@ public class BasePurchasesService implements PurchasesService {
     }
 
     @Override
+    public Request getRequestWithId(Long id) {
+        if (mUserOrders.isEmpty()) return null;
+        for (Request request : mUserOrders) {
+            if (request.getId().equals(id)) {
+                return request;
+            }
+        }
+        return null;
+    }
+
+    @Override
     public void getOrdersFromServer(Activity activity, final OnGetOrdersCallback callback) {
         NetworkObject getRequestsNetworkObject = createGetRequestsNetworkObject();
         NetworkFragment networkFragment = NetworkFragment.getInstance(activity.getFragmentManager(), getRequestsNetworkObject);
@@ -345,6 +356,7 @@ public class BasePurchasesService implements PurchasesService {
             request.setInitDate(getInitDateFromOrderJson(orderJson));
             request.setStatus(getRequestStatusFromOrderJson(orderJson));
 
+
             mUserOrders.add(request);
         }
     }
@@ -358,6 +370,7 @@ public class BasePurchasesService implements PurchasesService {
             singleRequest.setPlate(getPlateFromSingleRequestJson(singleRequestJson));
             singleRequest.setClarification(singleRequestJson.getString("comment"));
             singleRequest.setQuantity(singleRequestJson.getInt("quantity"));
+            singleRequest.setExtras(getExtrasFromSingleRequestJson(singleRequestJson));
             singleRequests.add(singleRequest);
         }
         return singleRequests;
@@ -372,6 +385,19 @@ public class BasePurchasesService implements PurchasesService {
         String statusString = orderJson.getString("status");
         return RequestStatus.fromString(statusString);
     }
+
+    private List<Extra> getExtrasFromSingleRequestJson(JSONObject singleRequestJson) throws JSONException {
+        List<Extra> extras = new ArrayList<>();
+        JSONArray requestExtrasJson = singleRequestJson.getJSONArray("optionals");
+        for (int i = 0; i < requestExtrasJson.length(); i++) {
+            JSONObject extraJson = requestExtrasJson.getJSONObject(i);
+            Extra extra = new Extra(extraJson.getLong("id"));
+            extra.setName(extraJson.getString("name"));
+            extra.setPrice(extraJson.getDouble("price"));
+        }
+        return extras;
+    }
+
 
     private Plate getPlateFromSingleRequestJson(JSONObject singleRequestJson) throws JSONException {
         JSONObject plateJson = singleRequestJson.getJSONObject("plate");
