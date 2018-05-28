@@ -3,6 +3,7 @@ package com.fiuba.gaff.comohoy.model;
 public class Opinion {
 
     private Long mId;
+    private String mFullName;
     private String mNameOpinion;
     private String mDescription;
     private int mPuntuation;
@@ -15,6 +16,14 @@ public class Opinion {
 
     public Long getId() {
         return mId;
+    }
+
+    public String getFullName() {
+        return mFullName;
+    }
+
+    public void setFullName(String fullName) {
+        mFullName = fullName;
     }
 
     public String getNameOpinion() { return mNameOpinion; }

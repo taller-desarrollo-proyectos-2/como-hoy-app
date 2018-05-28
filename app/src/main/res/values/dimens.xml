@@ -8,7 +8,7 @@
     <dimen name="star_width">24dp</dimen>
     <dimen name="star_height">24dp</dimen>
 
-    <dimen name="star_dimen_item_preview">19dp</dimen>
+    <dimen name="star_dimen_item_preview">20dp</dimen>
 
     <dimen name="star_dimen">50dp</dimen>
 
