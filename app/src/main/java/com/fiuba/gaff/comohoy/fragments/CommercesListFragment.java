@@ -30,6 +30,7 @@ import android.widget.Toast;
 import com.fiuba.gaff.comohoy.R;
 import com.fiuba.gaff.comohoy.adapters.CategoriesAdapter;
 import com.fiuba.gaff.comohoy.adapters.CommerceListAdapter;
+import com.fiuba.gaff.comohoy.adapters.FilterAdapter;
 import com.fiuba.gaff.comohoy.filters.CategoryFilter;
 import com.fiuba.gaff.comohoy.filters.SearchFilter;
 import com.fiuba.gaff.comohoy.model.Category;
@@ -41,7 +42,9 @@ import com.fiuba.gaff.comohoy.services.commerces.CommercesService;
 import com.fiuba.gaff.comohoy.services.commerces.SortCriteria;
 import com.fiuba.gaff.comohoy.services.commerces.UpdateCommercesCallback;
 import com.fiuba.gaff.comohoy.services.location.LocationService;
+import com.fiuba.gaff.comohoy.utils.FilterState;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CommercesListFragment extends Fragment {
@@ -309,6 +312,18 @@ public class CommercesListFragment extends Fragment {
 
             }
         });
+
+        final String[] select_qualification = {"Elegi tus filtros","Distancia", "Puntaje", "Velocidad"};
+        Spinner spinnerFilter = (Spinner) mFiltersDialog.findViewById(R.id.spinner_filter_criteria);
+        ArrayList<FilterState> listVOs = new ArrayList<>();
+        for (int i = 0; i < select_qualification.length; i++) {
+            FilterState stateVO = new FilterState();
+            stateVO.setTitle(select_qualification[i]);
+            stateVO.setSelected(false);
+            listVOs.add(stateVO);
+        }
+        FilterAdapter myAdapter = new FilterAdapter(getContext(), 0, listVOs);
+        spinnerFilter.setAdapter(myAdapter);
 
         Button acceptButton = mFiltersDialog.findViewById(R.id.button_accept);
         Button cancelButton = mFiltersDialog.findViewById(R.id.button_cancel);
