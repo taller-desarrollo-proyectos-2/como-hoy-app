@@ -226,6 +226,7 @@ public class MoreInfoActivity extends AppCompatActivity implements OnMapReadyCal
         for (int i = 1; i <= cantEstrellasNegras; i++) {
             parentLayoutPuntaje.addView(getEstrellaNegra());
         }
+
         parentLayoutMenorMenor.addView(textoNombre);
         parentLayoutMenorMenor.addView(parentLayoutPuntaje);
 
@@ -264,7 +265,7 @@ public class MoreInfoActivity extends AppCompatActivity implements OnMapReadyCal
                 ViewGroup.LayoutParams.WRAP_CONTENT
         );
         lp.setMargins(0, 2,5,0);
-        ll.setGravity(Gravity.RIGHT);
+        ll.setGravity(Gravity.CENTER);
         ll.setLayoutParams(lp);
         return ll;
     }

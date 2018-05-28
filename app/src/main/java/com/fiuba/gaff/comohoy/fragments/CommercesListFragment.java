@@ -322,6 +322,7 @@ public class CommercesListFragment extends Fragment {
             stateVO.setSelected(false);
             listVOs.add(stateVO);
         }
+
         FilterAdapter myAdapter = new FilterAdapter(getContext(), 0, listVOs);
         spinnerFilter.setAdapter(myAdapter);
 
