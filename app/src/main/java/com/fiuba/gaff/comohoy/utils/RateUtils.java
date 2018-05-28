@@ -6,7 +6,7 @@ public class RateUtils {
         double intPart = new Double(rate).intValue();
         double decimalPart = 0.0;
         double remainder = rate - intPart;
-        if ((remainder < 0.25) && (remainder <= 0.75)) {
+        if ((remainder > 0.25) && (remainder <= 0.75)) {
             decimalPart = 0.5;
         } else if (remainder > 0.75) {
             decimalPart = 1.0;

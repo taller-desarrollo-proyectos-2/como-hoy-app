@@ -73,7 +73,6 @@
             app:layout_constraintVertical_bias="0.0" />
 
         <LinearLayout
-            android:orientation="horizontal"
             android:id="@+id/puntajeOpinion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -81,12 +80,54 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="12dp"
-            android:gravity="center_vertical|right"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/nombreComercio"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:baselineAligned="false"
+                android:foregroundGravity="center"
+                android:gravity="center">
+
+                <com.fiuba.gaff.comohoy.SquareImageView
+                    android:id="@+id/star1"
+                    android:layout_width="@dimen/star_dimen_item_preview"
+                    android:layout_height="@dimen/star_dimen_item_preview"
+                    android:src="@drawable/yellowstar" />
+
+                <com.fiuba.gaff.comohoy.SquareImageView
+                    android:id="@+id/star2"
+                    android:layout_width="@dimen/star_dimen_item_preview"
+                    android:layout_height="@dimen/star_dimen_item_preview"
+                    android:src="@drawable/yellowstar" />
+
+                <com.fiuba.gaff.comohoy.SquareImageView
+                    android:id="@+id/star3"
+                    android:layout_width="@dimen/star_dimen_item_preview"
+                    android:layout_height="@dimen/star_dimen_item_preview"
+                    android:src="@drawable/yellowstar" />
+
+                <com.fiuba.gaff.comohoy.SquareImageView
+                    android:id="@+id/star4"
+                    android:layout_width="@dimen/star_dimen_item_preview"
+                    android:layout_height="@dimen/star_dimen_item_preview"
+                    android:src="@drawable/yellowstar" />
+
+                <com.fiuba.gaff.comohoy.SquareImageView
+                    android:id="@+id/star5"
+                    android:layout_width="@dimen/star_dimen_item_preview"
+                    android:layout_height="@dimen/star_dimen_item_preview"
+                    android:src="@drawable/whitestar" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

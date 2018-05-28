@@ -27,6 +27,7 @@ import com.fiuba.gaff.comohoy.services.commerces.CommercesService;
 import com.fiuba.gaff.comohoy.services.commerces.MockCommercesService;
 import com.fiuba.gaff.comohoy.services.picasso.CircleTransform;
 import com.fiuba.gaff.comohoy.services.picasso.PicassoService;
+import com.fiuba.gaff.comohoy.utils.RateUtils;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -52,7 +53,11 @@ public class CommerceListAdapter extends RecyclerView.Adapter<CommerceListAdapte
         private final TextView mShippingTime;
         private final TextView mOrderAmount;
         private final TextView mDiscounts;
-        private final LinearLayout mEstrellas;
+        private final ImageView mStar1;
+        private final ImageView mStar2;
+        private final ImageView mStar3;
+        private final ImageView mStar4;
+        private final ImageView mStar5;
 
         CommerceViewHolder(View itemView) {
             super(itemView);
@@ -66,7 +71,11 @@ public class CommerceListAdapter extends RecyclerView.Adapter<CommerceListAdapte
             mShippingTime = (TextView) itemView.findViewById(R.id.tiempoEnvioComercio);
             mOrderAmount = (TextView) itemView.findViewById(R.id.cantPedidosComercio);
             mDiscounts = (TextView) itemView.findViewById(R.id.descuento_comercio);
-            mEstrellas = (LinearLayout) itemView.findViewById(R.id.puntajeOpinion);
+            mStar1 = itemView.findViewById(R.id.star1);
+            mStar2 = itemView.findViewById(R.id.star2);
+            mStar3 = itemView.findViewById(R.id.star3);
+            mStar4 = itemView.findViewById(R.id.star4);
+            mStar5 = itemView.findViewById(R.id.star5);
         }
     }
 
@@ -133,35 +142,23 @@ public class CommerceListAdapter extends RecyclerView.Adapter<CommerceListAdapte
             }
         });
 
-        int rating = new Double(Math.floor(commerce.getRating())).intValue();
-        for (int i = 1; i<= rating; i++){
-            holder.mEstrellas.addView(getEstrellaAmarilla(holder.mView.getContext()));
-        }
-        for (int i = 1; i <= (5 - rating); i++) {
-            holder.mEstrellas.addView(getEstrellaNegra(holder.mView.getContext()));
-        }
+        double clampedRating = RateUtils.cleanRate(commerce.getRating());
+        holder.mStar1.setImageResource(getStarIdFromValue(clampedRating));
+        holder.mStar2.setImageResource(getStarIdFromValue(clampedRating - 1));
+        holder.mStar3.setImageResource(getStarIdFromValue(clampedRating - 2));
+        holder.mStar4.setImageResource(getStarIdFromValue(clampedRating - 3));
+        holder.mStar5.setImageResource(getStarIdFromValue(clampedRating - 4));
     }
 
-    private ImageView getEstrellaAmarilla(Context context) {
-        ImageView estrella = new ImageView(context);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                38,
-                38
-        );
-        estrella.setLayoutParams(lp);
-        estrella.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.yellowstar));
-        return estrella;
-    }
-
-    private ImageView getEstrellaNegra(Context context) {
-        ImageView estrella = new ImageView(context);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                38,
-                38
-        );
-        estrella.setLayoutParams(lp);
-        estrella.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.whitestar));
-        return estrella;
+    // Espera un valor entre 0 y 1
+    private int getStarIdFromValue(double value) {
+        if (value <= 0) {
+            return R.drawable.whitestar;
+        }
+        if (value >= 1) {
+            return  R.drawable.yellowstar;
+        }
+        return R.drawable.halfyellowstar;
     }
 
     @Override

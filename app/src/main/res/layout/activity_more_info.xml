@@ -91,6 +91,11 @@
                     android:id="@+id/opiniones_comercio"
                     android:layout_height="wrap_content">
 
+                    <ProgressBar
+                        android:id="@+id/progressBar_opinions"
+                        style="?android:attr/progressBarStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
                 </LinearLayout>
             </ScrollView>
         </LinearLayout>

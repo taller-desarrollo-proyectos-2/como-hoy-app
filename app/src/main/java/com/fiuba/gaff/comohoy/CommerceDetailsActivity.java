@@ -30,6 +30,7 @@ import com.fiuba.gaff.comohoy.services.commerces.AddToFavouriteCallback;
 import com.fiuba.gaff.comohoy.services.commerces.CommercesService;
 import com.fiuba.gaff.comohoy.services.commerces.RemoveFromFavouritesCallback;
 import com.fiuba.gaff.comohoy.services.picasso.PicassoService;
+import com.fiuba.gaff.comohoy.utils.RateUtils;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -79,6 +80,7 @@ public class CommerceDetailsActivity extends AppCompatActivity {
         setupSeeCartButton();
         fillCommercesValues();
         createCommerceMenuView();
+        setupRatingStars();
 
         TextView textView = findViewById(R.id.tiempo_envio);
         textView.setText(String.format("%d min. entrega", getCommerce().getLeadTime()));
@@ -250,6 +252,31 @@ public class CommerceDetailsActivity extends AppCompatActivity {
                 mCommerceLike.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.corazon));
             }
         }
+    }
+
+    private void setupRatingStars() {
+        ImageView star1 = findViewById(R.id.star1);
+        ImageView star2 = findViewById(R.id.star2);
+        ImageView star3 = findViewById(R.id.star3);
+        ImageView star4 = findViewById(R.id.star4);
+        ImageView star5 = findViewById(R.id.star5);
+
+        double clampedRating = RateUtils.cleanRate(getCommerce().getRating());
+        star1.setImageResource(getStarIdFromValue(clampedRating));
+        star2.setImageResource(getStarIdFromValue(clampedRating - 1));
+        star3.setImageResource(getStarIdFromValue(clampedRating - 2));
+        star4.setImageResource(getStarIdFromValue(clampedRating - 3));
+        star5.setImageResource(getStarIdFromValue(clampedRating - 4));
+    }
+
+    private int getStarIdFromValue(double value) {
+        if (value <= 0) {
+            return R.drawable.whitestar;
+        }
+        if (value >= 1) {
+            return  R.drawable.yellowstar;
+        }
+        return R.drawable.halfyellowstar;
     }
 
     private Commerce getCommerce() {
