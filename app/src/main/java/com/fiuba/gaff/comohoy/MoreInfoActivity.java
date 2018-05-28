@@ -20,6 +20,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,6 +57,7 @@ public class MoreInfoActivity extends AppCompatActivity implements OnMapReadyCal
 
     private int mCommerceId = -1;
 
+    private ProgressBar mOpinionsProgressBar;
     private GoogleMap mMap;
 
     @Override
@@ -64,6 +66,8 @@ public class MoreInfoActivity extends AppCompatActivity implements OnMapReadyCal
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_more_info);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+
+        mOpinionsProgressBar = findViewById(R.id.progressBar_opinions);
 
         obtainCommerceId(savedInstanceState);
 
@@ -120,18 +124,25 @@ public class MoreInfoActivity extends AppCompatActivity implements OnMapReadyCal
     }
 
     private void getOpinionsFromBackoffice() {
+        showLoadingOpinions(true);
         OpinionsService opinionsService = ServiceLocator.get(OpinionsService.class);
         opinionsService.getOpinions(this, mCommerceId, new OnGetOpinionsCallback() {
             @Override
             public void onSuccess(List<Opinion> opinions) {
                 createOpinionesView(opinions);
+                showLoadingOpinions(false);
             }
 
             @Override
             public void onError(String reason) {
                 showToast("No se pudieron cargar las opiniones del comercio. Intente más tarde");
+                showLoadingOpinions(false);
             }
         });
+    }
+
+    private void showLoadingOpinions(boolean loading) {
+        mOpinionsProgressBar.setVisibility(loading ? View.VISIBLE : View.GONE);
     }
 
     private void showToast(String message) {
