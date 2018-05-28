@@ -113,6 +113,7 @@
                         android:src="@drawable/yellowstar" />
 
                     <com.fiuba.gaff.comohoy.SquareImageView
+                        android:id="@+id/star5"
                         android:layout_width="@dimen/star_width"
                         android:layout_height="@dimen/star_height"
                         android:src="@drawable/whitestar" />
