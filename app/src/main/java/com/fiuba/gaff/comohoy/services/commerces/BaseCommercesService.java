@@ -11,6 +11,7 @@ import com.fiuba.gaff.comohoy.comparators.CommerceLeadTimeComparator;
 import com.fiuba.gaff.comohoy.comparators.CommerceLocationComparator;
 import com.fiuba.gaff.comohoy.comparators.CommercePriceComparator;
 import com.fiuba.gaff.comohoy.comparators.CommerceRatingComparator;
+import com.fiuba.gaff.comohoy.filters.CategoryFilter;
 import com.fiuba.gaff.comohoy.filters.Filter;
 import com.fiuba.gaff.comohoy.model.Category;
 import com.fiuba.gaff.comohoy.model.CategoryUsageData;
@@ -49,6 +50,7 @@ public class BaseCommercesService implements CommercesService {
     private Context mContext;
 
     private Map<Integer, Commerce> mCommerces;
+    private List<CategoryFilter> mCategoryFilters;
     private List<Filter> mFilters;
     private boolean mDownloading;
 
@@ -56,6 +58,7 @@ public class BaseCommercesService implements CommercesService {
         mDownloading = false;
         mContext = context;
         mFilters = new ArrayList<>();
+        mCategoryFilters = new ArrayList<>();
     }
 
     @Override
@@ -229,6 +232,16 @@ public class BaseCommercesService implements CommercesService {
         mFilters.clear();
     }
 
+    @Override
+    public void addCategoryFilter(CategoryFilter categoryFilter) {
+        mCategoryFilters.add(categoryFilter);
+    }
+
+    @Override
+    public void clearCategoryFilters() {
+        mCategoryFilters.clear();
+    }
+
     private void updateFavourites(Activity activity, final UpdateCommercesCallback callback) {
         NetworkObject networkObject = createUpdateFavouritesNetworkObject();
         NetworkFragment networkFragment = NetworkFragment.getInstance(activity.getFragmentManager(), networkObject);
@@ -282,8 +295,11 @@ public class BaseCommercesService implements CommercesService {
 
     private List<Commerce> filterCommerces(List<Commerce> commerces) {
         List<Commerce> filteredCommerces = commerces;
-        for (Filter filer : mFilters) {
-            filteredCommerces = filer.apply(filteredCommerces);
+        for (Filter filter : mFilters) {
+            filteredCommerces = filter.apply(filteredCommerces);
+        }
+        for (CategoryFilter filter : mCategoryFilters) {
+            filteredCommerces = filter.apply(filteredCommerces);
         }
         return filteredCommerces;
     }

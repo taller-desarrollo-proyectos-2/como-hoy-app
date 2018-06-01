@@ -240,8 +240,8 @@ public class CommercesListFragment extends Fragment {
                 @Override
                 public void onCategoryClicked(String categoryName) {
                     CategoryFilter categoryFilter = new CategoryFilter(categoryName);
-                    getCommercesService().clearFilters();
-                    getCommercesService().addFilter(categoryFilter);
+                    getCommercesService().clearCategoryFilters();
+                    getCommercesService().addCategoryFilter(categoryFilter);
                     List<Commerce> filteredCommerces = getCommercesService().getCommerces();
                     loadCommerces(filteredCommerces, true);
                     mCategoriesDialog.dismiss();
@@ -254,7 +254,7 @@ public class CommercesListFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 CommercesService commercesService = getCommercesService();
-                commercesService.clearFilters();
+                commercesService.clearCategoryFilters();
                 List<Commerce> commerces = commercesService.getCommercesSortedBy(getActivity(), mSortCriteria);
                 loadCommerces(commerces, false);
                 mCategoriesDialog.dismiss();

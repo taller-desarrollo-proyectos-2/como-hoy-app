@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.content.Context;
 
 import com.fiuba.gaff.comohoy.comparators.CommerceLocationComparator;
+import com.fiuba.gaff.comohoy.filters.CategoryFilter;
 import com.fiuba.gaff.comohoy.filters.Filter;
 import com.fiuba.gaff.comohoy.model.Category;
 import com.fiuba.gaff.comohoy.model.CategoryUsageData;
@@ -179,6 +180,16 @@ public class MockCommercesService implements CommercesService {
         int ids[] = {R.drawable.luigi, R.drawable.pizzeria};
         int randomIndex = RandomUtils.getIntBetween(0, ids.length - 1);
         return  ids[randomIndex];
+    }
+
+    @Override
+    public void addCategoryFilter(CategoryFilter categoryFilter) {
+
+    }
+
+    @Override
+    public void clearCategoryFilters() {
+
     }
 
     @Override

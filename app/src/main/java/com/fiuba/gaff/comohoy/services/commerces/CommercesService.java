@@ -3,6 +3,7 @@ package com.fiuba.gaff.comohoy.services.commerces;
 import android.app.Activity;
 import android.content.Context;
 
+import com.fiuba.gaff.comohoy.filters.CategoryFilter;
 import com.fiuba.gaff.comohoy.filters.Filter;
 import com.fiuba.gaff.comohoy.model.CategoryUsageData;
 import com.fiuba.gaff.comohoy.model.Commerce;
@@ -22,7 +23,9 @@ public interface CommercesService extends CustomService {
     List<Commerce> getCommercesSortedBy(Context context, SortCriteria sortCriteria);
     List<CategoryUsageData> getUsedCategoriesUsageData();
     Commerce getCommerce(int id);
+    void addCategoryFilter(CategoryFilter categoryFilter);
     void addFilter(Filter filter);
+    void clearCategoryFilters();
     void clearFilters();
     boolean isDownloading();
 }
