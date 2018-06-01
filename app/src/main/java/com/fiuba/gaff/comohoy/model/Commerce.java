@@ -20,7 +20,7 @@ public class Commerce {
     private boolean mIsFavourite = false;
     private int mLeadTime = 0;
     private double mRating;
-
+    private double mAveragePrice;
     private Bitmap mPicture;
 
     private List<Opinion> mOpiniones;
@@ -49,6 +49,10 @@ public class Commerce {
         return mBusinessName;
     }
 
+    public void setFavourite(boolean favourite) {
+        mIsFavourite = favourite;
+    }
+
     public void setBusinessName(String businessName) {
         this.mBusinessName = businessName;
     }
@@ -56,6 +60,14 @@ public class Commerce {
     public String getShowableName() {
         String name = (mName.isEmpty() || mName.equals("null")) ? mBusinessName : mName;
         return name;
+    }
+
+    public double getAveragePrice() {
+        return mAveragePrice;
+    }
+
+    public void setAveragePrice(double averagePrice) {
+        mAveragePrice = averagePrice;
     }
 
     public int getLeadTime() {

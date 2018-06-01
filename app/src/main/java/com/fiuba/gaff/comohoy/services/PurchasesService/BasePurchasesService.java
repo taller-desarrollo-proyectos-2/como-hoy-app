@@ -355,8 +355,8 @@ public class BasePurchasesService implements PurchasesService {
             request.setSingleRequests(getSingleRequestsFromOrderJson(orderJson));
             request.setInitDate(getInitDateFromOrderJson(orderJson));
             request.setStatus(getRequestStatusFromOrderJson(orderJson));
-
-
+            //request.setCommerceId(orderJson.getInt("commerceId"));
+            request.setQualified(orderJson.getBoolean("qualified"));
             mUserOrders.add(request);
         }
     }

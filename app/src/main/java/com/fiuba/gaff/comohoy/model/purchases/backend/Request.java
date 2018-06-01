@@ -12,6 +12,7 @@ public class Request {
     private int mCommerceId;
     private List<SingleRequest> mSingleRequests;
     private RequestStatus mStatus;
+    private boolean isQualified;
     private Date mInitDate;
 
     public Long getId() {
@@ -32,6 +33,14 @@ public class Request {
 
     public List<SingleRequest> getSingleRequests() {
         return mSingleRequests;
+    }
+
+    public boolean isQualified() {
+        return isQualified;
+    }
+
+    public void setQualified(boolean qualified) {
+        isQualified = qualified;
     }
 
     public void setSingleRequests(List<SingleRequest> singleRequests) {

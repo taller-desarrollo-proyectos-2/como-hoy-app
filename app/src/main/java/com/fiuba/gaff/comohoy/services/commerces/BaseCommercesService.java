@@ -302,6 +302,7 @@ public class BaseCommercesService implements CommercesService {
             commerce.setOpeningTimes(getOpeningTimes(commerceJson));
             commerce.setRating(commerceJson.getDouble("score"));
             commerce.setLeadTime(commerceJson.getInt("leadTime"));
+            commerce.setAveragePrice(commerceJson.getDouble("averagePrice"));
             commerce.setIsFavourite(false);
 
             mCommerces.put(commerceId, commerce);
