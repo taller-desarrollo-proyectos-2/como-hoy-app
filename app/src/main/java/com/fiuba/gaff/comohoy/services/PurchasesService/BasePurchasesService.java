@@ -347,17 +347,22 @@ public class BasePurchasesService implements PurchasesService {
 
     private void parseOrdersFromResponse(String response) throws JSONException {
         mUserOrders.clear();
-        JSONArray ordersJsonArray = new JSONArray(response);
+        JSONArray ordersJsonArray = null;
+        ordersJsonArray = new JSONArray(response);
         for (int i = 0; i < ordersJsonArray.length(); i++) {
-            JSONObject orderJson = ordersJsonArray.getJSONObject(i);
-            Request request = new Request();
-            request.setId(orderJson.getLong("id"));
-            request.setSingleRequests(getSingleRequestsFromOrderJson(orderJson));
-            request.setInitDate(getInitDateFromOrderJson(orderJson));
-            request.setStatus(getRequestStatusFromOrderJson(orderJson));
-            //request.setCommerceId(orderJson.getInt("commerceId"));
-            request.setQualified(orderJson.getBoolean("qualified"));
-            mUserOrders.add(request);
+            try {
+                JSONObject orderJson = ordersJsonArray.getJSONObject(i);
+                Request request = new Request();
+                request.setId(orderJson.getLong("id"));
+                request.setSingleRequests(getSingleRequestsFromOrderJson(orderJson));
+                request.setInitDate(getInitDateFromOrderJson(orderJson));
+                request.setStatus(getRequestStatusFromOrderJson(orderJson));
+                request.setCommerceId(orderJson.getInt("commerceId"));
+                request.setQualified(orderJson.getBoolean("qualified"));
+                mUserOrders.add(request);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 
