@@ -28,7 +28,7 @@
             android:layout_width="1dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.25" />
+            app:layout_constraintGuide_percent="0.23" />
 
         <android.support.constraint.Guideline
             android:id="@+id/right_guideline"
@@ -40,17 +40,19 @@
         <ImageView
             android:id="@+id/imageview_commerce_image"
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginBottom="8dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:scaleType="centerCrop"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="12dp"
+            android:adjustViewBounds="true"
+            android:cropToPadding="false"
+            android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/left_guideline"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/calzon" />
+            app:srcCompat="@drawable/prueba1" />
 
         <TextView
             android:id="@+id/textview_order_id_value"
