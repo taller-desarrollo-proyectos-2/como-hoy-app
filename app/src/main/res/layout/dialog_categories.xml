@@ -17,7 +17,7 @@
         android:layout_width="1dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.9" />
+        app:layout_constraintGuide_percent="0.87" />
 
     <GridView
         android:id="@+id/gridCategories"
@@ -41,13 +41,14 @@
         android:id="@+id/button_quitar_filtros"
         style="@style/Widget.AppCompat.Button"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:backgroundTint="@color/red"
-        android:text="Quitar filtros"
+        android:backgroundTint="@color/light_green"
+        android:text="mostrar todos los tipos de comida"
         android:textColor="@color/blanco"
+        android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
