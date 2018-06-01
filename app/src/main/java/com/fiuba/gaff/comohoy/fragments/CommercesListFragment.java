@@ -303,6 +303,12 @@ public class CommercesListFragment extends Fragment {
                     case "Puntaje":
                         mSortCriteria = SortCriteria.Rating;
                         break;
+                    case "Tiempo de Envío":
+                        mSortCriteria = SortCriteria.ShipTime;
+                        break;
+                    case "Precio":
+                        mSortCriteria = SortCriteria.Price;
+                        break;
                     default: mSortCriteria = SortCriteria.Closeness;
                 }
             }

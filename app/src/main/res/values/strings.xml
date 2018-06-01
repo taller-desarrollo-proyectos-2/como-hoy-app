@@ -66,6 +66,8 @@
     <string-array name="sort_criteria_array">
         <item>Cercanía</item>
         <item>Puntaje</item>
+        <item>Tiempo de Envío</item>
+        <item>Precio</item>
     </string-array>
 
     <!-- TODO: Remove or change this placeholder text -->

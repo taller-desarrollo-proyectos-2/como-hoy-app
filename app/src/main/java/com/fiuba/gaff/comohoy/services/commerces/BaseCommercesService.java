@@ -7,7 +7,9 @@ import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.fiuba.gaff.comohoy.comparators.CommerceLeadTimeComparator;
 import com.fiuba.gaff.comohoy.comparators.CommerceLocationComparator;
+import com.fiuba.gaff.comohoy.comparators.CommercePriceComparator;
 import com.fiuba.gaff.comohoy.comparators.CommerceRatingComparator;
 import com.fiuba.gaff.comohoy.filters.Filter;
 import com.fiuba.gaff.comohoy.model.Category;
@@ -102,6 +104,12 @@ public class BaseCommercesService implements CommercesService {
                 break;
             case Rating:
                 Collections.sort(commerces, new CommerceRatingComparator());
+                break;
+            case ShipTime:
+                Collections.sort(commerces, new CommerceLeadTimeComparator());
+                break;
+            case Price:
+                Collections.sort(commerces, new CommercePriceComparator());
                 break;
             default:
                 Collections.sort(commerces, new CommerceLocationComparator(context));
