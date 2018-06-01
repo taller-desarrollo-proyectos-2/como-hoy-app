@@ -138,6 +138,14 @@
                     android:gravity="center"
                     android:text="30-45 min. entrega" />
 
+                <TextView
+                    android:id="@+id/precio_promedio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="~$120" />
+
             </LinearLayout>
 
             <LinearLayout

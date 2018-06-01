@@ -3,10 +3,6 @@ package com.fiuba.gaff.comohoy.adapters;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
-import android.support.constraint.ConstraintLayout;
-import android.support.constraint.ConstraintSet;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.widget.CardView;
@@ -15,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.fiuba.gaff.comohoy.fragments.CommercesListFragment;
@@ -48,9 +43,8 @@ public class CommerceListAdapter extends RecyclerView.Adapter<CommerceListAdapte
         private final ImageView mPicture;
         private final TextView mName;
         private final TextView mDescription;
-        private final TextView mOrdersAmount;
+        private final TextView mAveragePrice;
         private final TextView mShippingTime;
-        private final TextView mOrderAmount;
         private final TextView mDiscounts;
         private final ImageView mStar1;
         private final ImageView mStar2;
@@ -65,9 +59,8 @@ public class CommerceListAdapter extends RecyclerView.Adapter<CommerceListAdapte
             mPicture = (ImageView) itemView.findViewById(R.id.imagenComercio);
             mName = (TextView) itemView.findViewById(R.id.nombreComercio);
             mDescription = (TextView) itemView.findViewById(R.id.descripcionComercio);
-            mOrdersAmount = (TextView) itemView.findViewById(R.id.cantPedidosComercio);
+            mAveragePrice = (TextView) itemView.findViewById(R.id.cantPedidosComercio);
             mShippingTime = (TextView) itemView.findViewById(R.id.tiempoEnvioComercio);
-            mOrderAmount = (TextView) itemView.findViewById(R.id.cantPedidosComercio);
             mDiscounts = (TextView) itemView.findViewById(R.id.descuento_comercio);
             mStar1 = itemView.findViewById(R.id.star1);
             mStar2 = itemView.findViewById(R.id.star2);
@@ -120,9 +113,14 @@ public class CommerceListAdapter extends RecyclerView.Adapter<CommerceListAdapte
         }
         holder.mDescription.setText(categoriesStringBuilder.toString());
         // holder.mRating.setText(String.format("%.1f", commerce.getRating()));
-        holder.mOrdersAmount.setText(commerce.getOrdersAmount());
+        holder.mAveragePrice.setText(commerce.getOrdersAmount());
         holder.mShippingTime.setText(String.format("%d min", commerce.getLeadTime()));
-        holder.mOrderAmount.setText("240 pedidos");
+
+        if (commerce.getAveragePrice() > 0) {
+            holder.mAveragePrice.setText(String.format("~$%.0f", commerce.getAveragePrice()));
+        } else {
+            holder.mAveragePrice.setText("-");
+        }
 
         String discounts = commerce.getDiscounts();
         if (discounts.equals("")) {

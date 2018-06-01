@@ -83,9 +83,7 @@ public class CommerceDetailsActivity extends AppCompatActivity {
         fillCommercesValues();
         createCommerceMenuView();
         setupRatingStars();
-
-        TextView textView = findViewById(R.id.tiempo_envio);
-        textView.setText(String.format("%d min. entrega", getCommerce().getLeadTime()));
+        setUpCommerceStats();
     }
 
     private void setUpCarouselView() {
@@ -102,6 +100,20 @@ public class CommerceDetailsActivity extends AppCompatActivity {
             visibility = View.VISIBLE;
         }
         mSeeMyOrderButton.setVisibility(visibility);
+    }
+
+    private void setUpCommerceStats() {
+        Commerce commerce = getCommerce();
+
+        TextView leadTimeTextview = findViewById(R.id.tiempo_envio);
+        leadTimeTextview.setText(String.format("%d min. entrega", commerce.getLeadTime()));
+
+        TextView averagePriceTextView = findViewById(R.id.precio_promedio);
+        if (commerce.getAveragePrice() > 0) {
+            averagePriceTextView.setText(String.format("~$%.0f", commerce.getAveragePrice()));
+        } else {
+            averagePriceTextView.setText("-");
+        }
     }
 
     private void setupSeeCartButton() {
