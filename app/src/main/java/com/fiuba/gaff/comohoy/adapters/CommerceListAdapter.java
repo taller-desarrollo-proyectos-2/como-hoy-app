@@ -48,7 +48,6 @@ public class CommerceListAdapter extends RecyclerView.Adapter<CommerceListAdapte
         private final ImageView mPicture;
         private final TextView mName;
         private final TextView mDescription;
-        private final TextView mRating;
         private final TextView mOrdersAmount;
         private final TextView mShippingTime;
         private final TextView mOrderAmount;
@@ -66,7 +65,6 @@ public class CommerceListAdapter extends RecyclerView.Adapter<CommerceListAdapte
             mPicture = (ImageView) itemView.findViewById(R.id.imagenComercio);
             mName = (TextView) itemView.findViewById(R.id.nombreComercio);
             mDescription = (TextView) itemView.findViewById(R.id.descripcionComercio);
-            mRating = (TextView) itemView.findViewById(R.id.puntajeComercio);
             mOrdersAmount = (TextView) itemView.findViewById(R.id.cantPedidosComercio);
             mShippingTime = (TextView) itemView.findViewById(R.id.tiempoEnvioComercio);
             mOrderAmount = (TextView) itemView.findViewById(R.id.cantPedidosComercio);

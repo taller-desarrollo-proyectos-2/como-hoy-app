@@ -50,7 +50,6 @@ public class MyOrdersAdapter extends RecyclerView.Adapter<MyOrdersAdapter.OrderV
         private final ImageView mCommerceImage;
         private final TextView mOrderStatus;
         private final TextView mOrderPrice;
-        private final ImageButton mActionButton;
 
         OrderViewHolder(View itemView) {
             super(itemView);
@@ -60,7 +59,6 @@ public class MyOrdersAdapter extends RecyclerView.Adapter<MyOrdersAdapter.OrderV
             mCommerceImage = itemView.findViewById(R.id.imageview_commerce_image);
             mOrderStatus = itemView.findViewById(R.id.textView_order_status_value);
             mOrderPrice = itemView.findViewById(R.id.textView_order_price);
-            mActionButton = itemView.findViewById(R.id.button_status_action);
         }
     }
 
@@ -82,18 +80,18 @@ public class MyOrdersAdapter extends RecyclerView.Adapter<MyOrdersAdapter.OrderV
         // final Commerce commerce = getCommerceService().getCommerce(plateOrder.getCommerceId());
         // final Plate plate = commerce.getPlate(plateOrder.getPlateId());
 
-        String initDateString = new SimpleDateFormat("dd-MM-yyyy").format(request.getInitDate());
-        holder.mInitDateTextView.setText(initDateString);
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyy | HH:mm");
+        holder.mInitDateTextView.setText(formatter.format(request.getInitDate()) + " hs");
+
         holder.mOrderStatus.setText(request.getStatus().toString());
         holder.mOrderPrice.setText(String.format("$%.0f", request.getPrice()));
 
-        //int commerceId = request.getSingleRequests().get(0).getPlate();
         String uriFormat = "http://34.237.197.99:9000/api/v1/commerces/%d/picture";
         String uri = String.format(uriFormat, request.getCommerceId());
         Picasso picasso = ServiceLocator.get(PicassoService.class).getPicasso();
-        picasso.load(R.drawable.milanesas).fit().transform(new CircleTransform()).placeholder(R.drawable.progress_animation).error(R.drawable.no_image).into(holder.mCommerceImage);
+        picasso.load(uri).fit().transform(new CircleTransform()).placeholder(R.drawable.progress_animation).error(R.drawable.no_image).into(holder.mCommerceImage);
 
-        setUpActionButton(holder.mView.getContext(), holder.mActionButton, request);
+        //setUpActionButton(holder.mView.getContext(), holder.mActionButton, request);
         setUpCardView(holder.mCardView, request);
     }
 
@@ -104,63 +102,6 @@ public class MyOrdersAdapter extends RecyclerView.Adapter<MyOrdersAdapter.OrderV
                 mOrdersListListener.onOrderClicked(request);
             }
         });
-    }
-
-    private void setUpActionButton(final Context context, ImageButton imageButton, final Request request) {
-        final RequestStatus status = request.getStatus();
-        switch (status) {
-            case WaitingConfirmation:
-                // imageButton.setText("CANCELAR PEDIDO");
-                //ViewCompat.setBackgroundTintList(button, ColorStateList.valueOf(context.getResources().getColor(R.color.red)));
-                imageButton.setImageResource(R.drawable.trashcan_icon);
-                imageButton.setVisibility(View.VISIBLE);
-                imageButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        showDeleteConfirmationDialog(context, request);
-                    }
-                });
-                break;
-            case Delivered:
-                // imageButton.setText("CALIFICAR PEDIDO");
-                // ViewCompat.setBackgroundTintList(button, ColorStateList.valueOf(context.getResources().getColor(R.color.colorAccent)));
-                imageButton.setVisibility(View.VISIBLE);
-                imageButton.setImageResource(R.drawable.star);
-                imageButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        mOrdersListListener.onRateOrderClicked(request);
-                    }
-                });
-                break;
-            default:
-                imageButton.setVisibility(View.GONE);
-        }
-    }
-
-    private void showDeleteConfirmationDialog(Context context, final Request request) {
-        final Dialog confirmationDialog = new Dialog(context, android.R.style.Theme_Holo_Light_Dialog);
-        confirmationDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        confirmationDialog.setContentView(R.layout.dialog_confirmation_one_button);
-        confirmationDialog.setCanceledOnTouchOutside(true);
-        confirmationDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        confirmationDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
-        TextView messageTextView = confirmationDialog.findViewById(R.id.textView_message);
-        messageTextView.setText(String.format("¿Estás seguro que desea cancelar el pedido nº %d?", request.getId()));
-
-        Button cancelButton = confirmationDialog.findViewById(R.id.button_cancel);
-        cancelButton.setText("CANCELAR PEDIDO");
-
-        cancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mOrdersListListener.onCancelOrder(request.getId());
-                confirmationDialog.dismiss();
-            }
-        });
-
-        confirmationDialog.show();
     }
 
     @Override

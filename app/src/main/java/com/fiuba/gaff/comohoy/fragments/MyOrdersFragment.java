@@ -46,17 +46,10 @@ public class MyOrdersFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private ProgressBar mProgressBar;
 
-    private OnRequestUpdatedCallback mOnRequestUpdatedCallback;
     private OrdersListListener mOrdersListListener;
-
-    private Dialog mCalificationsDialog;
-    private int mPuntuacion = 0;
-    private String mCalificacion = "";
 
     public interface OrdersListListener {
         void onOrderClicked(Request request);
-        void onCancelOrder(Long orderId);
-        void onRateOrderClicked(Request request);
     }
 
     public MyOrdersFragment() {}
@@ -76,7 +69,6 @@ public class MyOrdersFragment extends Fragment {
             //mParam1 = getArguments().getString(ARG_PARAM1);
             //mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        mOnRequestUpdatedCallback = getOnRequestUpdatedCallback();
         mOrdersListListener = getOrdersListListener();
         setUpOnPageChangeListener();
     }
@@ -140,142 +132,11 @@ public class MyOrdersFragment extends Fragment {
         }
     }
 
-    private OnRequestUpdatedCallback getOnRequestUpdatedCallback() {
-        OnRequestUpdatedCallback callback = new OnRequestUpdatedCallback() {
-            @Override
-            public void onSuccess() {
-                updateOrdersList();
-            }
-
-            @Override
-            public void onError(String reason) {
-                Toast.makeText(getActivity(), "No se pudo modificar su pedido. Intente mas tarde", Toast.LENGTH_LONG).show();
-                showProgress(false);
-            }
-        };
-        return callback;
-    }
-
     private OrdersListListener getOrdersListListener() {
         OrdersListListener listener = new OrdersListListener() {
             @Override
             public void onOrderClicked(Request request) {
                 openSeeOrderActivity(request);
-            }
-
-            @Override
-            public void onCancelOrder(Long orderId) {
-                showProgress(true);
-                getPurchaseService().updateOrder(orderId, RequestStatus.CanceledByUser, getActivity(), mOnRequestUpdatedCallback);
-            }
-
-            @Override
-            public void onRateOrderClicked(final Request request) {
-
-                mCalificationsDialog = new Dialog(getContext(), android.R.style.Theme_Holo_Light_Dialog);
-                mCalificationsDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                mCalificationsDialog.setContentView(R.layout.dialog_califications);
-                mCalificationsDialog.setCanceledOnTouchOutside(false);
-                //mCalificationsDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                mCalificationsDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
-                mCalificationsDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-
-                final EditText calificationEditText = mCalificationsDialog.findViewById(R.id.editText_califications);
-                calificationEditText.setText("");
-
-
-                LinearLayout ll = mCalificationsDialog.findViewById(R.id.puntuacion_comercio);
-                final ImageView e1 = ll.findViewById(R.id.estrella1);
-                final ImageView e2 = ll.findViewById(R.id.estrella2);
-                final ImageView e3 = ll.findViewById(R.id.estrella3);
-                final ImageView e4 = ll.findViewById(R.id.estrella4);
-                final ImageView e5 = ll.findViewById(R.id.estrella5);
-
-                e1.setClickable(true);
-                e2.setClickable(true);
-                e3.setClickable(true);
-                e4.setClickable(true);
-                e5.setClickable(true);
-
-                e1.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        e1.setImageDrawable(ContextCompat.getDrawable(v.getContext(), R.drawable.yellowstar));
-                        e2.setImageDrawable(ContextCompat.getDrawable(v.getContext(), R.drawable.whitestar));
-                        e3.setImageDrawable(ContextCompat.getDrawable(v.getContext(), R.drawable.whitestar));
-                        e4.setImageDrawable(ContextCompat.getDrawable(v.getContext(), R.drawable.whitestar));
-                        e5.setImageDrawable(ContextCompat.getDrawable(v.getContext(), R.drawable.whitestar));
-                        mPuntuacion = 1;
-                    }
-                });
-                e2.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        e1.setImageDrawable(ContextCompat.getDrawable(v.getContext(), R.drawable.yellowstar));
-                        e2.setImageDrawable(ContextCompat.getDrawable(v.getContext(), R.drawable.yellowstar));
-                        e3.setImageDrawable(ContextCompat.getDrawable(v.getContext(), R.drawable.whitestar));
-                        e4.setImageDrawable(ContextCompat.getDrawable(v.getContext(), R.drawable.whitestar));
-                        e5.setImageDrawable(ContextCompat.getDrawable(v.getContext(), R.drawable.whitestar));
-                        mPuntuacion = 2;
-                    }
-                });
-                e3.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        e1.setImageDrawable(ContextCompat.getDrawable(v.getContext(), R.drawable.yellowstar));
-                        e2.setImageDrawable(ContextCompat.getDrawable(v.getContext(), R.drawable.yellowstar));
-                        e3.setImageDrawable(ContextCompat.getDrawable(v.getContext(), R.drawable.yellowstar));
-                        e4.setImageDrawable(ContextCompat.getDrawable(v.getContext(), R.drawable.whitestar));
-                        e5.setImageDrawable(ContextCompat.getDrawable(v.getContext(), R.drawable.whitestar));
-                        mPuntuacion = 3;
-                    }
-                });
-                e4.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        e1.setImageDrawable(ContextCompat.getDrawable(v.getContext(), R.drawable.yellowstar));
-                        e2.setImageDrawable(ContextCompat.getDrawable(v.getContext(), R.drawable.yellowstar));
-                        e3.setImageDrawable(ContextCompat.getDrawable(v.getContext(), R.drawable.yellowstar));
-                        e4.setImageDrawable(ContextCompat.getDrawable(v.getContext(), R.drawable.yellowstar));
-                        e5.setImageDrawable(ContextCompat.getDrawable(v.getContext(), R.drawable.whitestar));
-                        mPuntuacion = 4;
-                    }
-                });
-                e5.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        e1.setImageDrawable(ContextCompat.getDrawable(v.getContext(), R.drawable.yellowstar));
-                        e2.setImageDrawable(ContextCompat.getDrawable(v.getContext(), R.drawable.yellowstar));
-                        e3.setImageDrawable(ContextCompat.getDrawable(v.getContext(), R.drawable.yellowstar));
-                        e4.setImageDrawable(ContextCompat.getDrawable(v.getContext(), R.drawable.yellowstar));
-                        e5.setImageDrawable(ContextCompat.getDrawable(v.getContext(), R.drawable.yellowstar));
-                        mPuntuacion = 5;
-                    }
-                });
-
-                Button acceptButton = mCalificationsDialog.findViewById(R.id.button_accept_calification);
-                Button cancelButton = mCalificationsDialog.findViewById(R.id.button_cancel_calification);
-                acceptButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mCalificacion = calificationEditText.getText().toString();
-                        Opinion opinion = new Opinion(0L);
-                        opinion.setDescription(mCalificacion);
-                        opinion.setOrderId(request.getId());
-                        opinion.setPuntuation(mPuntuacion);
-                        sendOpinionToBackoffice(opinion);
-                        mCalificationsDialog.dismiss();
-                    }
-                });
-                cancelButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mCalificationsDialog.dismiss();
-                    }
-                });
-
-                mCalificationsDialog.show();
             }
         };
         return listener;
@@ -285,21 +146,6 @@ public class MyOrdersFragment extends Fragment {
         Intent openActivityIntent = new Intent(getActivity(), SeeOrderActivity.class);
         openActivityIntent.putExtra(getString(R.string.intent_data_request_id), request.getId());
         startActivity(openActivityIntent);
-    }
-
-    private void sendOpinionToBackoffice(Opinion opinion) {
-        OpinionsService opinionsService = ServiceLocator.get(OpinionsService.class);
-        opinionsService.publishOpinion(getActivity(), opinion, new PublishOpinionCallback() {
-            @Override
-            public void onSuccess() {
-                Toast.makeText(getActivity(), "Gracias por su opinión!", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onError(String reason) {
-                Toast.makeText(getActivity(), "No se pudo publicar su calificación. Intente más tarde", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     private void showProgress(boolean show) {

@@ -27,6 +27,8 @@ import com.fiuba.gaff.comohoy.services.ServiceLocator;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 import java.util.Locale;
 
@@ -47,6 +49,7 @@ public class MenuItemListAdapter extends RecyclerView.Adapter<MenuItemListAdapte
         private final TextView mPlateName;
         private final TextView mDescription;
         private final TextView mPrice;
+        private final TextView mFullPrice;
         private final ImageView mCeliacPicture;
         private final Guideline mGuideline;
 
@@ -58,6 +61,7 @@ public class MenuItemListAdapter extends RecyclerView.Adapter<MenuItemListAdapte
             mPlateName = (TextView) itemView.findViewById(R.id.textview_plate_name);
             mDescription = (TextView) itemView.findViewById(R.id.text_view_plate_desc);
             mPrice = (TextView) itemView.findViewById(R.id.text_view_order_status);
+            mFullPrice = itemView.findViewById(R.id.text_view_fullprice);
             mCeliacPicture = itemView.findViewById(R.id.icon_celiac_plate);
             mGuideline = itemView.findViewById(R.id.plate_guideline);
         }
@@ -93,6 +97,7 @@ public class MenuItemListAdapter extends RecyclerView.Adapter<MenuItemListAdapte
 
         holder.mPlateName.setText(plate.getName());
         holder.mDescription.setText(plate.getDescription());
+
         String price = String.format(Locale.ENGLISH,"$%.2f", plate.getPrice());
         holder.mPrice.setText(price);
 
