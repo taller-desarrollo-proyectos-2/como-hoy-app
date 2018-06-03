@@ -128,7 +128,7 @@ public class CommerceListAdapter extends RecyclerView.Adapter<CommerceListAdapte
         }
         else {
             holder.mDiscounts.setVisibility(View.VISIBLE);
-            holder.mDiscounts.setText(String.format("Hasta un %d de descuento", commerceMaxDiscount));
+            holder.mDiscounts.setText(String.format("Hasta un %%%d de descuento", commerceMaxDiscount));
         }
 
         holder.mView.setOnClickListener(new View.OnClickListener() {

@@ -2,6 +2,7 @@ package com.fiuba.gaff.comohoy.adapters;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.Guideline;
@@ -58,8 +59,8 @@ public class MenuItemListAdapter extends RecyclerView.Adapter<MenuItemListAdapte
             mPlateName = (TextView) itemView.findViewById(R.id.textview_plate_name);
             mDescription = (TextView) itemView.findViewById(R.id.text_view_plate_desc);
             mPrice = (TextView) itemView.findViewById(R.id.text_view_order_status);
-            mDiscountPrice = itemView.findViewById(R.id.text_view_discountprice);
-            mFullPriceWithDiscount = itemView.findViewById(R.id.text_view_fullprice);
+            mDiscountPrice = itemView.findViewById(R.id.text_view_fullprice);
+            mFullPriceWithDiscount = itemView.findViewById(R.id.text_view_discountprice);
             mCeliacPicture = itemView.findViewById(R.id.icon_celiac_plate);
             mGuideline = itemView.findViewById(R.id.plate_guideline);
         }
@@ -112,7 +113,8 @@ public class MenuItemListAdapter extends RecyclerView.Adapter<MenuItemListAdapte
             holder.mDiscountPrice.setVisibility(View.VISIBLE);
             holder.mFullPriceWithDiscount.setVisibility(View.VISIBLE);
             holder.mDiscountPrice.setText(String.format("$%.2f", plate.getPrice()));
-            holder.mFullPriceWithDiscount.setText(String.format("$%.2f", plate.getPrice()));
+            holder.mFullPriceWithDiscount.setText(String.format("$%.2f", plate.getFullPrice()));
+            holder.mFullPriceWithDiscount.setPaintFlags(holder.mFullPriceWithDiscount.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         } else {
             holder.mPrice.setVisibility(View.VISIBLE);
             holder.mDiscountPrice.setVisibility(View.GONE);

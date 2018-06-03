@@ -321,7 +321,7 @@ public class BaseCommercesService implements CommercesService {
             commerce.setName(commerceJson.getString("name"));
             commerce.setBusinessName(commerceJson.getString("businessName"));
             commerce.setCategories(getCommerceCategories(commerceJson));
-            commerce.setPlates(getCommercePlates(commerceJson));
+            commerce.setPlates(getCommercePlates(commerceJson, commerce));
             commerce.setLocation(getCommerceLocation(commerceJson));
             commerce.setOpeningTimes(getOpeningTimes(commerceJson));
             commerce.setRating(commerceJson.getDouble("score"));
@@ -353,11 +353,12 @@ public class BaseCommercesService implements CommercesService {
         return categories;
     }
 
-    private HashMap<Long, Plate> getCommercePlates(JSONObject commerceJson) {
+    // Actualiza el comercio con el maximo descuento encontrado
+    private HashMap<Long, Plate> getCommercePlates(JSONObject commerceJson, final Commerce commerce) {
         HashMap<Long, Plate> plates = new HashMap<>();
+        int maxDiscount = 0;
         try {
             JSONArray platesArray = commerceJson.getJSONArray("plates");
-            int a = platesArray.length();
             for (int i = 0; i < platesArray.length(); ++i) {
                 JSONObject plateJson = platesArray.getJSONObject(i);
                 Plate plate = new Plate(plateJson.getLong("id"));
@@ -366,15 +367,22 @@ public class BaseCommercesService implements CommercesService {
                 plate.setSuitableForCeliac(plateJson.getBoolean("glutenFree"));
                 plate.setDescription(plateJson.getString("description"));
                 plate.setCategories(getPlateCategories(plateJson));
+                plate.setOnDiscount(plateJson.getBoolean("onPromotion"));
+                int discountAmount = plateJson.getInt("discount");
+                plate.setDiscountAmount(discountAmount);
 
-                //
                 plate.setExtras(getPlateExtras(plateJson, plate.isOnDiscount(), plate.getDiscountAmount()));
                 plates.put(plate.getId(), plate);
+
+                if (discountAmount > maxDiscount) {
+                    maxDiscount = discountAmount;
+                }
             }
         } catch (JSONException e) {
             Log.e("CommerceService", "Error parsing plates: " + e.getMessage());
             e.printStackTrace();
         }
+        commerce.setMaxDiscount(maxDiscount);
         return plates;
     }
 
