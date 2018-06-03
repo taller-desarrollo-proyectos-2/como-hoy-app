@@ -81,22 +81,51 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
             android:text="$50"
+            android:textStyle="bold"
+            android:visibility="gone"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintHorizontal_bias="1.0"
+            card_view:layout_constraintStart_toEndOf="@+id/icon_celiac_plate"
             card_view:layout_constraintTop_toTopOf="parent" />
-
 
         <TextView
             android:id="@+id/text_view_fullprice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="$50"
+            android:textColor="@color/discounts"
+            android:textStyle="bold"
+            android:visibility="visible"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintHorizontal_bias="1.0"
+            card_view:layout_constraintStart_toEndOf="@+id/icon_celiac_plate"
+            card_view:layout_constraintTop_toTopOf="parent"
+            card_view:layout_constraintVertical_bias="0.0" />
+
+
+        <TextView
+            android:id="@+id/text_view_discountprice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="$50"
             android:visibility="visible"
+            card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintTop_toBottomOf="@+id/text_view_order_status" />
+            card_view:layout_constraintHorizontal_bias="1.0"
+            card_view:layout_constraintStart_toEndOf="@+id/icon_celiac_plate"
+            card_view:layout_constraintTop_toBottomOf="@+id/text_view_fullprice" />
 
         <ImageButton
             android:id="@+id/icon_celiac_plate"
@@ -111,7 +140,8 @@
             android:visibility="visible"
             app:srcCompat="@drawable/celiac_icon"
             card_view:layout_constraintBottom_toBottomOf="parent"
-            card_view:layout_constraintEnd_toStartOf="@+id/text_view_order_status"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintHorizontal_bias="0.0"
             card_view:layout_constraintStart_toStartOf="@+id/plate_guideline"
             card_view:layout_constraintTop_toTopOf="parent" />
     </android.support.constraint.ConstraintLayout>

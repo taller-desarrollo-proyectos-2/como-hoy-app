@@ -15,6 +15,8 @@ public class Plate {
     private List<Category> mCategories;
     private Map<Long, Extra> mExtrasMap;
     private boolean mSuitableForCeliac;
+    private boolean mOnDiscount = false;
+    private int mDiscountAmount = 0;
     private Bitmap mPicture;
 
     public Plate(Long id) {
@@ -47,7 +49,31 @@ public class Plate {
     }
 
     public double getPrice() {
+        double price = mPrice;
+        if (mOnDiscount) {
+            price = (1.0 - (mDiscountAmount / 100.0)) * price;
+        }
+        return price;
+    }
+
+    public double getFullPrice() {
         return mPrice;
+    }
+
+    public boolean isOnDiscount() {
+        return mOnDiscount;
+    }
+
+    public void setOnDiscount(boolean onDiscount) {
+        mOnDiscount = onDiscount;
+    }
+
+    public int getDiscountAmount() {
+        return mDiscountAmount;
+    }
+
+    public void setDiscountAmount(int discountAmount) {
+        mDiscountAmount = discountAmount;
     }
 
     public void setPrice(double price) {

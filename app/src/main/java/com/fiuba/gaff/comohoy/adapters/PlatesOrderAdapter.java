@@ -75,6 +75,7 @@ public class PlatesOrderAdapter extends RecyclerView.Adapter<PlatesOrderAdapter.
 
         holder.mPlateName.setText(plate.getName());
         holder.mQuantity.setText(String.format(Locale.ENGLISH, "%d",plateOrder.getQuantity()));
+
         holder.mPrice.setText(String.format(Locale.ENGLISH, "$%.2f", plateOrder.getOrderPrice()));
 
         holder.mCardView.setOnClickListener(new View.OnClickListener() {

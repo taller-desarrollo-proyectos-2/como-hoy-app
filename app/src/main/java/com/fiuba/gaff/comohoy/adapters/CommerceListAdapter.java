@@ -122,13 +122,13 @@ public class CommerceListAdapter extends RecyclerView.Adapter<CommerceListAdapte
             holder.mAveragePrice.setText("-");
         }
 
-        String discounts = commerce.getDiscounts();
-        if (discounts.equals("")) {
+        int commerceMaxDiscount = commerce.getMaxDiscount();
+        if (commerceMaxDiscount <= 0) {
             holder.mDiscounts.setVisibility(View.GONE);
         }
         else {
             holder.mDiscounts.setVisibility(View.VISIBLE);
-            holder.mDiscounts.setText(mCommerces.get(position).getDiscounts());
+            holder.mDiscounts.setText(String.format("Hasta un %d de descuento", commerceMaxDiscount));
         }
 
         holder.mView.setOnClickListener(new View.OnClickListener() {

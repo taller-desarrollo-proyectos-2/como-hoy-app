@@ -17,7 +17,6 @@ import android.widget.TextView;
 
 import com.fiuba.gaff.comohoy.CommerceDetailsActivity;
 import com.fiuba.gaff.comohoy.R;
-import com.fiuba.gaff.comohoy.model.Commerce;
 import com.fiuba.gaff.comohoy.model.Plate;
 import com.fiuba.gaff.comohoy.services.commerces.CommercesService;
 import com.fiuba.gaff.comohoy.services.commerces.MockCommercesService;
@@ -25,9 +24,6 @@ import com.fiuba.gaff.comohoy.services.picasso.CircleTransform;
 import com.fiuba.gaff.comohoy.services.picasso.PicassoService;
 import com.fiuba.gaff.comohoy.services.ServiceLocator;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Transformation;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 import java.util.Locale;
@@ -49,7 +45,8 @@ public class MenuItemListAdapter extends RecyclerView.Adapter<MenuItemListAdapte
         private final TextView mPlateName;
         private final TextView mDescription;
         private final TextView mPrice;
-        private final TextView mFullPrice;
+        private final TextView mDiscountPrice;
+        private final TextView mFullPriceWithDiscount;
         private final ImageView mCeliacPicture;
         private final Guideline mGuideline;
 
@@ -61,7 +58,8 @@ public class MenuItemListAdapter extends RecyclerView.Adapter<MenuItemListAdapte
             mPlateName = (TextView) itemView.findViewById(R.id.textview_plate_name);
             mDescription = (TextView) itemView.findViewById(R.id.text_view_plate_desc);
             mPrice = (TextView) itemView.findViewById(R.id.text_view_order_status);
-            mFullPrice = itemView.findViewById(R.id.text_view_fullprice);
+            mDiscountPrice = itemView.findViewById(R.id.text_view_discountprice);
+            mFullPriceWithDiscount = itemView.findViewById(R.id.text_view_fullprice);
             mCeliacPicture = itemView.findViewById(R.id.icon_celiac_plate);
             mGuideline = itemView.findViewById(R.id.plate_guideline);
         }
@@ -107,6 +105,19 @@ public class MenuItemListAdapter extends RecyclerView.Adapter<MenuItemListAdapte
             params.guidePercent = 0.8f;
             holder.mGuideline.setLayoutParams(params);
 
+        }
+
+        if (plate.isOnDiscount()) {
+            holder.mPrice.setVisibility(View.GONE);
+            holder.mDiscountPrice.setVisibility(View.VISIBLE);
+            holder.mFullPriceWithDiscount.setVisibility(View.VISIBLE);
+            holder.mDiscountPrice.setText(String.format("$%.2f", plate.getPrice()));
+            holder.mFullPriceWithDiscount.setText(String.format("$%.2f", plate.getPrice()));
+        } else {
+            holder.mPrice.setVisibility(View.VISIBLE);
+            holder.mDiscountPrice.setVisibility(View.GONE);
+            holder.mFullPriceWithDiscount.setVisibility(View.GONE);
+            holder.mPrice.setText(String.format("$%.2f", plate.getPrice()));
         }
 
         holder.mView.setOnClickListener(new View.OnClickListener() {

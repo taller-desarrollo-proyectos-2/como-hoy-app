@@ -366,8 +366,9 @@ public class BaseCommercesService implements CommercesService {
                 plate.setSuitableForCeliac(plateJson.getBoolean("glutenFree"));
                 plate.setDescription(plateJson.getString("description"));
                 plate.setCategories(getPlateCategories(plateJson));
-                plate.setExtras(getPlateExtras(plateJson));
 
+                //
+                plate.setExtras(getPlateExtras(plateJson, plate.isOnDiscount(), plate.getDiscountAmount()));
                 plates.put(plate.getId(), plate);
             }
         } catch (JSONException e) {
@@ -387,7 +388,7 @@ public class BaseCommercesService implements CommercesService {
         return categories;
     }
 
-    private List<Extra> getPlateExtras(JSONObject plateJson) {
+    private List<Extra> getPlateExtras(JSONObject plateJson, boolean onDiscount, int discountAmount) {
         List<Extra> extras = new ArrayList<>();
         try {
             JSONArray extrasArray = plateJson.getJSONArray("optionals");
@@ -397,6 +398,8 @@ public class BaseCommercesService implements CommercesService {
                 Extra extra = new Extra(id);
                 extra.setName(extraObject.getString("name"));
                 extra.setPrice(extraObject.getDouble("price"));
+                extra.setOnDiscount(onDiscount);
+                extra.setDiscountAmount(discountAmount);
                 extras.add(extra);
             }
         } catch (JSONException e) {

@@ -157,7 +157,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="50% de descuento hoy"
-            android:textColor="@color/salmon"
+            android:textColor="@color/discounts"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/right_guideline"

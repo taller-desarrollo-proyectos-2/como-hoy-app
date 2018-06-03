@@ -14,7 +14,6 @@ public class Commerce {
     private String mDescription = "";
     private String mOrdersAmount = "";
     private String mShippingCost = "";
-    private String mDiscounts = "";
     private Location mLocation;
     private List<OpeningTime> mOpeningTimes;
     private boolean mIsFavourite = false;
@@ -22,6 +21,7 @@ public class Commerce {
     private double mRating;
     private double mAveragePrice;
     private Bitmap mPicture;
+    private int mMaxDiscount = 0;
 
     private List<Opinion> mOpiniones;
     private List<Category> mCategories;
@@ -64,6 +64,14 @@ public class Commerce {
 
     public double getAveragePrice() {
         return mAveragePrice;
+    }
+
+    public int getMaxDiscount() {
+        return mMaxDiscount;
+    }
+
+    public void setMaxDiscount(int maxDiscount) {
+        mMaxDiscount = maxDiscount;
     }
 
     public void setAveragePrice(double averagePrice) {
@@ -116,14 +124,6 @@ public class Commerce {
 
     public void setShippingCost(String shippingCost) {
         this.mShippingCost = shippingCost;
-    }
-
-    public String getDiscounts() {
-        return mDiscounts;
-    }
-
-    public void setDiscounts(String discounts) {
-        this.mDiscounts = discounts;
     }
 
     public Bitmap getPicture() {
