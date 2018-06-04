@@ -108,6 +108,12 @@ public class MyOrdersFragment extends Fragment {
         });
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadOrders(getPurchaseService().getOrdersCached());
+    }
+
     private void updateOrdersList() {
         getPurchaseService().getOrdersFromServer(getActivity(), new OnGetOrdersCallback() {
             @Override

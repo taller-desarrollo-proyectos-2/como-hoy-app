@@ -83,7 +83,11 @@ public class MyOrdersAdapter extends RecyclerView.Adapter<MyOrdersAdapter.OrderV
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyy | HH:mm");
         holder.mInitDateTextView.setText(formatter.format(request.getInitDate()) + " hs");
 
-        holder.mOrderStatus.setText(request.getStatus().toString());
+        if (request.isQualified()) {
+            holder.mOrderStatus.setText("Calificado");
+        } else {
+            holder.mOrderStatus.setText(request.getStatus().toString());
+        }
         holder.mOrderPrice.setText(String.format("$%.0f", request.getPrice()));
 
         String uriFormat = "http://34.237.197.99:9000/api/v1/commerces/%d/picture";

@@ -40,6 +40,7 @@ import com.fiuba.gaff.comohoy.services.commerces.CommercesService;
 import com.fiuba.gaff.comohoy.services.commerces.UpdateCommercesCallback;
 import com.fiuba.gaff.comohoy.services.opinions.OpinionsService;
 import com.fiuba.gaff.comohoy.services.opinions.PublishOpinionCallback;
+import com.fiuba.gaff.comohoy.utils.RateUtils;
 
 import org.w3c.dom.Text;
 
@@ -128,6 +129,7 @@ public class SeeOrderActivity extends AppCompatActivity {
 
         setUpCommerceTitle();
         setUpOrderPrice();
+        setUpOrderStatus();
 
         loadSingleRequestsList(mRequest.getSingleRequests());
 
@@ -162,6 +164,42 @@ public class SeeOrderActivity extends AppCompatActivity {
         } else {
             commerceTitle.setVisibility(View.GONE);
         }
+    }
+
+    private void setUpOrderStatus() {
+        TextView textView = findViewById(R.id.textView_estado);
+        View ratingView = findViewById(R.id.view_puntaje);
+        if (mRequest.isQualified()) {
+            textView.setText(String.format("Estado: Calificado", mRequest.getStatus().toString()));
+            /*textView.setVisibility(View.GONE);
+            ratingView.setVisibility(View.VISIBLE);
+            double clampedRating = RateUtils.cleanRate(mRequest.get);
+            ImageView star1 = findViewById(R.id.star1);
+            ImageView star2 = findViewById(R.id.star2);
+            ImageView star3 = findViewById(R.id.star3);
+            ImageView star4 = findViewById(R.id.star4);
+            ImageView star5 = findViewById(R.id.star5);
+            star1.setImageResource(getStarIdFromValue(clampedRating));
+            star2.setImageResource(getStarIdFromValue(clampedRating - 1));
+            star3.setImageResource(getStarIdFromValue(clampedRating - 2));
+            star4.setImageResource(getStarIdFromValue(clampedRating - 3));
+            star5.setImageResource(getStarIdFromValue(clampedRating - 4));*/
+
+        } else {
+            /*textView.setVisibility(View.VISIBLE);
+            ratingView.setVisibility(View.GONE);*/
+            textView.setText(String.format("Estado: %s", mRequest.getStatus().toString()));
+        }
+    }
+
+    private int getStarIdFromValue(double value) {
+        if (value <= 0) {
+            return R.drawable.whitestar;
+        }
+        if (value >= 1) {
+            return  R.drawable.yellowstar;
+        }
+        return R.drawable.halfyellowstar;
     }
 
     private void setUpOrderPrice() {
@@ -200,14 +238,25 @@ public class SeeOrderActivity extends AppCompatActivity {
                 });
                 break;
             case Delivered:
-                button.setText("CALIFICAR PEDIDO");
-                ViewCompat.setBackgroundTintList(button, ColorStateList.valueOf(context.getResources().getColor(R.color.colorAccent)));
-                button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        onRateOrderClicked(request);
-                    }
-                });
+                if (request.isQualified()) {
+                    button.setText("VOLVER");
+                    ViewCompat.setBackgroundTintList(button, ColorStateList.valueOf(context.getResources().getColor(android.R.color.darker_gray)));
+                    button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            finish();
+                        }
+                    });
+                } else {
+                    button.setText("CALIFICAR PEDIDO");
+                    ViewCompat.setBackgroundTintList(button, ColorStateList.valueOf(context.getResources().getColor(R.color.colorAccent)));
+                    button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            onRateOrderClicked(request);
+                        }
+                    });
+                }
                 break;
             default:
                 button.setText("VOLVER");
@@ -255,7 +304,7 @@ public class SeeOrderActivity extends AppCompatActivity {
             @Override
             public void onSuccess() {
                 showToast("Su pedido ha sido cancelado con éxito");
-                finish();
+                changeStateToCanceled();
             }
 
             @Override
@@ -264,6 +313,38 @@ public class SeeOrderActivity extends AppCompatActivity {
             }
         };
         return callback;
+    }
+
+    private void changeStateToCanceled() {
+        mRequest.setStatus(RequestStatus.CanceledByUser);
+
+        TextView textView = findViewById(R.id.textView_estado);
+        textView.setText(String.format("Estado: Cancelado", mRequest.getStatus().toString()));
+        AppCompatButton button = findViewById(R.id.button_action);
+        button.setText("VOLVER");
+        ViewCompat.setBackgroundTintList(button, ColorStateList.valueOf(this.getResources().getColor(android.R.color.darker_gray)));
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+    }
+
+    private void changeStatetoQualified() {
+        mRequest.setQualified(true);
+
+        TextView textView = findViewById(R.id.textView_estado);
+        textView.setText(String.format("Estado: Calificado", mRequest.getStatus().toString()));
+        AppCompatButton button = findViewById(R.id.button_action);
+        button.setText("VOLVER");
+        ViewCompat.setBackgroundTintList(button, ColorStateList.valueOf(this.getResources().getColor(android.R.color.darker_gray)));
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     private CommercesService getCommerceService() {
@@ -376,6 +457,7 @@ public class SeeOrderActivity extends AppCompatActivity {
                 opinion.setPuntuation(mPuntuacion);
                 sendOpinionToBackoffice(opinion);
                 mCalificationsDialog.dismiss();
+                changeStatetoQualified();
             }
         });
         cancelButton.setOnClickListener(new View.OnClickListener() {
