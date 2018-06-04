@@ -96,7 +96,7 @@ public class LoginActivity extends AppCompatActivity {
                 showProgress(false);
                 Intent goToMainActivityIntent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(goToMainActivityIntent);
-                // finish();
+                finish();
             }
 
             @Override
