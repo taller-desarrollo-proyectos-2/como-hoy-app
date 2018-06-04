@@ -11,6 +11,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
+import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarFinalValueListener;
+import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
 import com.fiuba.gaff.comohoy.R;
 import com.fiuba.gaff.comohoy.adapters.CategoriesAdapter;
 import com.fiuba.gaff.comohoy.adapters.CommerceListAdapter;
@@ -44,6 +48,7 @@ import com.fiuba.gaff.comohoy.services.commerces.UpdateCommercesCallback;
 import com.fiuba.gaff.comohoy.services.location.LocationService;
 import com.fiuba.gaff.comohoy.utils.FilterState;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -319,18 +324,52 @@ public class CommercesListFragment extends Fragment {
             }
         });
 
-       /* final String[] select_qualification = {"Elegi tus filtros","Distancia", "Puntaje", "Velocidad"};
-        Spinner spinnerFilter = (Spinner) mFiltersDialog.findViewById(R.id.spinner_filter_criteria);
-        ArrayList<FilterState> listVOs = new ArrayList<>();
-        for (int i = 0; i < select_qualification.length; i++) {
-            FilterState stateVO = new FilterState();
-            stateVO.setTitle(select_qualification[i]);
-            stateVO.setSelected(false);
-            listVOs.add(stateVO);
-        }*/
+        final CrystalRangeSeekbar rangeSeekbar = (CrystalRangeSeekbar) mFiltersDialog.findViewById(R.id.rangeSeekbar1);
+        rangeSeekbar.setMinValue(1);
+        rangeSeekbar.setMaxValue(5);
+        rangeSeekbar.setDataType(CrystalRangeSeekbar.DataType.FLOAT);
+        // get min and max text view
+        final TextView tvMin = (TextView) mFiltersDialog.findViewById(R.id.min_value_1);
+        final TextView tvMax = (TextView) mFiltersDialog.findViewById(R.id.max_value_1);
+        // set listener
+        rangeSeekbar.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
+            @Override
+            public void valueChanged(Number minValue, Number maxValue) {
+                tvMin.setText(String.valueOf(minValue));
+                tvMax.setText(String.valueOf(maxValue));
+            }
+        });
+        // set final value listener
+        rangeSeekbar.setOnRangeSeekbarFinalValueListener(new OnRangeSeekbarFinalValueListener() {
+            @Override
+            public void finalValue(Number minValue, Number maxValue) {
+                Log.d("CRS=>", String.valueOf(minValue) + " : " + String.valueOf(maxValue));
+            }
+        });
 
-        /*FilterAdapter myAdapter = new FilterAdapter(getContext(), 0, listVOs);
-        spinnerFilter.setAdapter(myAdapter);*/
+        final CrystalRangeSeekbar rangeSeekbar2 = (CrystalRangeSeekbar) mFiltersDialog.findViewById(R.id.rangeSeekbar2);
+        rangeSeekbar2.setMinValue(0);
+        rangeSeekbar2.setMaxValue(10);
+        rangeSeekbar2.setDataType(CrystalRangeSeekbar.DataType.FLOAT);
+        // get min and max text view
+        final TextView tvMin2 = (TextView) mFiltersDialog.findViewById(R.id.min_value_2);
+        final TextView tvMax2 = (TextView) mFiltersDialog.findViewById(R.id.max_value_2);
+        // set listener
+        rangeSeekbar2.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
+            @Override
+            public void valueChanged(Number minValue, Number maxValue) {
+                tvMin2.setText(String.valueOf(minValue));
+                tvMax2.setText(String.valueOf(maxValue));
+            }
+        });
+        // set final value listener
+        rangeSeekbar2.setOnRangeSeekbarFinalValueListener(new OnRangeSeekbarFinalValueListener() {
+            @Override
+            public void finalValue(Number minValue, Number maxValue) {
+                Log.d("CRS=>", String.valueOf(minValue) + " : " + String.valueOf(maxValue));
+            }
+        });
+
 
         Button acceptButton = mFiltersDialog.findViewById(R.id.button_accept);
         Button cancelButton = mFiltersDialog.findViewById(R.id.button_cancel);
