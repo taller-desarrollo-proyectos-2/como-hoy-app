@@ -302,7 +302,7 @@ public class CommercesListFragment extends Fragment {
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         Window window = mFiltersDialog.getWindow();
         lp.copyFrom(window.getAttributes());
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         window.setAttributes(lp);
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -493,8 +493,8 @@ public class CommercesListFragment extends Fragment {
 
                 getCommercesService().clearFilters();
                 getCommercesService().addFilter(dFilter);
-                getCommercesService().addFilter(pFilter);
                 getCommercesService().addFilter(rFilter);
+                getCommercesService().addFilter(pFilter);
 
                 List<Commerce> sortedCommerces = getCommercesService().getCommercesSortedBy(getActivity(), mSortCriteria);
                 loadCommerces(sortedCommerces, false);
