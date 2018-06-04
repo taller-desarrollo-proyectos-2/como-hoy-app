@@ -6,10 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RatingFilter implements Filter {
-    private double mPuntuation;
+    private float mPuntuationMin;
+    private float mPuntuationMax;
 
-    public RatingFilter(double puntuation) {
-        mPuntuation = puntuation;
+    public RatingFilter(float min, float max ) {
+        mPuntuationMin = min;
+        mPuntuationMax = max;
     }
 
     @Override
@@ -19,7 +21,13 @@ public class RatingFilter implements Filter {
         for (int i = 0; i < commerceList.size(); i++) {
             Commerce commerce = commerceList.get(i);
             double puntuationConvert = commerce.getRating();
-            if (puntuationConvert > mPuntuation) {
+            if (puntuationConvert > 5){
+                puntuationConvert = 5;
+            }
+            if ((puntuationConvert >= mPuntuationMin) && (puntuationConvert <= mPuntuationMax)){
+                filteredList.add(commerce);
+            }
+            if (puntuationConvert == 0){
                 filteredList.add(commerce);
             }
         }

@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.media.Rating;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -39,6 +40,9 @@ import com.fiuba.gaff.comohoy.adapters.CategoriesAdapter;
 import com.fiuba.gaff.comohoy.adapters.CommerceListAdapter;
 import com.fiuba.gaff.comohoy.adapters.FilterAdapter;
 import com.fiuba.gaff.comohoy.filters.CategoryFilter;
+import com.fiuba.gaff.comohoy.filters.DistanceFilter;
+import com.fiuba.gaff.comohoy.filters.PriceFilter;
+import com.fiuba.gaff.comohoy.filters.RatingFilter;
 import com.fiuba.gaff.comohoy.filters.SearchFilter;
 import com.fiuba.gaff.comohoy.model.Category;
 import com.fiuba.gaff.comohoy.model.CategoryUsageData;
@@ -78,7 +82,10 @@ public class CommercesListFragment extends Fragment {
     private boolean p1 = false;
     private boolean p2 = false;
     private boolean p3 = false;
-
+    private float max_distancia;
+    private float min_distancia;
+    private float max_puntaje;
+    private float min_puntaje;
 
     public interface CommerceListListener {
         void onCommerceClicked(Commerce commerce, View commerceTitleTextView);
@@ -335,6 +342,8 @@ public class CommercesListFragment extends Fragment {
         final CrystalRangeSeekbar rangeSeekbar = (CrystalRangeSeekbar) mFiltersDialog.findViewById(R.id.rangeSeekbar1);
         rangeSeekbar.setMinValue(1);
         rangeSeekbar.setMaxValue(5);
+        max_puntaje = 5;
+        min_puntaje = 1;
         rangeSeekbar.setDataType(CrystalRangeSeekbar.DataType.FLOAT);
         // get min and max text view
         final TextView tvMin = (TextView) mFiltersDialog.findViewById(R.id.min_value_1);
@@ -345,6 +354,8 @@ public class CommercesListFragment extends Fragment {
             public void valueChanged(Number minValue, Number maxValue) {
                 tvMin.setText(String.format("%.1f",minValue.floatValue()));
                 tvMax.setText(String.format("%.1f",maxValue.floatValue()));
+                max_puntaje = maxValue.floatValue();
+                min_puntaje = minValue.floatValue();
             }
         });
         // set final value listener
@@ -358,6 +369,8 @@ public class CommercesListFragment extends Fragment {
         final CrystalRangeSeekbar rangeSeekbar2 = (CrystalRangeSeekbar) mFiltersDialog.findViewById(R.id.rangeSeekbar2);
         rangeSeekbar2.setMinValue(0);
         rangeSeekbar2.setMaxValue(10);
+        max_distancia = 0;
+        min_distancia = 10;
         rangeSeekbar2.setDataType(CrystalRangeSeekbar.DataType.FLOAT);
         // get min and max text view
         final TextView tvMin2 = (TextView) mFiltersDialog.findViewById(R.id.min_value_2);
@@ -368,6 +381,8 @@ public class CommercesListFragment extends Fragment {
             public void valueChanged(Number minValue, Number maxValue) {
                 tvMin2.setText(String.format("%.1f",minValue.floatValue()));
                 tvMax2.setText(String.format("%.1f",maxValue.floatValue()));
+                max_distancia = maxValue.floatValue();
+                min_distancia = minValue.floatValue();
             }
         });
         // set final value listener
@@ -467,6 +482,20 @@ public class CommercesListFragment extends Fragment {
         acceptButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                DistanceFilter dFilter = new DistanceFilter(0,99999999,getContext());
+                float minPrice = 0;
+                float maxPrice = PriceFilter.INFINITE;
+                if (p1){ minPrice = 0;maxPrice = 250;}
+                if (p2){ minPrice = 250;maxPrice = 500;}
+                if (p3){ minPrice = 500;maxPrice = PriceFilter.INFINITE;}
+                PriceFilter pFilter = new PriceFilter(minPrice,maxPrice);
+                RatingFilter rFilter = new RatingFilter(min_puntaje,max_puntaje);
+
+                getCommercesService().clearFilters();
+                getCommercesService().addFilter(dFilter);
+                getCommercesService().addFilter(pFilter);
+                getCommercesService().addFilter(rFilter);
+
                 List<Commerce> sortedCommerces = getCommercesService().getCommercesSortedBy(getActivity(), mSortCriteria);
                 loadCommerces(sortedCommerces, false);
                 mFiltersDialog.dismiss();
