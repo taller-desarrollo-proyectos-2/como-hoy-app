@@ -253,6 +253,7 @@ public class BasePurchasesService implements PurchasesService {
                 JSONObject orderJson = new JSONObject();
                 JSONObject plateIdJson = new JSONObject();
                 plateIdJson.put("id", plateOrder.getPlateId());
+                plateIdJson.put("discount", plateOrder.getPlateDiscount());
                 orderJson.put("plate", plateIdJson);
                 orderJson.put("optionals", createExtrasJson(plateOrder));
                 orderJson.put("comment", plateOrder.getClarifications());
@@ -383,6 +384,7 @@ public class BasePurchasesService implements PurchasesService {
 
     private Date getInitDateFromOrderJson(JSONObject orderJson) throws JSONException {
         Long initDateInMilliseconds = orderJson.getLong("initAt");
+        initDateInMilliseconds -= (3600000 * 3); // Descuenta 3 horas para tiempo de Bs As
         return new Date(initDateInMilliseconds);
     }
 

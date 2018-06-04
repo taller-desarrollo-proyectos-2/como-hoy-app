@@ -8,6 +8,7 @@ public class PlateOrder {
     private int mCommerceId;
     private double mOrderPrice;
     private Long mPlateId;
+    private int mPlateDiscount = 0;
     private List<Long> mExtrasId;
     private int mQuantity;
     private String mClarifications = "";
@@ -26,6 +27,14 @@ public class PlateOrder {
 
     public int getCommerceId() {
         return mCommerceId;
+    }
+
+    public int getPlateDiscount() {
+        return mPlateDiscount;
+    }
+
+    public void setPlateDiscount(int plateDiscount) {
+        mPlateDiscount = plateDiscount;
     }
 
     public void setCommerceId(int commerceId) {

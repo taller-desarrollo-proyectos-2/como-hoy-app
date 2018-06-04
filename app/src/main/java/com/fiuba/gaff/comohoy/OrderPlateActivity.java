@@ -142,6 +142,9 @@ public class OrderPlateActivity extends AppCompatActivity {
         plateOrder.setOrderPrice(mOrderPrice);
         plateOrder.setPlateId(mPlateId);
 
+        int discount = getCommerceService().getCommerce(mCommerceId).getPlate(mPlateId).getDiscountAmount();
+        plateOrder.setPlateDiscount(discount);
+
         PurchasesService purchasesService = getPurchaseService();
         if (mIsModifyingPlate) {
             purchasesService.modifyPlateOrder(mPlateOrderId, plateOrder);
