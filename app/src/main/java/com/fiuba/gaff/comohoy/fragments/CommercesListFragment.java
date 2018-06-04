@@ -319,7 +319,7 @@ public class CommercesListFragment extends Fragment {
             }
         });
 
-        final String[] select_qualification = {"Elegi tus filtros","Distancia", "Puntaje", "Velocidad"};
+       /* final String[] select_qualification = {"Elegi tus filtros","Distancia", "Puntaje", "Velocidad"};
         Spinner spinnerFilter = (Spinner) mFiltersDialog.findViewById(R.id.spinner_filter_criteria);
         ArrayList<FilterState> listVOs = new ArrayList<>();
         for (int i = 0; i < select_qualification.length; i++) {
@@ -327,10 +327,10 @@ public class CommercesListFragment extends Fragment {
             stateVO.setTitle(select_qualification[i]);
             stateVO.setSelected(false);
             listVOs.add(stateVO);
-        }
+        }*/
 
-        FilterAdapter myAdapter = new FilterAdapter(getContext(), 0, listVOs);
-        spinnerFilter.setAdapter(myAdapter);
+        /*FilterAdapter myAdapter = new FilterAdapter(getContext(), 0, listVOs);
+        spinnerFilter.setAdapter(myAdapter);*/
 
         Button acceptButton = mFiltersDialog.findViewById(R.id.button_accept);
         Button cancelButton = mFiltersDialog.findViewById(R.id.button_cancel);
