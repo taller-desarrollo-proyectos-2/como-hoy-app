@@ -9,6 +9,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -22,6 +23,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.Spinner;
@@ -71,6 +74,11 @@ public class CommercesListFragment extends Fragment {
     private Dialog mFiltersDialog;
 
     private CommerceListListener mCommerceListListener;
+
+    private boolean p1 = false;
+    private boolean p2 = false;
+    private boolean p3 = false;
+
 
     public interface CommerceListListener {
         void onCommerceClicked(Commerce commerce, View commerceTitleTextView);
@@ -335,8 +343,8 @@ public class CommercesListFragment extends Fragment {
         rangeSeekbar.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
             @Override
             public void valueChanged(Number minValue, Number maxValue) {
-                tvMin.setText(String.valueOf(minValue));
-                tvMax.setText(String.valueOf(maxValue));
+                tvMin.setText(String.format("%.1f",minValue.floatValue()));
+                tvMax.setText(String.format("%.1f",maxValue.floatValue()));
             }
         });
         // set final value listener
@@ -358,8 +366,8 @@ public class CommercesListFragment extends Fragment {
         rangeSeekbar2.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
             @Override
             public void valueChanged(Number minValue, Number maxValue) {
-                tvMin2.setText(String.valueOf(minValue));
-                tvMax2.setText(String.valueOf(maxValue));
+                tvMin2.setText(String.format("%.1f",minValue.floatValue()));
+                tvMax2.setText(String.format("%.1f",maxValue.floatValue()));
             }
         });
         // set final value listener
@@ -370,6 +378,88 @@ public class CommercesListFragment extends Fragment {
             }
         });
 
+        final ImageView id1 = mFiltersDialog.findViewById(R.id.d1);
+        final ImageView id2 = mFiltersDialog.findViewById(R.id.d2);
+        final ImageView id3 = mFiltersDialog.findViewById(R.id.d3);
+        final ImageView id4 = mFiltersDialog.findViewById(R.id.d4);
+        final ImageView id5 = mFiltersDialog.findViewById(R.id.d5);
+        final ImageView id6 = mFiltersDialog.findViewById(R.id.d6);
+
+        id1.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.dollar_empty));
+        id2.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.dollar_empty));
+        id3.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.dollar_empty));
+        id4.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.dollar_empty));
+        id5.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.dollar_empty));
+        id6.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.dollar_empty));
+
+        LinearLayout precio1 = mFiltersDialog.findViewById(R.id.precio_elegido_1);
+        precio1.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!p1){
+                    id1.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.dollar_green_t));
+                    id2.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.dollar_empty));
+                    id3.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.dollar_empty));
+                    id4.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.dollar_empty));
+                    id5.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.dollar_empty));
+                    id6.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.dollar_empty));
+                    p1 = true;
+                    p2 = false;
+                    p3 = false;
+                }
+                else{
+                    id1.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.dollar_empty));
+                    p1 = false;
+                }
+            }
+        });
+
+        LinearLayout precio2 = mFiltersDialog.findViewById(R.id.precio_elegido_2);
+        precio2.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!p2){
+                    id1.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.dollar_empty));
+                    id2.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.dollar_green_t));
+                    id3.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.dollar_green_t));
+                    id4.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.dollar_empty));
+                    id5.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.dollar_empty));
+                    id6.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.dollar_empty));
+                    p1 = false;
+                    p2 = true;
+                    p3 = false;
+                }
+                else{
+                    id2.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.dollar_empty));
+                    id3.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.dollar_empty));
+                    p2 = false;
+                }
+            }
+        });
+
+        LinearLayout precio3 = mFiltersDialog.findViewById(R.id.precio_elegido_3);
+        precio3.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!p3){
+                    id1.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.dollar_empty));
+                    id2.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.dollar_empty));
+                    id3.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.dollar_empty));
+                    id4.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.dollar_green_t));
+                    id5.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.dollar_green_t));
+                    id6.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.dollar_green_t));
+                    p1 = false;
+                    p2 = false;
+                    p3 = true;
+                }
+                else{
+                    id4.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.dollar_empty));
+                    id5.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.dollar_empty));
+                    id6.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.dollar_empty));
+                    p3 = false;
+                }
+            }
+        });
 
         Button acceptButton = mFiltersDialog.findViewById(R.id.button_accept);
         Button cancelButton = mFiltersDialog.findViewById(R.id.button_cancel);
