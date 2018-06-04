@@ -379,8 +379,8 @@ public class CommercesListFragment extends Fragment {
         rangeSeekbar2.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
             @Override
             public void valueChanged(Number minValue, Number maxValue) {
-                tvMin2.setText(String.format("%.1f",minValue.floatValue()));
-                tvMax2.setText(String.format("%.1f",maxValue.floatValue()));
+                tvMin2.setText(String.format("%.1f km",minValue.floatValue()));
+                tvMax2.setText(String.format("%.1f km",maxValue.floatValue()));
                 max_distancia = maxValue.floatValue();
                 min_distancia = minValue.floatValue();
             }
@@ -488,7 +488,7 @@ public class CommercesListFragment extends Fragment {
                 if (p1){ minPrice = 0;maxPrice = 250;}
                 if (p2){ minPrice = 250;maxPrice = 500;}
                 if (p3){ minPrice = 500;maxPrice = PriceFilter.INFINITE;}
-                PriceFilter pFilter = new PriceFilter(minPrice,maxPrice);
+                PriceFilter pFilter = new PriceFilter(minPrice, maxPrice);
                 RatingFilter rFilter = new RatingFilter(min_puntaje,max_puntaje);
 
                 getCommercesService().clearFilters();
