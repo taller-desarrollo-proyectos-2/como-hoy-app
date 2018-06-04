@@ -277,12 +277,12 @@ public class CommercesListFragment extends Fragment {
     private void createFiltersDialog() {
         mFiltersDialog = new Dialog(getContext());
         mFiltersDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        mFiltersDialog.setContentView(R.layout.dialog_filters);
+        mFiltersDialog.setContentView(R.layout.dialog_filters2);
 
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         Window window = mFiltersDialog.getWindow();
         lp.copyFrom(window.getAttributes());
-        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         window.setAttributes(lp);
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
