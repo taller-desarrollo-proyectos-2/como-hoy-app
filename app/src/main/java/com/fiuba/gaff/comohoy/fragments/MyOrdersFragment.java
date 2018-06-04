@@ -111,14 +111,14 @@ public class MyOrdersFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        loadOrders(getPurchaseService().getOrdersCached());
+        loadOrders(getPurchaseService().getOrdersCached(), false);
     }
 
     private void updateOrdersList() {
         getPurchaseService().getOrdersFromServer(getActivity(), new OnGetOrdersCallback() {
             @Override
             public void onSuccess(List<Request> orders) {
-                loadOrders(orders);
+                loadOrders(orders, true);
                 showProgress(false);
             }
 
@@ -130,10 +130,10 @@ public class MyOrdersFragment extends Fragment {
         });
     }
 
-    private void loadOrders(List<Request> orders) {
+    private void loadOrders(List<Request> orders, boolean showToast) {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(new MyOrdersAdapter(orders, mOrdersListListener));
-        if (orders.size() < 1) {
+        if (showToast && (orders.size() < 1)) {
             Toast.makeText(getContext(), "No tiene ningún pedido", Toast.LENGTH_LONG).show();
         }
     }
