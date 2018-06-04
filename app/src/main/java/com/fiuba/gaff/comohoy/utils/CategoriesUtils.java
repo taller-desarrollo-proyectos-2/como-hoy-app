@@ -36,8 +36,8 @@ public class CategoriesUtils {
         mCategoriesDrawablesIds.put("Cupcakes",R.drawable.food);
         mCategoriesDrawablesIds.put("Desayunos",R.drawable.food);
         mCategoriesDrawablesIds.put("Ensaladas",R.drawable.food);
-        mCategoriesDrawablesIds.put("Hamburguesas",R.drawable.food);
-        mCategoriesDrawablesIds.put("Helados",R.drawable.food);
+        mCategoriesDrawablesIds.put("Hamburguesas",R.drawable.hamburguesas);
+        mCategoriesDrawablesIds.put("Helados",R.drawable.helados);
         mCategoriesDrawablesIds.put("Licuados y Jugos",R.drawable.food);
         mCategoriesDrawablesIds.put("Lomitos",R.drawable.food);
         mCategoriesDrawablesIds.put("Menú del día",R.drawable.food);
@@ -49,9 +49,9 @@ public class CategoriesUtils {
         mCategoriesDrawablesIds.put("Picadas",R.drawable.food);
         mCategoriesDrawablesIds.put("Pollo",R.drawable.food);
         mCategoriesDrawablesIds.put("Postres",R.drawable.food);
-        mCategoriesDrawablesIds.put("Sándwiches",R.drawable.food);
+        mCategoriesDrawablesIds.put("Sándwiches",R.drawable.sandwiches);
         mCategoriesDrawablesIds.put("Sopas",R.drawable.food);
-        mCategoriesDrawablesIds.put("Sushi",R.drawable.food);
+        mCategoriesDrawablesIds.put("Sushi",R.drawable.sushi);
         mCategoriesDrawablesIds.put("Tartas",R.drawable.food);
         mCategoriesDrawablesIds.put("Tortillas",R.drawable.food);
         mCategoriesDrawablesIds.put("Viandas y Congelados",R.drawable.food);
