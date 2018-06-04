@@ -37,6 +37,8 @@ import com.fiuba.gaff.comohoy.services.commerces.CommercesService;
 import com.fiuba.gaff.comohoy.services.opinions.OpinionsService;
 import com.fiuba.gaff.comohoy.services.opinions.PublishOpinionCallback;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 public class SeeOrderActivity extends AppCompatActivity {
@@ -222,6 +224,10 @@ public class SeeOrderActivity extends AppCompatActivity {
 
         final EditText calificationEditText = mCalificationsDialog.findViewById(R.id.editText_califications);
         calificationEditText.setText("");
+
+        TextView commerceTitleTextView = mCalificationsDialog.findViewById(R.id.textView_commerce_title);
+        String commerceTitle = getCommerceService().getCommerce(mRequest.getCommerceId()).getShowableName();
+        commerceTitleTextView.setText(commerceTitle);
 
         LinearLayout ll = mCalificationsDialog.findViewById(R.id.puntuacion_comercio);
         final ImageView e1 = ll.findViewById(R.id.estrella1);
