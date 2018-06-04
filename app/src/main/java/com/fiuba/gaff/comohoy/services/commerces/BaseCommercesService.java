@@ -318,10 +318,15 @@ public class BaseCommercesService implements CommercesService {
 
             int commerceId = commerceJson.getInt("id");
             Commerce commerce = new Commerce(commerceId);
+            HashMap<Long, Plate> plates = getCommercePlates(commerceJson, commerce);
+
+            // Ignora comercios sin platos
+            if (plates.values().size() <= 0) continue;
+
+            commerce.setPlates(plates);
             commerce.setName(commerceJson.getString("name"));
             commerce.setBusinessName(commerceJson.getString("businessName"));
             commerce.setCategories(getCommerceCategories(commerceJson));
-            commerce.setPlates(getCommercePlates(commerceJson, commerce));
             commerce.setLocation(getCommerceLocation(commerceJson));
             commerce.setOpeningTimes(getOpeningTimes(commerceJson));
             commerce.setRating(commerceJson.getDouble("score"));

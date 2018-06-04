@@ -2,6 +2,7 @@ package com.fiuba.gaff.comohoy;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -21,6 +22,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,10 +32,12 @@ import com.fiuba.gaff.comohoy.model.Opinion;
 import com.fiuba.gaff.comohoy.model.purchases.RequestStatus;
 import com.fiuba.gaff.comohoy.model.purchases.backend.Request;
 import com.fiuba.gaff.comohoy.model.purchases.backend.SingleRequest;
+import com.fiuba.gaff.comohoy.services.PurchasesService.OnGetOrdersCallback;
 import com.fiuba.gaff.comohoy.services.PurchasesService.OnRequestUpdatedCallback;
 import com.fiuba.gaff.comohoy.services.PurchasesService.PurchasesService;
 import com.fiuba.gaff.comohoy.services.ServiceLocator;
 import com.fiuba.gaff.comohoy.services.commerces.CommercesService;
+import com.fiuba.gaff.comohoy.services.commerces.UpdateCommercesCallback;
 import com.fiuba.gaff.comohoy.services.opinions.OpinionsService;
 import com.fiuba.gaff.comohoy.services.opinions.PublishOpinionCallback;
 
@@ -46,7 +50,10 @@ public class SeeOrderActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private Request mRequest;
     private Long mRequestId = -1L;
+    private boolean mFromRateNotification = false;
 
+    private View mContent;
+    private ProgressBar mProgressBar;
     private Dialog mCalificationsDialog;
     private OnRequestUpdatedCallback mOnRequestUpdatedCallback;
 
@@ -60,8 +67,60 @@ public class SeeOrderActivity extends AppCompatActivity {
         setContentView(R.layout.activity_see_request);
 
         mRecyclerView = findViewById(R.id.single_request_list);
+        mProgressBar = findViewById(R.id.progressBar);
+        mContent = findViewById(R.id.layout_content);
 
+        obtainFromRateNotification(savedInstanceState);
         obtainRequestId(savedInstanceState);
+
+        if (mFromRateNotification) {
+            downloadDataAndUpdateUI();
+        } else {
+            updateUI();
+        }
+    }
+
+    private void downloadDataAndUpdateUI() {
+        showProgress(true);
+        getCommerceService().updateCommercesData(this, new UpdateCommercesCallback() {
+            @Override
+            public void onCommercesUpdated() {
+                updateOrdersData();
+            }
+
+            @Override
+            public void onError(String reason) {
+                showProgress(false);
+                showToast("Error cargando información de su pedido.");
+                goToMainActivity();
+            }
+        });
+    }
+
+    private void updateOrdersData() {
+        getPurchaseService().getOrdersFromServer(this, new OnGetOrdersCallback() {
+            @Override
+            public void onSuccess(List<Request> orders) {
+                updateUI();
+                showProgress(false);
+            }
+
+            @Override
+            public void onError(String reason) {
+                showProgress(false);
+                showToast("Error cargando información de su pedido.");
+                goToMainActivity();
+            }
+        });
+    }
+
+    private void goToMainActivity() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    private void updateUI() {
         mRequest = getPurchaseService().getRequestWithId(mRequestId);
 
         mOnRequestUpdatedCallback = getOnRequestUpdatedCallback();
@@ -75,16 +134,23 @@ public class SeeOrderActivity extends AppCompatActivity {
         setUpActionButton(this, mRequest);
     }
 
+    private void showProgress(boolean show) {
+        mProgressBar.setVisibility(show ? View.VISIBLE : View.GONE);
+        mContent.setVisibility(show ? View.GONE : View.VISIBLE);
+    }
+
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
         savedInstanceState.putLong(getString(R.string.intent_data_request_id), mRequestId);
+        savedInstanceState.putBoolean(getString(R.string.intent_data_from_rate_notification), mFromRateNotification);
     }
 
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        mRequestId = savedInstanceState.getLong(getString(R.string.intent_data_request_id), -1);
+        mRequestId = savedInstanceState.getLong(getString(R.string.intent_data_request_id), -1L);
+        mFromRateNotification = savedInstanceState.getBoolean(getString(R.string.intent_data_from_rate_notification), false);
     }
 
     private void setUpCommerceTitle() {
@@ -337,5 +403,16 @@ public class SeeOrderActivity extends AppCompatActivity {
 
     private void showToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    private void obtainFromRateNotification(Bundle savedInstanceState) {
+        Bundle extras = getIntent().getExtras();
+        if (extras.containsKey(getString(R.string.intent_data_from_rate_notification))) {
+            mFromRateNotification = extras.getBoolean(getString(R.string.intent_data_from_rate_notification), false);
+        } else {
+            if ((savedInstanceState != null) && (savedInstanceState.containsKey(getString(R.string.intent_data_from_rate_notification)))) {
+                mFromRateNotification = savedInstanceState.getBoolean(getString(R.string.intent_data_from_rate_notification));
+            }
+        }
     }
 }
