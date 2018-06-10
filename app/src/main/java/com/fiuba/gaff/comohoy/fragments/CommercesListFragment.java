@@ -1,11 +1,13 @@
 package com.fiuba.gaff.comohoy.fragments;
 
+import android.animation.ObjectAnimator;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.media.Rating;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -19,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.RotateAnimation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -65,6 +68,7 @@ public class CommercesListFragment extends Fragment {
     private ProgressBar mProgressBar;
     private View mFiltersButton;
     private View mCategoriesButton;
+    private FloatingActionButton mChangeViewButton;
     private SearchView mSearchView;
 
     private Category electedCategory;
@@ -78,6 +82,8 @@ public class CommercesListFragment extends Fragment {
     private Dialog mFiltersDialog;
 
     private CommerceListListener mCommerceListListener;
+
+    private boolean mOnMapView = false;
 
     private boolean p1 = false;
     private boolean p2 = false;
@@ -116,6 +122,7 @@ public class CommercesListFragment extends Fragment {
         mRecyclerView = view.findViewById(R.id.recyclerview_commerces_list);
         mProgressBar = view.findViewById(R.id.progress_bar_commerces_list);
         mFiltersButton = view.findViewById(R.id.action_button_filter);
+        mChangeViewButton = view.findViewById(R.id.action_button_map_view);
         mCategoriesButton = view.findViewById(R.id.action_button_categories);
         mSearchView = view.findViewById(R.id.searchView);
 
@@ -133,6 +140,7 @@ public class CommercesListFragment extends Fragment {
         setUpSearchView();
         setUpFilterButton(view);
         setUpCategoriButton(view);
+        setUpChangeViewButton(view);
 
         fixedFloatingButtonsPosition();
         return view;
@@ -239,6 +247,45 @@ public class CommercesListFragment extends Fragment {
                 mCategoriesDialog.show();
             }
         });
+    }
+
+    private void setUpChangeViewButton(View fragmentView){
+        mChangeViewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final int animationTimeInMill = 400;
+                float target = mOnMapView ? 1f : -1f;
+                ObjectAnimator.ofFloat(mChangeViewButton, "scaleX", target).setDuration(animationTimeInMill).start();
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (mOnMapView) {
+                            mChangeViewButton.setImageDrawable(getResources().getDrawable(R.drawable.list_icon));
+                            mOnMapView = false;
+                        } else {
+                            mChangeViewButton.setImageDrawable(getResources().getDrawable(R.drawable.map_icon2));
+                            mOnMapView = true;
+                        }
+                        UpdateButtonsView(mOnMapView);
+                    }
+                }, animationTimeInMill / 2);
+            }
+        });
+    }
+
+    private void UpdateButtonsView(boolean onMapView) {
+        if (onMapView) {
+            mCategoriesButton.setAlpha(0.5f);
+            mCategoriesButton.setClickable(false);
+            mFiltersButton.setAlpha(0.5f);
+            mFiltersButton.setClickable(false);
+        } else {
+            mCategoriesButton.setAlpha(1.0f);
+            mCategoriesButton.setClickable(true);
+            mFiltersButton.setAlpha(1.0f);
+            mFiltersButton.setClickable(true);
+        }
     }
 
     private void createCategoriesDialog() {
@@ -519,6 +566,7 @@ public class CommercesListFragment extends Fragment {
                 int maxAbsOffset = appBarLayout.getMeasuredHeight() - tabLayout.getMeasuredHeight();
                 mFiltersButton.setTranslationY(-maxAbsOffset - verticalOffset);
                 mCategoriesButton.setTranslationY(-maxAbsOffset - verticalOffset);
+                mChangeViewButton.setTranslationY(-maxAbsOffset - verticalOffset);
             }
 
         });
