@@ -318,18 +318,17 @@ public class CommercesListFragment extends Fragment implements OnMapReadyCallbac
                     @Override
                     public void run() {
                         if (mOnMapView) {
-                            mChangeViewButton.setImageDrawable(getResources().getDrawable(R.drawable.list_icon));
-                            mOnMapView = false;
-                            mSearchView.setVisibility(View.GONE);
-                            mRecyclerView.setVisibility(View.GONE);
-                            mMapView.setVisibility(View.VISIBLE);
-
-                        } else {
                             mChangeViewButton.setImageDrawable(getResources().getDrawable(R.drawable.map_icon2));
-                            mOnMapView = true;
+                            mOnMapView = false;
                             mMapView.setVisibility(View.GONE);
                             mSearchView.setVisibility(View.VISIBLE);
                             mRecyclerView.setVisibility(View.VISIBLE);
+                        } else {
+                            mChangeViewButton.setImageDrawable(getResources().getDrawable(R.drawable.list_icon));
+                            mOnMapView = true;
+                            mSearchView.setVisibility(View.GONE);
+                            mRecyclerView.setVisibility(View.GONE);
+                            mMapView.setVisibility(View.VISIBLE);
                         }
                         UpdateButtonsView(mOnMapView);
                     }
