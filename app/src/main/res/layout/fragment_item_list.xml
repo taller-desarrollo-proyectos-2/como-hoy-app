@@ -64,11 +64,16 @@
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:map="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:visibility="gone"
         android:id="@+id/commerce_map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:context="com.fiuba.gaff.comohoy.MoreInfoActivity" />
 
     <android.support.design.widget.FloatingActionButton
@@ -110,7 +115,7 @@
         android:layout_marginEnd="8dp"
         android:clickable="true"
         android:elevation="5dp"
-        android:src="@drawable/list_icon"
+        android:src="@drawable/map_icon2"
         app:backgroundTint="@color/blanco"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/action_button_categories" />

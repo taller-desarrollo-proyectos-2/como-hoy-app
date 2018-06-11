@@ -115,7 +115,9 @@ public class CommercesListFragment extends Fragment implements OnMapReadyCallbac
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         UiSettings uiSettings = mMap.getUiSettings();
-        uiSettings.setZoomControlsEnabled(true);
+        // uiSettings.setZoomControlsEnabled(true);
+        uiSettings.setAllGesturesEnabled(true);
+        uiSettings.setCompassEnabled(true);
 
         List<Commerce> listaComercios = getCommercesService().getCommercesSortedBy(getActivity(), mSortCriteria);
         for (Commerce comercio : listaComercios){
@@ -130,6 +132,9 @@ public class CommercesListFragment extends Fragment implements OnMapReadyCallbac
         mMap.addMarker(new MarkerOptions().position(location).title("AQUI ESTOY").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
         float zoomLevel = 16;
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location,zoomLevel));
+        if (mMapView != null) {
+            mMapView.setVisibility(View.GONE);
+        }
     }
 
     public interface CommerceListListener {
@@ -170,6 +175,8 @@ public class CommercesListFragment extends Fragment implements OnMapReadyCallbac
         mCategorie = view.findViewById(R.id.categoria_fl);
         electedCategory = null;
 
+        mOnMapView = false;
+
         if (getCommercesService().isDownloading()) {
             showProgress(true);
         } else {
@@ -181,8 +188,10 @@ public class CommercesListFragment extends Fragment implements OnMapReadyCallbac
         setUpFilterButton(view);
         setUpCategoriButton(view);
         setUpChangeViewButton(view);
-        fixedFloatingButtonsPosition();
         setUpMapView();
+        fixedFloatingButtonsPosition();
+
+        updateMainView(mOnMapView);
 
         return view;
     }
@@ -200,6 +209,19 @@ public class CommercesListFragment extends Fragment implements OnMapReadyCallbac
             Dialog dialog = googleAPI.getErrorDialog(mContext, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST);
             dialog.show();
         }
+    }
+
+    private void updateMainView(boolean onMapView) {
+        if (onMapView) {
+            mSearchView.setVisibility(View.GONE);
+            mRecyclerView.setVisibility(View.GONE);
+            mMapView.setVisibility(View.VISIBLE);
+        } else {
+            mMapView.setVisibility(View.GONE);
+            mSearchView.setVisibility(View.VISIBLE);
+            mRecyclerView.setVisibility(View.VISIBLE);
+        }
+        updateButtonsView(mOnMapView);
     }
 
     @Override
@@ -265,6 +287,7 @@ public class CommercesListFragment extends Fragment implements OnMapReadyCallbac
         mRecyclerView.setVisibility(show ? View.GONE : View.VISIBLE);
         mFiltersButton.setVisibility(show ? View.GONE : View.VISIBLE);
         mCategoriesButton.setVisibility(show ? View.GONE : View.VISIBLE);
+        mChangeViewButton.setVisibility(show ? View.GONE : View.VISIBLE);
     }
 
     private UpdateCommercesCallback createOnUpdatedCommercesCallback() {
@@ -320,24 +343,18 @@ public class CommercesListFragment extends Fragment implements OnMapReadyCallbac
                         if (mOnMapView) {
                             mChangeViewButton.setImageDrawable(getResources().getDrawable(R.drawable.map_icon2));
                             mOnMapView = false;
-                            mMapView.setVisibility(View.GONE);
-                            mSearchView.setVisibility(View.VISIBLE);
-                            mRecyclerView.setVisibility(View.VISIBLE);
                         } else {
                             mChangeViewButton.setImageDrawable(getResources().getDrawable(R.drawable.list_icon));
                             mOnMapView = true;
-                            mSearchView.setVisibility(View.GONE);
-                            mRecyclerView.setVisibility(View.GONE);
-                            mMapView.setVisibility(View.VISIBLE);
                         }
-                        UpdateButtonsView(mOnMapView);
+                        updateMainView(mOnMapView);
                     }
                 }, animationTimeInMill / 2);
             }
         });
     }
 
-    private void UpdateButtonsView(boolean onMapView) {
+    private void updateButtonsView(boolean onMapView) {
         if (onMapView) {
             mCategoriesButton.setAlpha(0.5f);
             mCategoriesButton.setClickable(false);
