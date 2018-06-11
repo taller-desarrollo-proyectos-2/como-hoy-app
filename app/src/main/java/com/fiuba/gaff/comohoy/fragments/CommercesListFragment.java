@@ -1,6 +1,7 @@
 package com.fiuba.gaff.comohoy.fragments;
 
 import android.animation.ObjectAnimator;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
@@ -12,6 +13,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -57,12 +59,24 @@ import com.fiuba.gaff.comohoy.services.commerces.SortCriteria;
 import com.fiuba.gaff.comohoy.services.commerces.UpdateCommercesCallback;
 import com.fiuba.gaff.comohoy.services.location.LocationService;
 import com.fiuba.gaff.comohoy.utils.FilterState;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CommercesListFragment extends Fragment {
+public class CommercesListFragment extends Fragment implements OnMapReadyCallback {
+
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 10;
 
     private RecyclerView mRecyclerView;
     private ProgressBar mProgressBar;
@@ -93,6 +107,31 @@ public class CommercesListFragment extends Fragment {
     private float max_puntaje;
     private float min_puntaje;
 
+    private View mMapView;
+    private GoogleMap mMap;
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        UiSettings uiSettings = mMap.getUiSettings();
+        uiSettings.setZoomControlsEnabled(true);
+
+        List<Commerce> listaComercios = getCommercesService().getCommercesSortedBy(getActivity(), mSortCriteria);
+        for (Commerce comercio : listaComercios){
+            double latitud = comercio.getLocation().getLatitud();
+            double longitud = comercio.getLocation().getLongitud();
+            LatLng location = new LatLng(latitud, longitud);
+            mMap.addMarker(new MarkerOptions().position(location).title(comercio.getShowableName()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+        }
+        LocationService locationService = ServiceLocator.get(LocationService.class);
+        Location mCurrentLocation = locationService.getLocation(getContext());
+        LatLng location = new LatLng(mCurrentLocation.getLatitud(), mCurrentLocation.getLongitud());
+        mMap.addMarker(new MarkerOptions().position(location).title("AQUI ESTOY").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+        float zoomLevel = 16;
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location,zoomLevel));
+    }
+
     public interface CommerceListListener {
         void onCommerceClicked(Commerce commerce, View commerceTitleTextView);
     }
@@ -112,6 +151,7 @@ public class CommercesListFragment extends Fragment {
         Location currentLocation = getLocationService().getLocation(getActivity());
         // getCommercesService().updateCommercesWithLocation(getActivity(), createOnUpdatedCommercesCallback(), currentLocation);
         getCommercesService().updateCommercesData(getActivity(), createOnUpdatedCommercesCallback());
+
     }
 
     @Override
@@ -125,7 +165,7 @@ public class CommercesListFragment extends Fragment {
         mChangeViewButton = view.findViewById(R.id.action_button_map_view);
         mCategoriesButton = view.findViewById(R.id.action_button_categories);
         mSearchView = view.findViewById(R.id.searchView);
-
+        mMapView = view.findViewById(R.id.commerce_map);
         mCategorieName = view.findViewById(R.id.id_nombre_de_categoria);
         mCategorie = view.findViewById(R.id.categoria_fl);
         electedCategory = null;
@@ -141,9 +181,25 @@ public class CommercesListFragment extends Fragment {
         setUpFilterButton(view);
         setUpCategoriButton(view);
         setUpChangeViewButton(view);
-
         fixedFloatingButtonsPosition();
+        setUpMapView();
+
         return view;
+    }
+
+    private void setUpMapView(){
+        //map = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map)).getMap();
+        Activity mContext = getActivity();
+        GoogleApiAvailability googleAPI = GoogleApiAvailability.getInstance();
+        int resultCode = googleAPI.isGooglePlayServicesAvailable(mContext);
+        if (resultCode == ConnectionResult.SUCCESS) {
+            SupportMapFragment mapFragment = (SupportMapFragment) this.getChildFragmentManager()
+                    .findFragmentById(R.id.commerce_map);
+            mapFragment.getMapAsync(this);
+        } else {
+            Dialog dialog = googleAPI.getErrorDialog(mContext, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST);
+            dialog.show();
+        }
     }
 
     @Override
@@ -236,6 +292,7 @@ public class CommercesListFragment extends Fragment {
             }
         });
     }
+
     private void setUpCategoriButton(View fragmentView){
         FloatingActionButton filterButton =  fragmentView.findViewById(R.id.action_button_categories);
         filterButton.setOnClickListener(new View.OnClickListener() {
@@ -263,9 +320,16 @@ public class CommercesListFragment extends Fragment {
                         if (mOnMapView) {
                             mChangeViewButton.setImageDrawable(getResources().getDrawable(R.drawable.list_icon));
                             mOnMapView = false;
+                            mSearchView.setVisibility(View.GONE);
+                            mRecyclerView.setVisibility(View.GONE);
+                            mMapView.setVisibility(View.VISIBLE);
+
                         } else {
                             mChangeViewButton.setImageDrawable(getResources().getDrawable(R.drawable.map_icon2));
                             mOnMapView = true;
+                            mMapView.setVisibility(View.GONE);
+                            mSearchView.setVisibility(View.VISIBLE);
+                            mRecyclerView.setVisibility(View.VISIBLE);
                         }
                         UpdateButtonsView(mOnMapView);
                     }

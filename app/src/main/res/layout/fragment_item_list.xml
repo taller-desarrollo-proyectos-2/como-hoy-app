@@ -30,6 +30,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/search_guideline" />
 
+    <SearchView
+        android:visibility="visible"
+        android:id="@+id/searchView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/com_facebook_auth_dialog_cancel_background"
+        app:layout_constraintBottom_toTopOf="@id/search_guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerview_commerces_list"
         android:name="com.fiuba.gaff.comohoy.FramgmentListadoComercio"
@@ -46,6 +60,16 @@
         tools:listitem="@layout/card_view_commerces_list_item">
 
     </android.support.v7.widget.RecyclerView>
+
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:map="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:visibility="gone"
+        android:id="@+id/commerce_map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.fiuba.gaff.comohoy.MoreInfoActivity" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/action_button_filter"
@@ -90,19 +114,5 @@
         app:backgroundTint="@color/blanco"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/action_button_categories" />
-
-    <SearchView
-        android:id="@+id/searchView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/com_facebook_auth_dialog_cancel_background"
-        app:layout_constraintBottom_toTopOf="@id/search_guideline"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
 
 </android.support.constraint.ConstraintLayout>
