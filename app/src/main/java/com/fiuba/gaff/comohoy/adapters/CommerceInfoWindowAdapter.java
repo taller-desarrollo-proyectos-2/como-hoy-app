@@ -3,6 +3,8 @@ package com.fiuba.gaff.comohoy.adapters;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.Guideline;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.widget.CardView;
@@ -57,8 +59,9 @@ public class CommerceInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
         ImageView star3 = v.findViewById(R.id.star3);
         ImageView star4 = v.findViewById(R.id.star4);
         ImageView star5 = v.findViewById(R.id.star5);
+        Guideline guideLine = v.findViewById(R.id.left_guideline);
 
-        CommercesService commercesService = ServiceLocator.get(CommercesService.class);
+        /*CommercesService commercesService = ServiceLocator.get(CommercesService.class);
         if (commercesService instanceof MockCommercesService) {
             // DEBUG
             Bitmap commercePictureBitmap = commerce.getPicture();
@@ -69,7 +72,12 @@ public class CommerceInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
             String uri = String.format(uriFormat, commerce.getId());
             Picasso picasso = ServiceLocator.get(PicassoService.class).getPicasso();
             picasso.load(uri).fit().transform(new CircleTransform()).placeholder(R.drawable.progress_animation).error(R.drawable.no_image).into(commercePicture);
-        }
+        }*/
+        commercePicture.setVisibility(View.GONE);
+        ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) guideLine.getLayoutParams();
+        params.guidePercent = 0;
+        guideLine.setLayoutParams(params);
+        
         commerceName.setText(commerce.getShowableName());
 
         StringBuilder categoriesStringBuilder = new StringBuilder();
