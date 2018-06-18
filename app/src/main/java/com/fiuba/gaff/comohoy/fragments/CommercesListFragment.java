@@ -5,13 +5,16 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -40,6 +43,7 @@ import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
 import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarFinalValueListener;
 import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
 import com.fiuba.gaff.comohoy.CommerceDetailsActivity;
+import com.fiuba.gaff.comohoy.Manifest;
 import com.fiuba.gaff.comohoy.R;
 import com.fiuba.gaff.comohoy.adapters.CategoriesAdapter;
 import com.fiuba.gaff.comohoy.adapters.CommerceInfoWindowAdapter;
@@ -66,6 +70,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -111,6 +116,25 @@ public class CommercesListFragment extends Fragment implements OnMapReadyCallbac
 
     private HashMap<Marker, Commerce> mCommercesFromMarkerMap = new HashMap();
 
+    private GoogleMap.OnMyLocationClickListener mOnMyLocationClickListener =
+            new GoogleMap.OnMyLocationClickListener() {
+                @Override
+                public void onMyLocationClick(@NonNull android.location.Location location) {
+
+                    mMap.setMinZoomPreference(12);
+
+                    CircleOptions circleOptions = new CircleOptions();
+                    circleOptions.center(new LatLng(location.getLatitude(),
+                            location.getLongitude()));
+
+                    circleOptions.radius(200);
+                    circleOptions.fillColor(Color.RED);
+                    circleOptions.strokeWidth(6);
+
+                    mMap.addCircle(circleOptions);
+                }
+            };
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -119,10 +143,11 @@ public class CommercesListFragment extends Fragment implements OnMapReadyCallbac
         //uiSettings.setZoomControlsEnabled(true);
         uiSettings.setAllGesturesEnabled(true);
         uiSettings.setCompassEnabled(true);
+        enableMyLocationIfPermitted();
 
         mCommercesFromMarkerMap.clear();
         List<Commerce> listaComercios = getCommercesService().getCommercesSortedBy(getActivity(), mSortCriteria);
-        for (Commerce commerce : listaComercios){
+        for (Commerce commerce : listaComercios) {
             double latitud = commerce.getLocation().getLatitud();
             double longitud = commerce.getLocation().getLongitud();
             LatLng location = new LatLng(latitud, longitud);
@@ -132,14 +157,29 @@ public class CommercesListFragment extends Fragment implements OnMapReadyCallbac
         LocationService locationService = ServiceLocator.get(LocationService.class);
         Location mCurrentLocation = locationService.getLocation(getContext());
         LatLng location = new LatLng(mCurrentLocation.getLatitud(), mCurrentLocation.getLongitud());
-        mMap.addMarker(new MarkerOptions().position(location).title("Aquí estoy").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+        //mMap.addMarker(new MarkerOptions().position(location).title("Aquí estoy").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
         float zoomLevel = 16;
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location,zoomLevel));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, zoomLevel));
         if (mMapView != null) {
             mMapView.setVisibility(View.GONE);
         }
         mMap.setOnInfoWindowClickListener(this);
         mMap.setInfoWindowAdapter(new CommerceInfoWindowAdapter(LayoutInflater.from(getActivity()), mCommercesFromMarkerMap));
+        // mMap.setOnMyLocationClickListener(mOnMyLocationClickListener);
+    }
+
+    private void enableMyLocationIfPermitted() {
+        final int LOCATION_PERMISSION_REQUEST_CODE = 1;
+        if (ContextCompat.checkSelfPermission(getActivity(),
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION,
+                            android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    LOCATION_PERMISSION_REQUEST_CODE);
+        } else if (mMap != null) {
+            mMap.setMyLocationEnabled(true);
+        }
     }
 
     @Override
@@ -666,6 +706,7 @@ public class CommercesListFragment extends Fragment implements OnMapReadyCallbac
                 mFiltersButton.setTranslationY(-maxAbsOffset - verticalOffset);
                 mCategoriesButton.setTranslationY(-maxAbsOffset - verticalOffset);
                 mChangeViewButton.setTranslationY(-maxAbsOffset - verticalOffset);
+                mMapView.setTranslationY(-maxAbsOffset - verticalOffset);
             }
 
         });

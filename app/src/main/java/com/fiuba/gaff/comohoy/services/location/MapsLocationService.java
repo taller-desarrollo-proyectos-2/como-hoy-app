@@ -157,6 +157,7 @@ public class MapsLocationService implements LocationService,
         if (myLocation != null) {
             return new Location(myLocation.getLatitude(),myLocation.getLongitude());
         }
+
         return new Location(-34.617658, -58.367953);
     }
 }
