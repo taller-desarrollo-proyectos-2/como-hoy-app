@@ -1,8 +1,10 @@
 <resources>
-    <string name="app_name">como-hoy</string>
+    <string name="app_name">Hoy Como</string>
 
     <string name="facebook_app_id">176293456503920</string>
     <string name="fb_login_protocol_scheme">fb176293456503920</string>
+
+    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Usuario</string>
@@ -17,11 +19,59 @@
         completions."
     </string>
     <string name="title_activity_main">Listado de Comercios</string>
+    <string name="title_activity_cart">Mi Pedido</string>
+    <string name="title_activity_card_details">Detalles de Tarjeta</string>
+    <string name="title_activity_confirm_purchase">Confirmar Compra</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
-    <string name="title_activity_maps_restaurant">Map</string>
+    <string name="title_activity_more_info">Mas Información</string>
+    <string name="title_activity_more_info_plate">Mas Información del Plato</string>
+    <string name="hint_search">buscar comercio</string>
+    <string name="numer_of_plates">1</string>
+    <string name="aclaraciones_plate">Opcional</string>
+    <string name="puntajeFiltrar">3</string>
+
+    <string name="confirmation_format">¿Estás seguro que deseas %s?</string>
+
+    <string name="confirmation_ok_format">Su pedido fue procesado satisfactoriamente</string>
+
+    <string name="nombre_categoria">nombreCategoria</string>
+
 
     <!-- Transitions -->
     <string name="transition_commerce_title">commerceTitleTransition</string>
+
+    <!-- Buttons -->
+    <string name="button_add_plate">Agregar a pedido</string>
+
+    <!-- Intents Data -->
+    <string name="intent_data_commerce_id">extraCommerceId</string>
+    <string name="intent_data_commerce_longitud_id">extraLongId</string>
+    <string name="intent_data_commerce_latitud_id">extraLatId</string>
+    <string name="intent_data_order_plate_modifying">extraModifyingPlate</string>
+    <string name="intent_data_plate_order_id">extraPlateOrderId</string>
+    <string name="intent_data_fromFavourites">fromFavourites</string>
+
+    <string name="intent_data_request_id">extraRequestId</string>
+    <string name="intent_data_from_rate_notification">extraOpeningRating</string>
+
+    <string name="intent_data_plate_and_commerce_id">extraCommerceAndPlateIds</string>
+    <string name="intent_data_plate_id">extraPlateId</string>
+
+    <!-- Arrays -->
+    <string-array name="payment_methods_array">
+        <item>Efectivo</item>
+        <item>Tarjeta de Crédito</item>
+    </string-array>
+
+    <string-array name="sort_criteria_array">
+        <item>Cercanía</item>
+        <item>Puntaje</item>
+        <item>Tiempo de Envío</item>
+        <item>Precio</item>
+    </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -7,6 +7,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -109,7 +110,11 @@ public class NetworkFragment extends Fragment {
         mCallback = callback;
         cancelDownload();
         mDownloadTask = new DownloadTask(mCallback);
-        mDownloadTask.execute(sNetworkObject);
+        if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB ) {
+            mDownloadTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, sNetworkObject);
+        } else {
+            mDownloadTask.execute(sNetworkObject);
+        }
     }
 
     /**
@@ -153,7 +158,7 @@ public class NetworkFragment extends Fragment {
                         (networkInfo.getType() != ConnectivityManager.TYPE_WIFI
                                 && networkInfo.getType() != ConnectivityManager.TYPE_MOBILE)) {
                     // If no connectivity, cancel task and update Callback with null data.
-                    mCallback.onResponseReceived(null);
+                    mCallback.onResponseReceived(new NetworkResult(new NoConnectionException()));
                     cancel(true);
                 }
             }
@@ -220,15 +225,24 @@ public class NetworkFragment extends Fragment {
                 // is carrying an input (response) body.
                 connection.setDoInput(true);
 
-                if (networkObject.getHttpMethod().equals("POST")) {
+                if (networkObject.getHttpMethod().equals("DELETE")) {
+                    connection.setInstanceFollowRedirects(false);
+                    connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+                    connection.setRequestProperty("charset", "utf-8");
+                    connection.setUseCaches (false);
+                }
+
+                if ((networkObject.getHttpMethod().equals("POST")) || (networkObject.getHttpMethod().equals("PUT"))) {
                     // set the connection content-type as JSON, meaning we are sending JSON data.
-                    connection.setRequestProperty("Content-Type", "application/json;charset=utf-8");
                     // Send POST data.
                     publishProgress(DownloadCallback.Progress.DOWNLOADING);
-                    DataOutputStream printout = new DataOutputStream(connection.getOutputStream());
-                    printout.write(networkObject.getPostData().getBytes("UTF-8"));
-                    printout.flush();
-                    printout.close();
+                    if (networkObject.getPostData() != null) {
+                        connection.setRequestProperty("Content-Type", "application/json;charset=utf-8");
+                        DataOutputStream printout = new DataOutputStream(connection.getOutputStream());
+                        printout.write(networkObject.getPostData().getBytes("UTF-8"));
+                        printout.flush();
+                        printout.close();
+                    }
                 }
 
                 publishProgress(DownloadCallback.Progress.CONNECT_SUCCESS);

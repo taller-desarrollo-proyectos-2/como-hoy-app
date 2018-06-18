@@ -2,15 +2,26 @@
 <resources>
     <color name="colorPrimary">#E52D38</color>
     <color name="colorPrimaryDark">#bf2932</color>
-    <color name="colorAccent">#36454f</color>
+    <color name="colorAccent">#2196F3</color>
 
+    <color name ="transparent">#6dcfd8dc</color>
     <color name="gris">#d7d7d7</color>
-    <color name="purpura">#800080</color>
-    <color name="rojo">#ff4400</color>
-    <color name="amarillo">#ffe600</color>
-    <color name="azul">#0138ff</color>
-    <color name="verde">#52ff01</color>
+    <color name="salmon">#fd895e</color>
+
+    <color name="light_red">#FF8A80</color>
+    <color name="light_grey">#E0E0E0</color>
+    <color name="amber">#ffc107</color>
+    <color name="blue">#2196F3</color>
+    <color name="green">#52ff01</color>
+    <color name="red">#F44336</color>
+    <color name="light_green">#8bc34a</color>
+    <color name="light_brown">#D7CCC8</color>
+
+    <color name="discounts">#fd895e</color>
+
+    <color name="cardview_background">#EFEBE9</color>
+
     <color name="celeste">#02ddf5</color>
-    <color name="verde_py">#fd00ffbb</color>
+    <color name="blanco">#fdfdfdfd</color>
 
 </resources>

@@ -7,3 +7,6 @@
 /build
 /captures
 .externalNativeBuild
+.idea/runConfigurations.xml
+projectFilesBackup1/.idea/workspace.xml
+projectFilesBackup2/.idea/workspace.xml

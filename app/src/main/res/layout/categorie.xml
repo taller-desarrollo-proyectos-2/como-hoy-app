@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/categoria_fl"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <ImageButton
+        android:id="@+id/button_categoria"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="fitXY"
+        android:src="@drawable/food" >
+    </ImageButton>
+
+    <TextView
+        android:id="@+id/id_nombre_de_categoria"
+        android:textColor="@color/blanco"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:clickable="false"
+        android:layout_marginBottom="10dp"
+        android:text="@string/nombre_categoria">
+    </TextView>
+
+</FrameLayout>

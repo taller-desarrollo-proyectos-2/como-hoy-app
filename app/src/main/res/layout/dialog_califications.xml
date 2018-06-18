@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:elevation="24dp"
+    android:background="@drawable/dialog_bg">
+
+    <TextView
+        android:id="@+id/textView_commerce_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:singleLine="true"
+        android:text="Nombre del Comercio"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <EditText
+        android:id="@+id/editText_califications"
+        android:layout_width="0dp"
+        android:layout_height="83dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:inputType="textMultiLine"
+        android:textAlignment="viewStart"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView_title_give_calification" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editText_califications"
+        app:layout_constraintVertical_bias="1.0">
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/button_cancel_calification"
+            style="@style/Widget.AppCompat.Button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:backgroundTint="@color/red"
+            android:text="Cancelar"
+            android:textColor="@color/blanco" />
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/button_accept_calification"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:backgroundTint="@color/light_green"
+            android:text="Aceptar"
+            android:textColor="@color/blanco" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/puntuacion_comercio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_commerce_title"
+        app:layout_constraintVertical_bias="0.0">
+
+        <ImageView
+            android:id="@+id/estrella1"
+            android:layout_width="@dimen/star_dimen"
+            android:layout_height="@dimen/star_dimen"
+            android:clickable="true"
+            android:src="@drawable/whitestar" />
+
+        <ImageView
+            android:id="@+id/estrella2"
+            android:layout_width="@dimen/star_dimen"
+            android:layout_height="@dimen/star_dimen"
+            android:clickable="true"
+            android:src="@drawable/whitestar" />
+
+        <ImageView
+            android:id="@+id/estrella3"
+            android:layout_width="@dimen/star_dimen"
+            android:layout_height="@dimen/star_dimen"
+            android:clickable="true"
+            android:src="@drawable/whitestar" />
+
+        <ImageView
+            android:id="@+id/estrella4"
+            android:layout_width="@dimen/star_dimen"
+            android:layout_height="@dimen/star_dimen"
+            android:clickable="true"
+            android:src="@drawable/whitestar" />
+
+        <ImageView
+            android:id="@+id/estrella5"
+            android:layout_width="@dimen/star_dimen"
+            android:layout_height="@dimen/star_dimen"
+            android:clickable="true"
+            android:src="@drawable/whitestar" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView_title_give_calification"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="12dp"
+        android:gravity="center_vertical"
+        android:text="Dejanos tu opinión..."
+        android:textAlignment="center"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/puntuacion_comercio" />
+
+</android.support.constraint.ConstraintLayout>

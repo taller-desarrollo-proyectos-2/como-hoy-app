@@ -2,6 +2,7 @@ package com.fiuba.gaff.comohoy.networking;
 
 import android.content.Context;
 import android.net.NetworkInfo;
+import android.support.annotation.NonNull;
 
 public interface DownloadCallback<T> {
     interface Progress {
@@ -15,7 +16,7 @@ public interface DownloadCallback<T> {
      * Indicates that the callback handler needs to update its appearance or information based on
      * the result of the task. Expected to be called from the main thread.
      */
-    void onResponseReceived(T result);
+    void onResponseReceived(@NonNull T result);
 
     /**
      * Get the device's active network status in the form of a NetworkInfo object.

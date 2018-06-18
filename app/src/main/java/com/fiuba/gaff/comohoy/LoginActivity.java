@@ -56,18 +56,23 @@ public class LoginActivity extends AppCompatActivity {
 
     private View mLoginFormView;
     private ProgressBar mProgressView;
-    private Button mLoginButton;
+
+    private boolean mFromRateNotification = false;
+    private Long mRequestIdTarget = -1L;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getSupportActionBar().hide();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
-        mLoginButton = (Button) findViewById(R.id.login_button);
+        Button loginButton = (Button) findViewById(R.id.login_button);
 
-        initializeLoginButton(mLoginButton);
+        obtainFromRateNotificationData(savedInstanceState);
+
+        initializeLoginButton(loginButton);
 
         FacebookService facebookService = getFacebookService();
         if (facebookService.isLoggedIn()) {
@@ -94,8 +99,19 @@ public class LoginActivity extends AppCompatActivity {
         return new LoginCallback() {
             public void onSuccess() {
                 showProgress(false);
-                Intent MainIntent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(MainIntent);
+
+                if (mFromRateNotification) {
+                    // Go to rate commerce
+                    Intent startSeeRequestIntent = new Intent(LoginActivity.this, SeeOrderActivity.class);
+                    startSeeRequestIntent.putExtra(getString(R.string.intent_data_from_rate_notification), mFromRateNotification);
+                    startSeeRequestIntent.putExtra(getString(R.string.intent_data_request_id), mRequestIdTarget);
+                    startActivity(startSeeRequestIntent);
+                } else {
+                    // Go to main activity
+                    Intent goToMainActivityIntent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(goToMainActivityIntent);
+                }
+                finish();
             }
 
             @Override
@@ -124,6 +140,46 @@ public class LoginActivity extends AppCompatActivity {
 
     private FacebookService getFacebookService() {
         return ServiceLocator.get(FacebookService.class);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putLong(getString(R.string.intent_data_request_id), mRequestIdTarget);
+        savedInstanceState.putBoolean(getString(R.string.intent_data_from_rate_notification), mFromRateNotification);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        mRequestIdTarget = savedInstanceState.getLong(getString(R.string.intent_data_request_id));
+        mFromRateNotification = savedInstanceState.getBoolean(getString(R.string.intent_data_from_rate_notification), false);
+    }
+
+    private void obtainFromRateNotificationData(Bundle savedInstanceState) {
+        obtainFromRateNotification(savedInstanceState);
+        obtainTargetRequestId(savedInstanceState);
+    }
+
+    private void obtainTargetRequestId(Bundle savedInstanceState) {
+        if (mRequestIdTarget.equals(-1L)) {
+            Bundle extras = getIntent().getExtras();
+            mRequestIdTarget = extras.getLong(getString(R.string.intent_data_request_id), -1L);
+        }
+        if ((mRequestIdTarget.equals(-1L)) && (savedInstanceState != null) && (savedInstanceState.containsKey(getString(R.string.intent_data_request_id)))) {
+            mRequestIdTarget = savedInstanceState.getLong(getString(R.string.intent_data_request_id));
+        }
+    }
+
+    private void obtainFromRateNotification(Bundle savedInstanceState) {
+        Bundle extras = getIntent().getExtras();
+        if (extras.containsKey(getString(R.string.intent_data_from_rate_notification))) {
+            mFromRateNotification = extras.getBoolean(getString(R.string.intent_data_from_rate_notification), false);
+        } else {
+            if ((savedInstanceState != null) && (savedInstanceState.containsKey(getString(R.string.intent_data_from_rate_notification)))) {
+                mFromRateNotification = savedInstanceState.getBoolean(getString(R.string.intent_data_from_rate_notification));
+            }
+        }
     }
 
     /**
