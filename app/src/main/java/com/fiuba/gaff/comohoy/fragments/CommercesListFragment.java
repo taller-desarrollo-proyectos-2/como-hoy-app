@@ -4,16 +4,16 @@ import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.media.Rating;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,7 +23,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.RotateAnimation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -40,10 +39,11 @@ import android.widget.Toast;
 import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
 import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarFinalValueListener;
 import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
+import com.fiuba.gaff.comohoy.CommerceDetailsActivity;
 import com.fiuba.gaff.comohoy.R;
 import com.fiuba.gaff.comohoy.adapters.CategoriesAdapter;
+import com.fiuba.gaff.comohoy.adapters.CommerceInfoWindowAdapter;
 import com.fiuba.gaff.comohoy.adapters.CommerceListAdapter;
-import com.fiuba.gaff.comohoy.adapters.FilterAdapter;
 import com.fiuba.gaff.comohoy.filters.CategoryFilter;
 import com.fiuba.gaff.comohoy.filters.DistanceFilter;
 import com.fiuba.gaff.comohoy.filters.PriceFilter;
@@ -58,7 +58,6 @@ import com.fiuba.gaff.comohoy.services.commerces.CommercesService;
 import com.fiuba.gaff.comohoy.services.commerces.SortCriteria;
 import com.fiuba.gaff.comohoy.services.commerces.UpdateCommercesCallback;
 import com.fiuba.gaff.comohoy.services.location.LocationService;
-import com.fiuba.gaff.comohoy.utils.FilterState;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -68,13 +67,13 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.text.DecimalFormat;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
-public class CommercesListFragment extends Fragment implements OnMapReadyCallback {
+public class CommercesListFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
 
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 10;
 
@@ -110,31 +109,51 @@ public class CommercesListFragment extends Fragment implements OnMapReadyCallbac
     private View mMapView;
     private GoogleMap mMap;
 
+    private HashMap<Marker, Commerce> mCommercesFromMarkerMap = new HashMap();
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         UiSettings uiSettings = mMap.getUiSettings();
-        // uiSettings.setZoomControlsEnabled(true);
+        //uiSettings.setZoomControlsEnabled(true);
         uiSettings.setAllGesturesEnabled(true);
         uiSettings.setCompassEnabled(true);
 
+        mCommercesFromMarkerMap.clear();
         List<Commerce> listaComercios = getCommercesService().getCommercesSortedBy(getActivity(), mSortCriteria);
-        for (Commerce comercio : listaComercios){
-            double latitud = comercio.getLocation().getLatitud();
-            double longitud = comercio.getLocation().getLongitud();
+        for (Commerce commerce : listaComercios){
+            double latitud = commerce.getLocation().getLatitud();
+            double longitud = commerce.getLocation().getLongitud();
             LatLng location = new LatLng(latitud, longitud);
-            mMap.addMarker(new MarkerOptions().position(location).title(comercio.getShowableName()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+            Marker marker = mMap.addMarker(new MarkerOptions().position(location).title(commerce.getShowableName()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+            mCommercesFromMarkerMap.put(marker, commerce);
         }
         LocationService locationService = ServiceLocator.get(LocationService.class);
         Location mCurrentLocation = locationService.getLocation(getContext());
         LatLng location = new LatLng(mCurrentLocation.getLatitud(), mCurrentLocation.getLongitud());
-        mMap.addMarker(new MarkerOptions().position(location).title("AQUI ESTOY").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+        mMap.addMarker(new MarkerOptions().position(location).title("Aquí estoy").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
         float zoomLevel = 16;
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location,zoomLevel));
         if (mMapView != null) {
             mMapView.setVisibility(View.GONE);
         }
+        mMap.setOnInfoWindowClickListener(this);
+        mMap.setInfoWindowAdapter(new CommerceInfoWindowAdapter(LayoutInflater.from(getActivity()), mCommercesFromMarkerMap));
+    }
+
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+        Commerce commerce = mCommercesFromMarkerMap.get(marker);
+        if (commerce == null) return;
+
+        Intent intent = new Intent();
+        intent.setClass(getActivity(), CommerceDetailsActivity.class);
+        intent.putExtra(getString(R.string.intent_data_commerce_id), commerce.getId());
+        intent.putExtra(getString(R.string.intent_data_commerce_longitud_id), commerce.getLocation().getLongitud());
+        intent.putExtra(getString(R.string.intent_data_commerce_latitud_id), commerce.getLocation().getLatitud());
+        intent.putExtra(getString(R.string.intent_data_fromFavourites), false);
+        startActivity(intent);
     }
 
     public interface CommerceListListener {

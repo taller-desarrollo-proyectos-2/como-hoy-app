@@ -113,7 +113,6 @@ public class CommerceListAdapter extends RecyclerView.Adapter<CommerceListAdapte
         }
         holder.mDescription.setText(categoriesStringBuilder.toString());
         // holder.mRating.setText(String.format("%.1f", commerce.getRating()));
-        holder.mAveragePrice.setText(commerce.getOrdersAmount());
         holder.mShippingTime.setText(String.format("%d min", commerce.getLeadTime()));
 
         if (commerce.getAveragePrice() > 0) {
