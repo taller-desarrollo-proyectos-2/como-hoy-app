@@ -261,7 +261,6 @@ public class CommercesListFragment extends Fragment implements OnMapReadyCallbac
         setUpFilterButton(view);
         setUpCategoriButton(view);
         setUpChangeViewButton(view);
-        setUpMapView();
         fixedFloatingButtonsPosition();
 
         updateMainView(mOnMapView);
@@ -368,6 +367,7 @@ public class CommercesListFragment extends Fragment implements OnMapReadyCallbac
             @Override
             public void onCommercesUpdated() {
                 loadCommerces(getCommercesService().getCommercesSortedBy(getActivity(), mSortCriteria), true);
+                setUpMapView();
                 showProgress(false);
             }
 
