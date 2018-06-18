@@ -331,9 +331,12 @@ public class SeeOrderActivity extends AppCompatActivity {
         });
     }
 
-    private void changeStatetoQualified() {
+    private void changeStatetoQualified(int rate) {
         mRequest.setQualified(true);
-
+        Commerce commerce = getCommerceService().getCommerce(mRequest.getCommerceId());
+        if (commerce.getRating() <= 0) {
+            commerce.setRating(rate);
+        }
         TextView textView = findViewById(R.id.textView_estado);
         textView.setText(String.format("Estado: Calificado", mRequest.getStatus().toString()));
         AppCompatButton button = findViewById(R.id.button_action);
@@ -457,7 +460,7 @@ public class SeeOrderActivity extends AppCompatActivity {
                 opinion.setPuntuation(mPuntuacion);
                 sendOpinionToBackoffice(opinion);
                 mCalificationsDialog.dismiss();
-                changeStatetoQualified();
+                changeStatetoQualified(mPuntuacion);
             }
         });
         cancelButton.setOnClickListener(new View.OnClickListener() {

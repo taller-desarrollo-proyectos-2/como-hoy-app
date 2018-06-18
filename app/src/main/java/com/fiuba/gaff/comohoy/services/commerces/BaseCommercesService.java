@@ -7,6 +7,7 @@ import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.fiuba.gaff.comohoy.R;
 import com.fiuba.gaff.comohoy.comparators.CommerceLeadTimeComparator;
 import com.fiuba.gaff.comohoy.comparators.CommerceLocationComparator;
 import com.fiuba.gaff.comohoy.comparators.CommercePriceComparator;
@@ -29,6 +30,9 @@ import com.fiuba.gaff.comohoy.networking.NetworkObject;
 import com.fiuba.gaff.comohoy.networking.NetworkResult;
 import com.fiuba.gaff.comohoy.services.ServiceLocator;
 import com.fiuba.gaff.comohoy.services.facebook.FacebookService;
+import com.fiuba.gaff.comohoy.services.picasso.CircleTransform;
+import com.fiuba.gaff.comohoy.services.picasso.PicassoService;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;

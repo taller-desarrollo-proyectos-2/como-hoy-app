@@ -213,7 +213,11 @@ public class CommercesListFragment extends Fragment implements OnMapReadyCallbac
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
 
+    @Override
+    public void onStart() {
+        super.onStart();
         Location currentLocation = getLocationService().getLocation(getActivity());
         if (mFilterCommercesByDistance) {
             getCommercesService().updateCommercesWithLocation(getActivity(), createOnUpdatedCommercesCallback(), currentLocation);
