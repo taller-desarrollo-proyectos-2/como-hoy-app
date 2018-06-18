@@ -568,9 +568,9 @@ public class CommercesListFragment extends Fragment implements OnMapReadyCallbac
 
         final CrystalRangeSeekbar rangeSeekbar2 = (CrystalRangeSeekbar) mFiltersDialog.findViewById(R.id.rangeSeekbar2);
         rangeSeekbar2.setMinValue(0);
-        rangeSeekbar2.setMaxValue(10);
+        rangeSeekbar2.setMaxValue(15);
         max_distancia = 0;
-        min_distancia = 10;
+        min_distancia = 15;
         rangeSeekbar2.setDataType(CrystalRangeSeekbar.DataType.FLOAT);
         // get min and max text view
         final TextView tvMin2 = (TextView) mFiltersDialog.findViewById(R.id.min_value_2);
@@ -682,7 +682,8 @@ public class CommercesListFragment extends Fragment implements OnMapReadyCallbac
         acceptButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DistanceFilter dFilter = new DistanceFilter(0,99999999,getContext());
+                DistanceFilter dFilter = new DistanceFilter(min_distancia,max_distancia,getContext());
+                //DistanceFilter dFilter = new DistanceFilter(0,99999999,getContext());
                 float minPrice = 0;
                 float maxPrice = PriceFilter.INFINITE;
                 if (p1){ minPrice = 0;maxPrice = 250;}
