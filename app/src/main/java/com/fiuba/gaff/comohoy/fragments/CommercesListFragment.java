@@ -82,6 +82,8 @@ public class CommercesListFragment extends Fragment implements OnMapReadyCallbac
 
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 10;
 
+    private boolean mFilterCommercesByDistance = false;
+
     private RecyclerView mRecyclerView;
     private ProgressBar mProgressBar;
     private View mFiltersButton;
@@ -158,7 +160,7 @@ public class CommercesListFragment extends Fragment implements OnMapReadyCallbac
             double latitud = commerce.getLocation().getLatitud();
             double longitud = commerce.getLocation().getLongitud();
             LatLng location = new LatLng(latitud, longitud);
-            Marker marker = mMap.addMarker(new MarkerOptions().position(location).title(commerce.getShowableName()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+            Marker marker = mMap.addMarker(new MarkerOptions().position(location).title(commerce.getShowableName()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
             mCommercesFromMarkerMap.put(marker, commerce);
         }
         LocationService locationService = ServiceLocator.get(LocationService.class);
@@ -217,11 +219,17 @@ public class CommercesListFragment extends Fragment implements OnMapReadyCallbac
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
 
+    @Override
+    public void onStart() {
+        super.onStart();
         Location currentLocation = getLocationService().getLocation(getActivity());
-        // getCommercesService().updateCommercesWithLocation(getActivity(), createOnUpdatedCommercesCallback(), currentLocation);
-        getCommercesService().updateCommercesData(getActivity(), createOnUpdatedCommercesCallback());
-
+        if (mFilterCommercesByDistance) {
+            getCommercesService().updateCommercesWithLocation(getActivity(), createOnUpdatedCommercesCallback(), currentLocation);
+        } else {
+            getCommercesService().updateCommercesData(getActivity(), createOnUpdatedCommercesCallback());
+        }
     }
 
     @Override
