@@ -82,7 +82,7 @@ public class CommercesListFragment extends Fragment implements OnMapReadyCallbac
 
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 10;
 
-    private boolean mFilterCommercesByDistance = false;
+    private boolean mFilterCommercesByDistance = true;
 
     private RecyclerView mRecyclerView;
     private ProgressBar mProgressBar;
