@@ -138,6 +138,11 @@ public class CommercesListFragment extends Fragment implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        chargeMap();
+    }
+
+    private void chargeMap (){
+        mMap.clear();
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         UiSettings uiSettings = mMap.getUiSettings();
         //uiSettings.setZoomControlsEnabled(true);
@@ -146,7 +151,9 @@ public class CommercesListFragment extends Fragment implements OnMapReadyCallbac
         enableMyLocationIfPermitted();
 
         mCommercesFromMarkerMap.clear();
+
         List<Commerce> listaComercios = getCommercesService().getCommercesSortedBy(getActivity(), mSortCriteria);
+
         for (Commerce commerce : listaComercios) {
             double latitud = commerce.getLocation().getLatitud();
             double longitud = commerce.getLocation().getLongitud();
@@ -165,7 +172,6 @@ public class CommercesListFragment extends Fragment implements OnMapReadyCallbac
         }
         mMap.setOnInfoWindowClickListener(this);
         mMap.setInfoWindowAdapter(new CommerceInfoWindowAdapter(LayoutInflater.from(getActivity()), mCommercesFromMarkerMap));
-        // mMap.setOnMyLocationClickListener(mOnMyLocationClickListener);
     }
 
     private void enableMyLocationIfPermitted() {
@@ -684,6 +690,7 @@ public class CommercesListFragment extends Fragment implements OnMapReadyCallbac
 
                 List<Commerce> sortedCommerces = getCommercesService().getCommercesSortedBy(getActivity(), mSortCriteria);
                 loadCommerces(sortedCommerces, false);
+                chargeMap();
                 mFiltersDialog.dismiss();
             }
         });
