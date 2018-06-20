@@ -82,7 +82,7 @@ public class CommercesListFragment extends Fragment implements OnMapReadyCallbac
 
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 10;
 
-    private boolean mFilterCommercesByDistance = true;
+    private boolean mFilterCommercesByDistance = false;
 
     private RecyclerView mRecyclerView;
     private ProgressBar mProgressBar;
@@ -481,6 +481,8 @@ public class CommercesListFragment extends Fragment implements OnMapReadyCallbac
             }
         });
 
+        chargeMap();
+        
         /*final ImageView quitar = window.findViewById(R.id.quitardialogo);
         quitar.setOnClickListener(new View.OnClickListener(){
             @Override
