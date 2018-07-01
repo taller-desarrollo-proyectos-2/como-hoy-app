@@ -43,7 +43,6 @@ import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
 import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarFinalValueListener;
 import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
 import com.fiuba.gaff.comohoy.CommerceDetailsActivity;
-import com.fiuba.gaff.comohoy.Manifest;
 import com.fiuba.gaff.comohoy.R;
 import com.fiuba.gaff.comohoy.adapters.CategoriesAdapter;
 import com.fiuba.gaff.comohoy.adapters.CommerceInfoWindowAdapter;

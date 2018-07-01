@@ -47,8 +47,8 @@ import java.util.Map;
 
 public class BaseCommercesService implements CommercesService {
 
-    private static final String REQUEST_COMMERCES_URL = "http://34.237.197.99:9000/api/v1/commerces";
-    private static final String REQUEST_COMMERCES_WITH_LOC_FORMAT = "http://34.237.197.99:9000/api/v1/commerces?lat=%f&lng=%f";
+    private static final String REQUEST_COMMERCES_URL = "http://34.237.197.99:9000/api/v1/commerces?suspended=false";
+    private static final String REQUEST_COMMERCES_WITH_LOC_FORMAT = "http://34.237.197.99:9000/api/v1/commerces?lat=%f&lng=%f&suspended=false";
     private static final String REQUEST_FAVOURITES_URL_FORMAT = "http://34.237.197.99:9000/api/v1/mobile/favourite/%d";
     private static final String USER_INFO_URL = "http://34.237.197.99:9000/api/v1/users/myinfo";
     private Context mContext;
